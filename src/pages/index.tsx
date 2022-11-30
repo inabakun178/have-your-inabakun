@@ -1,16 +1,12 @@
 import type { NextPage } from "next";
-import Head from "next/head";
 import { Text } from "@chakra-ui/react";
+import PageTemplate from "../components/common/PageTemplate/PageTemplate";
 
 const Home: NextPage = () => {
   return (
-    <>
-      {/* PageTemplate componentを作る */}
-      <Head>
-        <title>Have Your Inabakun</title>
-      </Head>
-      <Text fontSize="300px">イナバくん準備中</Text>
-    </>
+    <Text fontSize="300px" color="rgba(255,255,255, 0.5)">
+      イナバくん準備中
+    </Text>
   );
 };
 
