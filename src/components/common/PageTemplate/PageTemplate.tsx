@@ -1,6 +1,7 @@
 import { ReactNode } from "react";
 import Head from "next/head";
 import { Container } from "@chakra-ui/react";
+import HeaderNavigation from "../HeaderNavigation/HeaderNavigation";
 
 type PageTemplateProps = {
   children: ReactNode;
@@ -19,7 +20,7 @@ const PageTemplate = (props: PageTemplateProps) => {
         minHeight="100vh"
         backgroundColor="#000"
       >
-        {/* TODO: Header 追加 */}
+        <HeaderNavigation />
         {/* TODO: SNS 追加 */}
         {props.children}
       </Container>
