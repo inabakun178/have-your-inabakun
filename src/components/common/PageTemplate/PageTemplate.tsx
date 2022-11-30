@@ -12,7 +12,12 @@ const PageTemplate = (props: PageTemplateProps) => {
   return (
     <>
       <Head>
+        {/* TODO: title 動的にする */}
         <title>Have Your Inabakun</title>
+        <link
+          href="https://fonts.googleapis.com/css2?family=Playfair+Display&display=swap"
+          rel="stylesheet"
+        ></link>
       </Head>
       <Container
         p="0 0 0 0"
