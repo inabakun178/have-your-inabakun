@@ -39,6 +39,7 @@ const HeaderNavigation = () => {
             <Link
               color={COLORS.text.main}
               fontSize="40px"
+              letterSpacing="0.15em"
               transition="0.4s"
               _hover={{ opacity: 0.6 }}
             >
@@ -54,6 +55,7 @@ const HeaderNavigation = () => {
                 <Link
                   color={COLORS.text.main}
                   fontSize="18px"
+                  letterSpacing="0.1em"
                   transition="0.4s"
                   _hover={{ opacity: 0.6 }}
                 >
