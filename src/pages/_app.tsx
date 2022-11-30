@@ -1,10 +1,13 @@
 import type { AppProps } from "next/app";
 import { ChakraProvider } from "@chakra-ui/react";
+import PageTemplate from "../components/common/PageTemplate/PageTemplate";
 
 function MyApp({ Component, pageProps }: AppProps) {
   return (
     <ChakraProvider>
-      <Component {...pageProps} />
+      <PageTemplate>
+        <Component {...pageProps} />
+      </PageTemplate>
     </ChakraProvider>
   );
 }
