@@ -1,6 +1,6 @@
 import { ReactNode } from "react";
 import Head from "next/head";
-import { Container } from "@chakra-ui/react";
+import { Box, Container } from "@chakra-ui/react";
 import HeaderNavigation from "../HeaderNavigation/HeaderNavigation";
 import { COLORS } from "../../../lib/colors";
 import SnsList from "../SnsList/SnsList";
@@ -26,13 +26,24 @@ const PageTemplate = (props: PageTemplateProps) => {
         w="100%"
         maxWidth="100%"
         minHeight="100vh"
-        backgroundColor={COLORS.background}
-        background={`${COLORS.background} url(/site_bg.svg) no-repeat center / cover`}
-        backgroundAttachment="fixed"
+        position="relative"
+        _before={{
+          content: '""',
+          position: "absolute",
+          width: "100%",
+          height: "100%",
+          top: "0",
+          left: "0",
+          backgroundColor: COLORS.background,
+          background:
+            COLORS.background + " url(/site_bg.svg) no-repeat center / cover",
+          backgroundAttachment: "fixed",
+          filter: "grayscale(100%)",
+        }}
       >
         <HeaderNavigation />
         <SnsList />
-        {props.children}
+        <Box position="relative">{props.children}</Box>
       </Container>
     </>
   );
