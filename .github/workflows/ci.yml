@@ -11,6 +11,14 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
+      - name: Setup Node
+        uses: actions/setup-node@v3
+        with:
+          node-version: 16
+          cache: "npm"
+          cache-dependency-path: package-lock.json
+      - name: Install Dependencies
+        run: npm install
       - name: Type Check
         run: npm run typecheck
       - name: Lint
