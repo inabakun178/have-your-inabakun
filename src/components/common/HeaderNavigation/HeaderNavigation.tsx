@@ -21,8 +21,8 @@ const HeaderNavigation = () => {
   return (
     <Box
       w="100%"
-      h="100px"
-      p="0 100px"
+      h={{ base: "50px", md: "100px" }}
+      p={{ base: "0 15px", md: "0 50px" }}
       position="sticky"
       zIndex={"sticky"}
       top="0"
@@ -38,7 +38,7 @@ const HeaderNavigation = () => {
           <NextLink href="/" passHref>
             <Link
               color={COLORS.text.main}
-              fontSize="40px"
+              fontSize={{ base: "20px", md: "40px" }}
               letterSpacing="0.15em"
               transition="0.4s"
               _hover={{ opacity: 0.6 }}
@@ -48,7 +48,7 @@ const HeaderNavigation = () => {
           </NextLink>
         </Heading>
 
-        <List display="flex">
+        <List display={{ base: "none", md: "flex" }}>
           {pageList.map((page, index) => (
             <ListItem key={page.name} ml={index === 0 ? 0 : "60px"}>
               <NextLink href={page.link} passHref>
