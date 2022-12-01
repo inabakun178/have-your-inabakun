@@ -1,4 +1,4 @@
-import { Box, Link, List, ListItem, Text, Image } from "@chakra-ui/react";
+import { Box, Link, List, ListItem, Image } from "@chakra-ui/react";
 
 const SnsList = () => {
   const snsLinkList = [
