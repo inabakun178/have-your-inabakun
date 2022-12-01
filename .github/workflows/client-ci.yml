@@ -11,9 +11,9 @@ jobs:
   test:
     name: Run test
     runs-on: ubuntu-latest
-    if: |
-      (github.event_name == 'pull_request_target' && github.actor == 'dependabot[bot]') ||
-      (github.event_name != 'pull_request_target' && github.actor != 'dependabot[bot]')
+    # if: |
+    #   (github.event_name == 'pull_request_target' && github.actor == 'dependabot[bot]') ||
+    #   (github.event_name != 'pull_request_target' && github.actor != 'dependabot[bot]')
     defaults:
       run:
         shell: bash
