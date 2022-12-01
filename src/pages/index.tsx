@@ -1,17 +1,14 @@
 import type { NextPage } from "next";
 import { Text } from "@chakra-ui/react";
+import Fv from "../components/pages/top/Fv/Fv";
 
 const Home: NextPage = () => {
   return (
-    <Text
-      fontSize={{ base: "80px", md: "200px" }}
-      color="rgba(255,255,255, 0.5)"
-      textAlign="center"
-    >
-      イナバくん
-      <br />
-      準備中デス
-    </Text>
+    <>
+      <Fv />
+      {/* TODO: scroll button置く */}
+      {/* TODO: 実績リスト置く */}
+    </>
   );
 };
 

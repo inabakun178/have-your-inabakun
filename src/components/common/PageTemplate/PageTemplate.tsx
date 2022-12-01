@@ -22,11 +22,13 @@ const PageTemplate = (props: PageTemplateProps) => {
         <meta property="og:image" content="https://www.inabakun.com/ogp.jpg" />
       </Head>
       <Container
-        p={{ base: "0 15px", md: "0 100px" }}
+        p={{ base: "0 15px", md: "0 50px" }}
         w="100%"
         maxWidth="100%"
         minHeight="100vh"
         backgroundColor={COLORS.background}
+        background={`${COLORS.background} url(/site_bg.svg) no-repeat center / cover`}
+        backgroundAttachment="fixed"
       >
         <HeaderNavigation />
         <SnsList />
