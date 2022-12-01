@@ -3,6 +3,7 @@ import Head from "next/head";
 import { Container } from "@chakra-ui/react";
 import HeaderNavigation from "../HeaderNavigation/HeaderNavigation";
 import { COLORS } from "../../../lib/colors";
+import SnsList from "../SnsList/SnsList";
 
 type PageTemplateProps = {
   children: ReactNode;
@@ -21,14 +22,14 @@ const PageTemplate = (props: PageTemplateProps) => {
         <meta property="og:image" content="https://www.inabakun.com/ogp.jpg" />
       </Head>
       <Container
-        p="0 0 0 0"
+        p="0 100px 0 100px"
         w="100%"
         maxWidth="100%"
         minHeight="100vh"
         backgroundColor={COLORS.background}
       >
         <HeaderNavigation />
-        {/* TODO: SNS 追加 */}
+        <SnsList />
         {props.children}
       </Container>
     </>
