@@ -5,10 +5,6 @@ import { COLORS } from "../../../lib/colors";
 const HeaderNavigation = () => {
   const pageList = [
     {
-      name: "Works",
-      link: "/works",
-    },
-    {
       name: "Profile",
       link: "/profile",
     },
@@ -22,7 +18,6 @@ const HeaderNavigation = () => {
     <Box
       w="100%"
       h={{ base: "50px", md: "100px" }}
-      p={{ base: "0 15px", md: "0 50px" }}
       position="sticky"
       zIndex={"sticky"}
       top="0"
