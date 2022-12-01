@@ -18,6 +18,7 @@ const PageTemplate = (props: PageTemplateProps) => {
           href="https://fonts.googleapis.com/css2?family=Playfair+Display&display=swap"
           rel="stylesheet"
         ></link>
+        <meta property="og:image" content="https://www.inabakun.com/ogp.jpg" />
       </Head>
       <Container
         p="0 0 0 0"
