@@ -1,4 +1,4 @@
-name: client-ci
+name: ci
 
 on:
   push:
@@ -9,7 +9,7 @@ on:
       - main
 jobs:
   test:
-    name: Run client test
+    name: Run test
     runs-on: ubuntu-latest
     if: |
       (github.event_name == 'pull_request_target' && github.actor == 'dependabot[bot]') ||
@@ -17,7 +17,7 @@ jobs:
     defaults:
       run:
         shell: bash
-        working-directory: client
+        working-directory: /
     steps:
       - name: Check out code
         if: ${{ github.event_name != 'pull_request_target' }}
@@ -33,7 +33,7 @@ jobs:
         with:
           node-version: 16
           cache: "npm"
-          cache-dependency-path: client/package-lock.json
+          cache-dependency-path: /package-lock.json
       - name: Install Dependencies
         run: npm install
       - name: Type Check
