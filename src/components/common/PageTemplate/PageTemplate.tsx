@@ -22,7 +22,7 @@ const PageTemplate = (props: PageTemplateProps) => {
         <meta property="og:image" content="https://www.inabakun.com/ogp.jpg" />
       </Head>
       <Container
-        p="0 100px 0 100px"
+        p={{ base: "0 15px", md: "0 100px" }}
         w="100%"
         maxWidth="100%"
         minHeight="100vh"
