@@ -4,11 +4,13 @@ import { Text } from "@chakra-ui/react";
 const Home: NextPage = () => {
   return (
     <Text
-      fontSize={{ base: "80px", md: "300px" }}
+      fontSize={{ base: "80px", md: "200px" }}
       color="rgba(255,255,255, 0.5)"
       textAlign="center"
     >
-      イナバくん準備中デス
+      イナバくん
+      <br />
+      準備中デス
     </Text>
   );
 };
