@@ -1,5 +1,4 @@
 import type { NextPage } from "next";
-import { Text } from "@chakra-ui/react";
 import Fv from "../components/pages/top/Fv/Fv";
 
 const Home: NextPage = () => {

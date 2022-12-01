@@ -22,7 +22,7 @@ const SnsList = () => {
     <Box position="fixed" bottom="15px" right="15px">
       <List>
         {snsLinkList.map((snsLink, index) => (
-          <ListItem mt={index === 0 ? "0" : "15px"}>
+          <ListItem key={snsLink.name} mt={index === 0 ? "0" : "15px"}>
             <Link href={snsLink.link} isExternal>
               <Image
                 src={`/${snsLink.image}`}
