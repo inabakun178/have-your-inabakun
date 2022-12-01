@@ -2,7 +2,11 @@ import { Box, Link, List, ListItem, Text, Image } from "@chakra-ui/react";
 
 const SnsList = () => {
   return (
-    <Box position="fixed" bottom="50px" right="50px">
+    <Box
+      position="fixed"
+      bottom={{ base: "15px", md: "50px" }}
+      right={{ base: "15px", md: "50px" }}
+    >
       <List>
         <ListItem mt="10px">
           <Link href="https://twitter.com/dev_inabakun" isExternal>
