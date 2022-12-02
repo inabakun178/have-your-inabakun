@@ -1,4 +1,3 @@
-import { motion } from "framer-motion";
 import type { NextPage } from "next";
 import PageTemplate from "../components/common/PageTemplate/PageTemplate";
 import Fv from "../components/pages/top/Fv/Fv";

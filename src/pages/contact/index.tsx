@@ -1,7 +1,6 @@
 import type { NextPage } from "next";
 import { Box, Text } from "@chakra-ui/react";
 import PageTemplate from "../../components/common/PageTemplate/PageTemplate";
-import { motion } from "framer-motion";
 
 const Contact: NextPage = () => {
   return (
