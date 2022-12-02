@@ -6,6 +6,7 @@ const Fv = () => {
       minH={{ base: "calc(100vh - 50px)", md: "calc(100vh - 100px)" }}
       justifyContent="center"
       alignItems="center"
+      style={{ mixBlendMode: "difference" }}
     >
       <Image src="/fv_title.svg" alt="Have Your Inabakun" />
     </Flex>
