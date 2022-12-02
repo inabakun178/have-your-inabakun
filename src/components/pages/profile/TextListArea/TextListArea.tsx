@@ -1,4 +1,4 @@
-import { Box, List, ListItem, pseudoPropNames, Text } from "@chakra-ui/react";
+import { Box, List, ListItem, Text } from "@chakra-ui/react";
 import { COLORS } from "../../../../lib/colors";
 
 type TextListAreaProps = {

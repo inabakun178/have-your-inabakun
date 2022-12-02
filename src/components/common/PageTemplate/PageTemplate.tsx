@@ -22,6 +22,20 @@ const PageTemplate = (props: PageTemplateProps) => {
           href="https://fonts.googleapis.com/css2?family=Playfair+Display&display=swap"
           rel="stylesheet"
         ></link>
+        <meta
+          name="description"
+          content="イナバくんのポートフォリオサイトです。"
+        />
+        <meta
+          property="og:title"
+          content={`${
+            props.pageTitle && `${props.pageTitle} | `
+          }Have Your Inabakun`}
+        />
+        <meta
+          name="og:description"
+          content="イナバくんのポートフォリオサイトです。"
+        />
         <meta property="og:image" content="https://www.inabakun.com/ogp.jpg" />
       </Head>
       <Container
