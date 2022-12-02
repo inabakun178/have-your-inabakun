@@ -118,7 +118,7 @@ const HeaderNavigation = () => {
           finalFocusRef={btnRef}
           size="full"
         >
-          <DrawerContent background={COLORS.background}>
+          <DrawerContent background={COLORS.background.main}>
             <DrawerCloseButton color={COLORS.text.main} size="lg" />
             <DrawerBody
               display="flex"

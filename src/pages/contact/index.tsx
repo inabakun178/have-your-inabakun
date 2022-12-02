@@ -2,7 +2,7 @@ import type { NextPage } from "next";
 import { Box, Text } from "@chakra-ui/react";
 import PageTemplate from "../../components/common/PageTemplate/PageTemplate";
 
-const Home: NextPage = () => {
+const Contact: NextPage = () => {
   return (
     <PageTemplate pageTitle="Contact">
       <Box pt={{ base: "150px", md: "200px" }}>
@@ -20,4 +20,4 @@ const Home: NextPage = () => {
   );
 };
 
-export default Home;
+export default Contact;

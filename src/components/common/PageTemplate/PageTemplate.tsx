@@ -36,9 +36,10 @@ const PageTemplate = (props: PageTemplateProps) => {
           height: "100%",
           top: "0",
           left: "0",
-          backgroundColor: COLORS.background,
+          backgroundColor: COLORS.background.main,
           background:
-            COLORS.background + " url(/site_bg.svg) no-repeat center / cover",
+            COLORS.background.main +
+            " url(/site_bg.svg) no-repeat center / cover",
           backgroundAttachment: "fixed",
           filter: "grayscale(100%)",
         }}
