@@ -3,13 +3,19 @@ import {
   Box,
   Button,
   Divider,
+  Drawer,
+  DrawerBody,
+  DrawerCloseButton,
+  DrawerContent,
   Flex,
   Heading,
   Link,
   List,
   ListItem,
+  useDisclosure,
 } from "@chakra-ui/react";
 import { COLORS } from "../../../lib/colors";
+import React from "react";
 
 const HeaderNavigation = () => {
   const pageList = [
@@ -22,6 +28,9 @@ const HeaderNavigation = () => {
       link: "/contact",
     },
   ];
+
+  const { isOpen, onOpen, onClose } = useDisclosure();
+  const btnRef = React.useRef<HTMLButtonElement>(null);
 
   return (
     <Box
@@ -78,6 +87,8 @@ const HeaderNavigation = () => {
           outline="none"
           background="none"
           _active={{ background: "none" }}
+          ref={btnRef}
+          onClick={onOpen}
         >
           <Divider
             w="100%"
@@ -100,6 +111,46 @@ const HeaderNavigation = () => {
             left="0"
           />
         </Button>
+
+        <Drawer
+          isOpen={isOpen}
+          onClose={onClose}
+          finalFocusRef={btnRef}
+          size="full"
+        >
+          <DrawerContent background={COLORS.background}>
+            <DrawerCloseButton color={COLORS.text.main} size="lg" />
+            <DrawerBody
+              display="flex"
+              justifyContent="center"
+              alignItems="center"
+            >
+              <List>
+                {pageList.map((page, index) => (
+                  <ListItem
+                    key={page.name}
+                    mt={index === 0 ? 0 : "60px"}
+                    textAlign="center"
+                  >
+                    <Link
+                      as={NextLink}
+                      href={page.link}
+                      p="20px"
+                      display="block"
+                      color={COLORS.text.main}
+                      fontSize="25px"
+                      letterSpacing="0.1em"
+                      _hover={{ opacity: 0.6 }}
+                      onClick={onClose}
+                    >
+                      {page.name}
+                    </Link>
+                  </ListItem>
+                ))}
+              </List>
+            </DrawerBody>
+          </DrawerContent>
+        </Drawer>
       </Flex>
     </Box>
   );
