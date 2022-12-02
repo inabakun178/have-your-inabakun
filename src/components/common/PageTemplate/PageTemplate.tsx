@@ -6,6 +6,7 @@ import { COLORS } from "../../../lib/colors";
 import SnsList from "../SnsList/SnsList";
 
 type PageTemplateProps = {
+  pageTitle?: string;
   children: ReactNode;
 };
 
@@ -14,7 +15,9 @@ const PageTemplate = (props: PageTemplateProps) => {
     <>
       <Head>
         {/* TODO: title 動的にする */}
-        <title>Have Your Inabakun</title>
+        <title>
+          {props.pageTitle && `${props.pageTitle} | `}Have Your Inabakun
+        </title>
         <link
           href="https://fonts.googleapis.com/css2?family=Playfair+Display&display=swap"
           rel="stylesheet"

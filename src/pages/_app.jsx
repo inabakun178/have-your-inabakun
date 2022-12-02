@@ -12,9 +12,7 @@ const AnimatedCursor = dynamic(() => import("react-animated-cursor"), {
 function MyApp({ Component, pageProps }) {
   return (
     <ChakraProvider theme={extendTheme(chakraTheme)}>
-      <PageTemplate>
-        <Component {...pageProps} />
-      </PageTemplate>
+      <Component {...pageProps} />
       <AnimatedCursor
         color="255, 255, 255"
         innerSize={10}
