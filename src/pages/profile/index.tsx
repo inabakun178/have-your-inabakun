@@ -37,7 +37,6 @@ const Profile: NextPage = () => {
             w={{ base: "50%", md: "auto" }}
           />
         </Flex>
-        {/* TODO: SKILL 書く */}
       </Box>
     </PageTemplate>
   );

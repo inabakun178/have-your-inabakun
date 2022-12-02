@@ -24,7 +24,7 @@ const PageTemplate = (props: PageTemplateProps) => {
         ></link>
         <meta
           name="description"
-          content="イナバくんのポートフォリオサイトです。"
+          content="Have Your Inabakun. イナバくんのポートフォリオサイトです。 稲葉勇人"
         />
         <meta
           property="og:title"
@@ -34,7 +34,7 @@ const PageTemplate = (props: PageTemplateProps) => {
         />
         <meta
           name="og:description"
-          content="イナバくんのポートフォリオサイトです。"
+          content="Have Your Inabakun. イナバくんのポートフォリオサイトです。 稲葉勇人"
         />
         <meta property="og:image" content="https://www.inabakun.com/ogp.jpg" />
       </Head>
