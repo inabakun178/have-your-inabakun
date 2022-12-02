@@ -3,5 +3,8 @@ export const COLORS = {
     main: "#fff",
     accent: "#E35800",
   },
-  background: "#111",
+  background: {
+    main: "#111",
+    sub: "rgba(1, 1, 1, 0.5)",
+  },
 };
