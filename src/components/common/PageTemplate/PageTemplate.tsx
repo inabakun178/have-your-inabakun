@@ -14,7 +14,6 @@ const PageTemplate = (props: PageTemplateProps) => {
   return (
     <>
       <Head>
-        {/* TODO: title 動的にする */}
         <title>
           {props.pageTitle && `${props.pageTitle} | `}Have Your Inabakun
         </title>
