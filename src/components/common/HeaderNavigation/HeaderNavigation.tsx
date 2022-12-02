@@ -1,5 +1,14 @@
 import NextLink from "next/link";
-import { Box, Flex, Heading, Link, List, ListItem } from "@chakra-ui/react";
+import {
+  Box,
+  Button,
+  Divider,
+  Flex,
+  Heading,
+  Link,
+  List,
+  ListItem,
+} from "@chakra-ui/react";
 import { COLORS } from "../../../lib/colors";
 
 const HeaderNavigation = () => {
@@ -29,10 +38,11 @@ const HeaderNavigation = () => {
         h="100%"
       >
         {/* TODO: ロゴを置く */}
-        <Heading as="h1">
+        <Heading as="h1" lineHeight="1">
           <Link
             as={NextLink}
             href="/"
+            display="block"
             color={COLORS.text.main}
             fontSize={{ base: "20px", md: "40px" }}
             letterSpacing="0.15em"
@@ -60,6 +70,36 @@ const HeaderNavigation = () => {
             </ListItem>
           ))}
         </List>
+
+        <Button
+          display={{ base: "block", md: "none" }}
+          padding="0"
+          position="relative"
+          outline="none"
+          background="none"
+          _active={{ background: "none" }}
+        >
+          <Divider
+            w="100%"
+            h="2px"
+            borderBottom="none"
+            background={COLORS.text.main}
+            opacity="1"
+            position="absolute"
+            top="10px"
+            left="0"
+          />
+          <Divider
+            w="100%"
+            h="2px"
+            borderBottom="none"
+            background={COLORS.text.main}
+            opacity="1"
+            position="absolute"
+            bottom="10px"
+            left="0"
+          />
+        </Button>
       </Flex>
     </Box>
   );
