@@ -30,33 +30,33 @@ const HeaderNavigation = () => {
       >
         {/* TODO: ロゴを置く */}
         <Heading as="h1">
-          <NextLink href="/" passHref>
-            <Link
-              color={COLORS.text.main}
-              fontSize={{ base: "20px", md: "40px" }}
-              letterSpacing="0.15em"
-              transition="0.4s"
-              _hover={{ opacity: 0.6 }}
-            >
-              H.Inaba
-            </Link>
-          </NextLink>
+          <Link
+            as={NextLink}
+            href="/"
+            color={COLORS.text.main}
+            fontSize={{ base: "20px", md: "40px" }}
+            letterSpacing="0.15em"
+            transition="0.4s"
+            _hover={{ opacity: 0.6 }}
+          >
+            H.Inaba
+          </Link>
         </Heading>
 
         <List display={{ base: "none", md: "flex" }}>
           {pageList.map((page, index) => (
             <ListItem key={page.name} ml={index === 0 ? 0 : "60px"}>
-              <NextLink href={page.link} passHref>
-                <Link
-                  color={COLORS.text.main}
-                  fontSize="18px"
-                  letterSpacing="0.1em"
-                  transition="0.4s"
-                  _hover={{ opacity: 0.6 }}
-                >
-                  {page.name}
-                </Link>
-              </NextLink>
+              <Link
+                as={NextLink}
+                href={page.link}
+                color={COLORS.text.main}
+                fontSize="18px"
+                letterSpacing="0.1em"
+                transition="0.4s"
+                _hover={{ opacity: 0.6 }}
+              >
+                {page.name}
+              </Link>
             </ListItem>
           ))}
         </List>
