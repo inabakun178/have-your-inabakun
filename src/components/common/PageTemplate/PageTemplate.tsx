@@ -26,12 +26,7 @@ const PageTemplate = (props: PageTemplateProps) => {
           name="description"
           content="Have Your Inabakun. イナバくんのポートフォリオサイトです。 稲葉勇人"
         />
-        <meta
-          property="og:title"
-          content={`${
-            props.pageTitle && `${props.pageTitle} | `
-          }Have Your Inabakun`}
-        />
+        <meta property="og:title" content={"Have Your Inabakun"} />
         <meta
           name="og:description"
           content="Have Your Inabakun. イナバくんのポートフォリオサイトです。 稲葉勇人"
