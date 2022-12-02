@@ -30,18 +30,15 @@ const PageTemplate = (props: PageTemplateProps) => {
         maxWidth="100%"
         minHeight="100vh"
         position="relative"
+        backgroundColor={COLORS.background.main}
         _before={{
           content: '""',
-          position: "absolute",
-          width: "100%",
-          height: "100%",
+          position: "fixed",
+          width: "100vw",
+          height: "100vh",
           top: "0",
           left: "0",
-          backgroundColor: COLORS.background.main,
-          background:
-            COLORS.background.main +
-            " url(/site_bg.svg) no-repeat center / cover",
-          backgroundAttachment: "fixed",
+          background: " url(/site_bg.svg) no-repeat center / cover",
           filter: "grayscale(100%)",
         }}
       >
