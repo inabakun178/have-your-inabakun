@@ -4,6 +4,7 @@ import { Box, Container } from "@chakra-ui/react";
 import HeaderNavigation from "../HeaderNavigation/HeaderNavigation";
 import { COLORS } from "../../../lib/colors";
 import SnsList from "../SnsList/SnsList";
+import { motion } from "framer-motion";
 
 type PageTemplateProps = {
   pageTitle?: string;
@@ -46,7 +47,16 @@ const PageTemplate = (props: PageTemplateProps) => {
       >
         <HeaderNavigation />
         <SnsList />
-        <Box position="relative">{props.children}</Box>
+
+        <Box position="relative">
+          <motion.div
+            initial={{ opacity: 0 }} // 初期状態
+            animate={{ opacity: 1 }} // マウント時
+            exit={{ opacity: 0 }} // アンマウント時
+          >
+            {props.children}
+          </motion.div>
+        </Box>
       </Container>
     </>
   );

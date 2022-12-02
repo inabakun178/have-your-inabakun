@@ -3,6 +3,7 @@ import { Box, Text, Image, Flex } from "@chakra-ui/react";
 import PageTemplate from "../../components/common/PageTemplate/PageTemplate";
 import ProfileHead from "../../components/pages/profile/ProfileHead/ProfileHead";
 import TextListArea from "../../components/pages/profile/TextListArea/TextListArea";
+import { motion } from "framer-motion";
 
 const Profile: NextPage = () => {
   const skillList = [
