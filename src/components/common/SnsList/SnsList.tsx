@@ -19,7 +19,7 @@ const SnsList = () => {
     },
   ];
   return (
-    <Box position="fixed" bottom="15px" right="15px">
+    <Box position="fixed" bottom="15px" right="15px" zIndex={"sticky"}>
       <List>
         {snsLinkList.map((snsLink, index) => (
           <ListItem key={snsLink.name} mt={index === 0 ? "0" : "15px"}>
