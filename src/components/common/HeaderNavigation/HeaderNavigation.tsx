@@ -84,9 +84,10 @@ const HeaderNavigation = () => {
           display={{ base: "block", md: "none" }}
           padding="0"
           position="relative"
-          outline="none"
+          outline="inherit"
           background="none"
           _active={{ background: "none" }}
+          _hover={{ background: "none" }}
           ref={btnRef}
           onClick={onOpen}
         >
