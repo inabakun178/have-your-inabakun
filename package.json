@@ -10,7 +10,7 @@
     "typecheck": "tsc"
   },
   "dependencies": {
-    "@chakra-ui/react": "^2.5.1",
+    "@chakra-ui/react": "^2.7.0",
     "@emotion/react": "^11.10.6",
     "@emotion/styled": "^11.10.6",
     "next": "13.2.1",
