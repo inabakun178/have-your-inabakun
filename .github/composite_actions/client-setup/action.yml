@@ -1,0 +1,24 @@
+name: "Client Setup"
+description: "FEのCIの各Jobに必要なセットアップ処理をまとめたAction"
+
+runs:
+  using: "composite"
+  steps:
+    - name: Setup Node
+      uses: actions/setup-node@v4
+      with:
+        node-version: 21
+        cache: "npm"
+        cache-dependency-path: package-lock.json
+    # キャッシュされたnode_modulesを取得する
+    - name: Restore node_modules Cache
+      id: node_modules_cache
+      uses: actions/cache@v4
+      with:
+        path: node_modules
+        key: ${{ runner.os }}-node-modules-${{ hashFiles('package-lock.json') }} # パッケージの依存関係が変わっていたらキャッシュのキーが変わります
+    # キャッシュが存在しなかったら、npm installする(Job終了時にnode_modulesはキャッシュされる)
+    - name: Install Dependencies
+      if: ${{ steps.node_modules_cache.outputs.cache-hit != 'true'}}
+      run: npm install
+      shell: bash

@@ -4,31 +4,54 @@ on:
   push:
     branches:
       - main
-  pull_request_target:
+  pull_request:
     branches:
       - main
 jobs:
-  test:
+  type-check:
+    name: Type Check
     runs-on: ubuntu-latest
     steps:
       - name: Check out code
-        if: ${{ github.event_name != 'pull_request_target' }}
-        uses: actions/checkout@v3
-      - name: Checkout PR
-        if: ${{ github.event_name == 'pull_request_target' }}
-        uses: actions/checkout@v3
-        with:
-          ref: ${{ github.event.pull_request.head.sha }}
-          fetch-depth: 0
-      - name: Setup Node
-        uses: actions/setup-node@v3
-        with:
-          node-version: 16
-          cache: "npm"
-          cache-dependency-path: package-lock.json
-      - name: Install Dependencies
-        run: npm install
+        uses: actions/checkout@v4
+      - name: Client Setup
+        uses: ./.github/composite_actions/client-setup
       - name: Type Check
-        run: npm run typecheck
+        run: npm run tsc
+
+  lint-check:
+    name: Lint Check
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out code
+        uses: actions/checkout@v4
+      - name: Client Setup
+        uses: ./.github/composite_actions/client-setup
       - name: Lint
-        run: npm run lint
+        run: npm run lint:check
+
+  format-check:
+    name: Format Check
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out code
+        uses: actions/checkout@v4
+      - name: Client Setup
+        uses: ./.github/composite_actions/client-setup
+      - name: Format Check
+        run: npm run format:check
+
+  build-app:
+    name: Build App
+    needs:
+      - type-check
+      - lint-check
+      - format-check
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out code
+        uses: actions/checkout@v4
+      - name: Client Setup
+        uses: ./.github/composite_actions/client-setup
+      - name: Build app
+        run: npm run build
