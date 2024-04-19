@@ -6,8 +6,11 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint --dir src/pages --dir src/components --dir src/lib",
-    "typecheck": "tsc"
+    "tsc": "tsc",
+    "lint:check": "next lint",
+    "lint": "next lint --fix",
+    "format": "prettier --write '**/*.{js,jsx,ts,tsx,json,css}'",
+    "format:check": "prettier --check '**/*.{js,jsx,ts,tsx,json,css}'"
   },
   "dependencies": {
     "@chakra-ui/react": "^2.7.0",

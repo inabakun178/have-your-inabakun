@@ -6,17 +6,20 @@ import TextListArea from "../../components/pages/profile/TextListArea/TextListAr
 
 const Profile: NextPage = () => {
   const skillList = [
-    "JavaScript (TypeScript, React, Vue.js, jQuery)",
-    "API (REST, GraphQL)",
-    "WordPress Customize",
-    "MarkUp (HTML, CSS, Pug, SCSS)",
-    "Web Design (Figma, Adobe XD, PhotoShop)",
-    "Team Management",
+    "React(Next.js)",
+    "Vue.js(Nuxt.js)",
+    "TypeScript",
+    "GraphQL",
+    "スクラム開発",
+    "チームマネジメント",
+    "マークアップ (HTML, CSS)",
+    "WordPress テーマカスタマイズ",
   ];
 
   const HistoryList = [
-    "2021.11- NIJIBOX (Front-end Developer)",
-    "2017.01 - 2021.10 COMMU:DE (Front-end Developer + Technical Manager)",
+    "2024.06~: ???",
+    "2021.11~2024.06: NIJIBOX (ZOZO に常駐しプロダクト開発)",
+    "2017.01~2021.10: COMMU:DE (FEのグループMgr)",
   ];
 
   return (
