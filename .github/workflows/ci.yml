@@ -4,7 +4,7 @@ on:
   push:
     branches:
       - main
-  pull_request_target:
+  pull_request:
     branches:
       - main
 jobs:
@@ -29,6 +29,54 @@ jobs:
       - name: Install Dependencies
         run: npm install
       - name: Type Check
-        run: npm run typecheck
+        run: npm run tsc
       - name: Lint
         run: npm run lint
+
+  type-check:
+    name: Type Check
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out code
+        uses: actions/checkout@v4
+      - name: Client Setup
+        uses: ./.github/composite_actions/client-setup
+      - name: Type Check
+        run: npm run tsc
+
+  lint-check:
+    name: Lint Check
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out code
+        uses: actions/checkout@v4
+      - name: Client Setup
+        uses: ./.github/composite_actions/client-setup
+      - name: Lint
+        run: npm run lint:check
+
+  format-check:
+    name: Format Check
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out code
+        uses: actions/checkout@v4
+      - name: Client Setup
+        uses: ./.github/composite_actions/client-setup
+      - name: Format Check
+        run: npm run format:check
+
+  build-app:
+    name: Build App
+    needs:
+      - type-check
+      - lint-check
+      - format-check
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out code
+        uses: actions/checkout@v4
+      - name: Client Setup
+        uses: ./.github/composite_actions/client-setup
+      - name: Build app
+        run: npm run build
