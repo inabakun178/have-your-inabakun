@@ -3,6 +3,11 @@ import { Box, Link, List, ListItem, Image } from "@chakra-ui/react";
 const SnsList = () => {
   const snsLinkList = [
     {
+      link: "https://www.instagram.com/purupuruboy2?igsh=dDB0cDd2dGN2bHEw&utm_source=qr",
+      image: "icon-instagram.svg",
+      name: "Instagram",
+    },
+    {
       link: "https://twitter.com/dev_inabakun",
       image: "icon-twitter.svg",
       name: "Twitter",
