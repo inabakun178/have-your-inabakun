@@ -20,7 +20,7 @@
     "react": "18.2.0",
     "react-animated-cursor": "^2.5.2",
     "react-dom": "18.2.0",
-    "typescript-eslint": "^0.0.1-alpha.0"
+    "typescript-eslint": "^7.11.0"
   },
   "devDependencies": {
     "@types/node": "20.12.7",
