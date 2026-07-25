@@ -26,7 +26,8 @@ export function buildMetadata({
 }: BuildMetadataOptions): Metadata {
   const url = `${SITE_URL}${path}`;
   const ogImageUrl = `${SITE_URL}/ogp.jpg`;
-  const fullTitle = absoluteTitle ?? (title ? `${title} | ${SITE_NAME}` : SITE_NAME);
+  const fullTitle =
+    absoluteTitle ?? (title ? `${title} | ${SITE_NAME}` : SITE_NAME);
 
   return {
     title: absoluteTitle ? { absolute: absoluteTitle } : title,

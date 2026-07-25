@@ -2,10 +2,7 @@
 
 import { useEffect, useRef } from "react";
 import { Geometry, Mesh, Program, Renderer } from "ogl";
-import {
-  loadImage,
-  sampleImageParticles,
-} from "@/lib/particleSampler";
+import { loadImage, sampleImageParticles } from "@/lib/particleSampler";
 import { fragment, vertex } from "./shaders";
 
 // ロゴ("Have Your Inabakun")の実寸(px)。この単位でパーティクルの目標座標を組み立てる。
