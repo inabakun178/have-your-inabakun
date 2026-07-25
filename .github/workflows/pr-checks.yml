@@ -1,12 +1,23 @@
-name: CI
+name: PR Checks
 
 on:
   push:
     branches:
       - main
+    paths-ignore:
+      - "**.md"
+      - "docs/**"
   pull_request:
     branches:
       - main
+    paths-ignore:
+      - "**.md"
+      - "docs/**"
+
+concurrency:
+  group: pr-checks-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
 jobs:
   type-check:
     name: Type Check
@@ -41,12 +52,8 @@ jobs:
       - name: Format Check
         run: pnpm run format:check
 
-  build-app:
-    name: Build App
-    needs:
-      - type-check
-      - lint-check
-      - format-check
+  app-build:
+    name: App Build
     runs-on: ubuntu-latest
     steps:
       - name: Check out code
