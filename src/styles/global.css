@@ -1,3 +1,34 @@
+@import "tailwindcss";
+
+/*
+ * Chakra UI の theme が持っていた値の移設先。
+ * - フォント … 旧 src/lib/chakraTheme.ts
+ * - 配色 … 旧 src/lib/colors.ts の COLORS
+ */
+@theme {
+  --font-serif:
+    "Playfair Display", "Times New Roman", "YuMincho", "Hiragino Mincho ProN",
+    "Yu Mincho", "MS PMincho", serif;
+
+  --color-background-main: #111;
+  /* rgb(1, 1, 1) の半透明。#000 や #111 の半透明ではないので black/50 で代用しない */
+  --color-background-sub: rgba(1, 1, 1, 0.5);
+  /* 旧 COLORS.text.accent。現状どこからも使っていないが値は引き継いでおく */
+  --color-text-accent: #e35800;
+}
+
+@layer base {
+  /*
+   * Chakra の CSSReset が body に当てていた font-family / color / background の代替。
+   * ChakraProvider を外すと消えるので明示する。
+   */
+  body {
+    font-family: var(--font-serif);
+    color: #fff;
+    background-color: var(--color-background-main);
+  }
+}
+
 *::selection {
   background-color: #fff;
   color: #111;

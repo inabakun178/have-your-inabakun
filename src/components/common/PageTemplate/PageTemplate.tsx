@@ -1,8 +1,6 @@
 import { ReactNode } from "react";
 import Head from "next/head";
-import { Box, Container } from "@chakra-ui/react";
 import HeaderNavigation from "../HeaderNavigation/HeaderNavigation";
-import { COLORS } from "../../../lib/colors";
 import SnsList from "../SnsList/SnsList";
 import { motion } from "framer-motion";
 
@@ -33,28 +31,15 @@ const PageTemplate = (props: PageTemplateProps) => {
         />
         <meta property="og:image" content="https://www.inabakun.com/ogp.jpg" />
       </Head>
-      <Container
-        p={{ base: "0 15px", md: "0 50px" }}
-        w="100%"
-        maxWidth="100%"
-        minHeight="100vh"
-        position="relative"
-        backgroundColor={COLORS.background.main}
-        _before={{
-          content: '""',
-          position: "fixed",
-          width: "100vw",
-          height: "100vh",
-          top: "0",
-          left: "0",
-          background: " url(/site_bg.svg) no-repeat center / cover",
-          filter: "grayscale(100%)",
-        }}
-      >
+      {/*
+       * before: は背景（public/site_bg.svg）をグレースケールで画面に固定するもの。
+       * 中身より先に描かれるので、後ろに続く要素がその上に乗る。
+       */}
+      <div className="bg-background-main relative mx-auto min-h-screen w-full max-w-full px-[15px] before:fixed before:top-0 before:left-0 before:h-screen before:w-screen before:bg-[url('/site_bg.svg')] before:bg-cover before:bg-center before:bg-no-repeat before:grayscale before:content-[''] md:px-[50px]">
         <HeaderNavigation />
         <SnsList />
 
-        <Box position="relative">
+        <div className="relative">
           <motion.div
             initial={{ opacity: 0 }} // 初期状態
             animate={{ opacity: 1 }} // マウント時
@@ -62,8 +47,8 @@ const PageTemplate = (props: PageTemplateProps) => {
           >
             {props.children}
           </motion.div>
-        </Box>
-      </Container>
+        </div>
+      </div>
     </>
   );
 };

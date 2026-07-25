@@ -1,159 +1,160 @@
 import NextLink from "next/link";
-import {
-  Box,
-  Button,
-  Divider,
-  Drawer,
-  DrawerBody,
-  DrawerCloseButton,
-  DrawerContent,
-  Flex,
-  Heading,
-  Link,
-  List,
-  ListItem,
-  useDisclosure,
-} from "@chakra-ui/react";
-import { COLORS } from "../../../lib/colors";
-import React from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
+
+const pageList = [
+  {
+    name: "Profile",
+    link: "/profile",
+  },
+  {
+    name: "Contact",
+    link: "/contact",
+  },
+];
 
 const HeaderNavigation = () => {
-  const pageList = [
-    {
-      name: "Profile",
-      link: "/profile",
-    },
-    {
-      name: "Contact",
-      link: "/contact",
-    },
-  ];
+  const [isOpen, setIsOpen] = useState(false);
+  const openButtonRef = useRef<HTMLButtonElement>(null);
+  const closeButtonRef = useRef<HTMLButtonElement>(null);
 
-  const { isOpen, onOpen, onClose } = useDisclosure();
-  const btnRef = React.useRef<HTMLButtonElement>(null);
+  const onOpen = () => setIsOpen(true);
+
+  // Chakra の Drawer は finalFocusRef で閉じたあとのフォーカスを戻していたので合わせる
+  const onClose = useCallback(() => {
+    setIsOpen(false);
+    openButtonRef.current?.focus();
+  }, []);
+
+  // Chakra の Drawer の closeOnEsc 相当
+  useEffect(() => {
+    if (!isOpen) return;
+
+    const onKeyDown = (event: KeyboardEvent) => {
+      if (event.key === "Escape") onClose();
+    };
+    document.addEventListener("keydown", onKeyDown);
+
+    return () => document.removeEventListener("keydown", onKeyDown);
+  }, [isOpen, onClose]);
+
+  // Chakra の Drawer の blockScrollOnMount 相当
+  useEffect(() => {
+    if (!isOpen) return;
+
+    const previousOverflow = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+
+    return () => {
+      document.body.style.overflow = previousOverflow;
+    };
+  }, [isOpen]);
+
+  // Chakra の Drawer が開いた直後に閉じるボタンへフォーカスしていたのに合わせる
+  useEffect(() => {
+    if (isOpen) closeButtonRef.current?.focus();
+  }, [isOpen]);
 
   return (
-    <Box
-      w="100%"
-      h={{ base: "50px", md: "100px" }}
-      position="sticky"
-      zIndex={"sticky"}
-      top="0"
-    >
-      <Flex
-        justifyContent="space-between"
-        color={COLORS.text.main}
-        alignItems="center"
-        h="100%"
-      >
-        {/* TODO: ロゴを置く */}
-        <Heading as="h1" lineHeight="1">
-          <Link
-            as={NextLink}
-            href="/"
-            display="block"
-            color={COLORS.text.main}
-            fontSize={{ base: "20px", md: "40px" }}
-            letterSpacing="0.15em"
-            transition="0.4s"
-            _hover={{ opacity: 0.6 }}
-          >
-            H.Inaba
-          </Link>
-        </Heading>
-
-        <List display={{ base: "none", md: "flex" }}>
-          {pageList.map((page, index) => (
-            <ListItem key={page.name} ml={index === 0 ? 0 : "60px"}>
-              <Link
-                as={NextLink}
-                href={page.link}
-                color={COLORS.text.main}
-                fontSize="18px"
-                letterSpacing="0.1em"
-                transition="0.4s"
-                _hover={{ opacity: 0.6 }}
-              >
-                {page.name}
-              </Link>
-            </ListItem>
-          ))}
-        </List>
-
-        <Button
-          display={{ base: "block", md: "none" }}
-          padding="0"
-          position="relative"
-          outline="inherit"
-          background="none"
-          _active={{ background: "none" }}
-          _hover={{ background: "none" }}
-          ref={btnRef}
-          onClick={onOpen}
-        >
-          <Divider
-            w="100%"
-            h="2px"
-            borderBottom="none"
-            background={COLORS.text.main}
-            opacity="1"
-            position="absolute"
-            top="10px"
-            left="0"
-          />
-          <Divider
-            w="100%"
-            h="2px"
-            borderBottom="none"
-            background={COLORS.text.main}
-            opacity="1"
-            position="absolute"
-            bottom="10px"
-            left="0"
-          />
-        </Button>
-
-        <Drawer
-          isOpen={isOpen}
-          onClose={onClose}
-          finalFocusRef={btnRef}
-          size="full"
-        >
-          <DrawerContent background={COLORS.background.main}>
-            <DrawerCloseButton color={COLORS.text.main} size="lg" />
-            <DrawerBody
-              display="flex"
-              justifyContent="center"
-              alignItems="center"
+    <>
+      <header className="sticky top-0 z-[1100] h-[50px] w-full md:h-[100px]">
+        <div className="flex h-full items-center justify-between text-white">
+          {/* TODO: ロゴを置く */}
+          {/* Chakra の Heading が持っていた太字は Tailwind の preflight で消えるので明示する */}
+          <h1 className="leading-none font-bold">
+            <NextLink
+              href="/"
+              className="block text-[20px] tracking-[0.15em] transition-opacity duration-[400ms] hover:opacity-60 md:text-[40px]"
             >
-              <List>
-                {pageList.map((page, index) => (
-                  <ListItem
-                    key={page.name}
-                    mt={index === 0 ? 0 : "60px"}
-                    textAlign="center"
+              H.Inaba
+            </NextLink>
+          </h1>
+
+          <ul className="hidden md:flex">
+            {pageList.map((page, index) => (
+              <li
+                key={page.name}
+                className={index === 0 ? undefined : "ml-[60px]"}
+              >
+                <NextLink
+                  href={page.link}
+                  className="text-[18px] tracking-[0.1em] transition-opacity duration-[400ms] hover:opacity-60"
+                >
+                  {page.name}
+                </NextLink>
+              </li>
+            ))}
+          </ul>
+
+          {/* h-10 w-10 は Chakra の Button (size md) の既定サイズを引き継いだもの */}
+          <button
+            type="button"
+            ref={openButtonRef}
+            onClick={onOpen}
+            aria-label="メニューを開く"
+            aria-expanded={isOpen}
+            className="relative block h-10 w-10 md:hidden"
+          >
+            <span className="absolute top-[10px] left-0 h-0.5 w-full bg-white" />
+            <span className="absolute bottom-[10px] left-0 h-0.5 w-full bg-white" />
+          </button>
+        </div>
+      </header>
+
+      {/*
+       * ドロワーを <header> の外に出しているのは、sticky + z-index を持つ <header> が
+       * 重ね合わせコンテキストを作ってしまい、中に置くと z-[1400] が効かず
+       * SnsList (z-[1100]) の下に潜ってしまうため。Chakra は Portal で回避していた。
+       */}
+      {isOpen && (
+        <div
+          role="dialog"
+          aria-modal="true"
+          aria-label="メニュー"
+          className="bg-background-main fixed inset-0 z-[1400] flex flex-col"
+        >
+          <button
+            type="button"
+            ref={closeButtonRef}
+            onClick={onClose}
+            aria-label="メニューを閉じる"
+            className="absolute top-2 right-3 flex h-10 w-10 items-center justify-center text-white"
+          >
+            <svg
+              width="16"
+              height="16"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="2"
+              aria-hidden="true"
+            >
+              <path d="M6 6 18 18M18 6 6 18" />
+            </svg>
+          </button>
+
+          <div className="flex flex-1 items-center justify-center p-6">
+            <ul>
+              {pageList.map((page, index) => (
+                <li
+                  key={page.name}
+                  className={
+                    index === 0 ? "text-center" : "mt-[60px] text-center"
+                  }
+                >
+                  <NextLink
+                    href={page.link}
+                    onClick={onClose}
+                    className="block p-5 text-[25px] tracking-[0.1em] hover:opacity-60"
                   >
-                    <Link
-                      as={NextLink}
-                      href={page.link}
-                      p="20px"
-                      display="block"
-                      color={COLORS.text.main}
-                      fontSize="25px"
-                      letterSpacing="0.1em"
-                      _hover={{ opacity: 0.6 }}
-                      onClick={onClose}
-                    >
-                      {page.name}
-                    </Link>
-                  </ListItem>
-                ))}
-              </List>
-            </DrawerBody>
-          </DrawerContent>
-        </Drawer>
-      </Flex>
-    </Box>
+                    {page.name}
+                  </NextLink>
+                </li>
+              ))}
+            </ul>
+          </div>
+        </div>
+      )}
+    </>
   );
 };
 

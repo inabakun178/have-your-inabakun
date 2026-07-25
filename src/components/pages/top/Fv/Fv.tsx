@@ -1,16 +1,11 @@
-import { Flex, Image } from "@chakra-ui/react";
-
 // TODO: components 配下のディレクトリ構造を変えたい
 const Fv = () => {
   return (
-    <Flex
-      minH={{ base: "calc(100vh - 50px)", md: "calc(100vh - 100px)" }}
-      justifyContent="center"
-      alignItems="center"
-      style={{ mixBlendMode: "difference" }}
-    >
-      <Image src="/fv_title.svg" alt="Have Your Inabakun" />
-    </Flex>
+    <div className="flex min-h-[calc(100vh_-_50px)] items-center justify-center mix-blend-difference md:min-h-[calc(100vh_-_100px)]">
+      {/* svg をそのまま出したいので next/image は使わない */}
+      {/* eslint-disable-next-line @next/next/no-img-element */}
+      <img src="/fv_title.svg" alt="Have Your Inabakun" />
+    </div>
   );
 };
 

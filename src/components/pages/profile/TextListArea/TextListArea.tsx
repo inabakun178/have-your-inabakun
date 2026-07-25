@@ -1,6 +1,3 @@
-import { Box, List, ListItem, Text } from "@chakra-ui/react";
-import { COLORS } from "../../../../lib/colors";
-
 type TextListAreaProps = {
   title: string;
   items: string[];
@@ -8,32 +5,16 @@ type TextListAreaProps = {
 
 const TextListArea = (props: TextListAreaProps) => {
   return (
-    <Box
-      p={{ base: "50px 20px", md: "120px 50px" }}
-      display={{ base: "block", xl: "flex" }}
-      alignItems="center"
-      background={COLORS.background.sub}
-    >
-      <Text
-        minW={{ base: "inherit", md: "25%" }}
-        fontSize={{ base: "30px", md: "90px" }}
-        color="rgba(255,255,255, 0.5)"
-      >
+    <div className="bg-background-sub block items-center px-5 py-[50px] md:px-[50px] md:py-[120px] xl:flex">
+      <p className="text-[30px] text-white/50 md:min-w-[25%] md:text-[90px]">
         {props.title}
-      </Text>
-      <List
-        pl={{ base: "0", xl: "100px" }}
-        mt={{ base: "20px", xl: "0" }}
-        color="rgba(255,255,255, 0.5)"
-        fontSize={{ base: "15px", md: "18px" }}
-        lineHeight="1.8"
-        letterSpacing="0.1em"
-      >
+      </p>
+      <ul className="mt-[20px] text-[15px] leading-[1.8] tracking-[0.1em] text-white/50 md:text-[18px] xl:mt-0 xl:pl-[100px]">
         {props.items.map((item) => (
-          <ListItem key={item}>- {item}</ListItem>
+          <li key={item}>- {item}</li>
         ))}
-      </List>
-    </Box>
+      </ul>
+    </div>
   );
 };
 

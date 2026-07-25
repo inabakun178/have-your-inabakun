@@ -1,29 +1,14 @@
-import { Box, Text } from "@chakra-ui/react";
-import { COLORS } from "../../../../lib/colors";
-
 const ProfileHead = () => {
   return (
-    <Box
-      p={{ base: "50px 20px", md: "120px 50px" }}
-      background={COLORS.background.sub}
-    >
-      <Text
-        fontSize={{ base: "30px", md: "100px" }}
-        letterSpacing="0.1em"
-        color="rgba(255,255,255, 0.5)"
-      >
+    <div className="bg-background-sub px-5 py-[50px] md:px-[50px] md:py-[120px]">
+      <p className="text-[30px] tracking-[0.1em] text-white/50 md:text-[100px]">
         Hayato Inaba
-      </Text>
-      <Text
-        mt={{ base: "15px", md: "0" }}
-        fontSize={{ base: "14px", md: "18px" }}
-        letterSpacing="0.1em"
-        color="rgba(255,255,255, 0.5)"
-      >
+      </p>
+      <p className="mt-[15px] text-[14px] tracking-[0.1em] text-white/50 md:mt-0 md:text-[18px]">
         稲葉 勇人 / Front-end Developer <br />
         1993.05.12 / Tokyo
-      </Text>
-    </Box>
+      </p>
+    </div>
   );
 };
 
