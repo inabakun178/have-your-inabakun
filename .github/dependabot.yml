@@ -5,6 +5,8 @@
 
 version: 2
 updates:
+  # Dependabot に "pnpm" という ecosystem は無く、"npm" が pnpm-lock.yaml も
+  # 対象に含むのでこの指定のままでよい
   - package-ecosystem: "npm"
     directory: "/"
     schedule:

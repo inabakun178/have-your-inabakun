@@ -17,7 +17,7 @@ jobs:
       - name: Client Setup
         uses: ./.github/composite_actions/client-setup
       - name: Type Check
-        run: npm run tsc
+        run: pnpm run tsc
 
   lint-check:
     name: Lint Check
@@ -28,7 +28,7 @@ jobs:
       - name: Client Setup
         uses: ./.github/composite_actions/client-setup
       - name: Lint
-        run: npm run lint:check
+        run: pnpm run lint:check
 
   format-check:
     name: Format Check
@@ -39,7 +39,7 @@ jobs:
       - name: Client Setup
         uses: ./.github/composite_actions/client-setup
       - name: Format Check
-        run: npm run format:check
+        run: pnpm run format:check
 
   build-app:
     name: Build App
@@ -54,4 +54,4 @@ jobs:
       - name: Client Setup
         uses: ./.github/composite_actions/client-setup
       - name: Build app
-        run: npm run build
+        run: pnpm run build
