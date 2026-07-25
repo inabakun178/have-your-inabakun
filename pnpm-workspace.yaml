@@ -1,3 +1,9 @@
+# シングルパッケージ構成だがビルドスクリプトの許可設定のためにこのファイルが必要。
+# pnpm 9 系はこのファイルがあると packages を必須にするため（Vercel のビルドは
+# lockfile のバージョンから pnpm 9 を選ぶ）、ルート自身を明示しておく。
+packages:
+  - "."
+
 # next の画像最適化に使う sharp と、eslint-import-resolver-typescript が使う
 # unrs-resolver はネイティブバイナリのビルドが必要なので明示的に許可する
 allowBuilds:
