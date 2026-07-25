@@ -29,11 +29,12 @@ const CLICKABLE_SELECTOR = [
 ].join(",");
 
 const COLOR = "255, 255, 255";
+const ORANGE = "242, 115, 20";
 const INNER_SIZE = 10;
 const OUTER_SIZE = 20;
 const INNER_SCALE = 0.6;
 const OUTER_SCALE = 6;
-const OUTER_ALPHA = 0.4;
+const OUTER_ALPHA = 1;
 /** 1 フレームあたり残り距離の 1/TRAILING_SPEED だけ outer を進める */
 const TRAILING_SPEED = 8;
 
@@ -166,8 +167,8 @@ const CursorCore = () => {
           ...BASE_STYLE,
           width: OUTER_SIZE,
           height: OUTER_SIZE,
-          backgroundColor: `rgba(${COLOR}, ${OUTER_ALPHA})`,
-          mixBlendMode: "difference",
+          backgroundColor: `rgba(${ORANGE}, ${OUTER_ALPHA})`,
+          mixBlendMode: "color",
         }}
       />
       <div
