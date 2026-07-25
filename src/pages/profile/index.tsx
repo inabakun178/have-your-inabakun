@@ -1,5 +1,4 @@
 import type { NextPage } from "next";
-import { Box, Image, Flex } from "@chakra-ui/react";
 import PageTemplate from "../../components/common/PageTemplate/PageTemplate";
 import ProfileHead from "../../components/pages/profile/ProfileHead/ProfileHead";
 import TextListArea from "../../components/pages/profile/TextListArea/TextListArea";
@@ -24,23 +23,24 @@ const Profile: NextPage = () => {
 
   return (
     <PageTemplate pageTitle="Profile">
-      <Box mt={{ base: "50px", md: "100px" }}>
+      <div className="mt-[50px] md:mt-[100px]">
         <ProfileHead />
-        <Box mt={{ base: "50px", md: "100px" }}>
+        <div className="mt-[50px] md:mt-[100px]">
           <TextListArea title="Skill" items={skillList} />
-        </Box>
-        <Box mt={{ base: "50px", md: "100px" }}>
+        </div>
+        <div className="mt-[50px] md:mt-[100px]">
           <TextListArea title="History" items={HistoryList} />
-        </Box>
-        <Flex mt={{ base: "50px", md: "100px" }} justifyContent="center">
-          <Image
+        </div>
+        <div className="mt-[50px] flex justify-center md:mt-[100px]">
+          {/* png をそのまま出したいので next/image は使わない */}
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img
             src="/inabakun.png"
             alt="イナバくん"
-            filter="grayscale(100%)"
-            w={{ base: "50%", md: "auto" }}
+            className="w-1/2 grayscale md:w-auto"
           />
-        </Flex>
-      </Box>
+        </div>
+      </div>
     </PageTemplate>
   );
 };

@@ -18,4 +18,4 @@
 ## 開発基盤
 
 - [ ] CI を作る（テスト、lint、型チェック、build）
-- [ ] Chakra UI から Tailwind CSS に移行する
+- [x] Chakra UI から Tailwind CSS に移行する（対応表と落とし穴は [docs/tailwind-migration.md](docs/tailwind-migration.md)）

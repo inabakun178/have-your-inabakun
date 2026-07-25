@@ -8,14 +8,21 @@
 
 ## スタイリング
 
-- CSS ファイルは書かず、Chakra UI の props でスタイルを当てる
-- 色は直書きせず `src/lib/colors.ts` の `COLORS` を使う
-- レスポンシブは Chakra のブレークポイントオブジェクト記法で書く。SP ファーストで `{ base: "...", md: "..." }` が基本形
-- テキストの半透明表現は `rgba(255,255,255, 0.5)` が各所で直書きされている（`COLORS` 化されていない既知の不統一）
+- Tailwind CSS v4。スタイルは class で当てる。コンポーネント個別の CSS ファイルは書かない
+- 配色とフォントは `src/styles/global.css` の `@theme` に定義してある。`bg-background-main` / `bg-background-sub` / `font-serif` のようにトークン経由で使い、16進数を直書きしない
+  - `tailwind.config.js` は無い。v4 なのでテーマは CSS 側の `@theme` が正
+- レスポンシブは SP ファースト。無印がモバイルで、`md:`（768px）と `xl:`（1280px）だけを使っている
+- テキストの半透明表現は `text-white/50`（旧 `rgba(255,255,255, 0.5)`）
+- デザイン上の固定値（`text-[90px]`、`mt-[60px]` など）は Chakra 時代の値をそのまま引き継いでいるので任意値クラスが多い。既存の見た目を変えないための意図的なもの
+- **Chakra が暗黙に効かせていたものを明示している箇所があり、消すと壊れる。** 詳細は [Tailwind 移行メモ](tailwind-migration.md) の「落とし穴」を参照
+  - `body` の `font-family` / `color` / `background`（`global.css` の `@layer base`）
+  - ロゴ `h1` の `font-bold`
+  - 外部リンクの `target="_blank"` / `rel="noopener noreferrer"`
+  - ヘッダーとドロワーの `z-[1100]` / `z-[1400]`
 
 ## import
 
-全て相対パス（`../../../lib/colors` など）。`tsconfig.json` に `@/*` のエイリアス設定はあるが未使用。
+全て相対パス（`../../components/common/PageTemplate/PageTemplate` など）。`tsconfig.json` に `@/*` のエイリアス設定はあるが未使用。
 
 ## 変更時に気をつけること
 

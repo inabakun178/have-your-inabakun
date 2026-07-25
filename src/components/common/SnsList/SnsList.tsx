@@ -1,44 +1,49 @@
-import { Box, Link, List, ListItem, Image } from "@chakra-ui/react";
+const snsLinkList = [
+  {
+    link: "https://www.instagram.com/purupuruboy2?igsh=dDB0cDd2dGN2bHEw&utm_source=qr",
+    image: "icon-instagram.svg",
+    name: "Instagram",
+  },
+  {
+    link: "https://twitter.com/dev_inabakun",
+    image: "icon-twitter.svg",
+    name: "Twitter",
+  },
+  {
+    link: "https://ja-jp.facebook.com/hayato.inaba.77",
+    image: "icon-facebook.svg",
+    name: "Facebook",
+  },
+  {
+    link: "https://github.com/inabakun178",
+    image: "icon-github.svg",
+    name: "GitHub",
+  },
+];
 
 const SnsList = () => {
-  const snsLinkList = [
-    {
-      link: "https://www.instagram.com/purupuruboy2?igsh=dDB0cDd2dGN2bHEw&utm_source=qr",
-      image: "icon-instagram.svg",
-      name: "Instagram",
-    },
-    {
-      link: "https://twitter.com/dev_inabakun",
-      image: "icon-twitter.svg",
-      name: "Twitter",
-    },
-    {
-      link: "https://ja-jp.facebook.com/hayato.inaba.77",
-      image: "icon-facebook.svg",
-      name: "Facebook",
-    },
-    {
-      link: "https://github.com/inabakun178",
-      image: "icon-github.svg",
-      name: "GitHub",
-    },
-  ];
   return (
-    <Box position="fixed" bottom="15px" right="15px" zIndex={"sticky"}>
-      <List>
+    <div className="fixed right-[15px] bottom-[15px] z-[1100]">
+      <ul>
         {snsLinkList.map((snsLink, index) => (
-          <ListItem key={snsLink.name} mt={index === 0 ? "0" : "15px"}>
-            <Link href={snsLink.link} isExternal>
-              <Image
+          <li
+            key={snsLink.name}
+            className={index === 0 ? undefined : "mt-[15px]"}
+          >
+            {/* target / rel は Chakra の Link isExternal が付けていたものを引き継ぐ */}
+            <a href={snsLink.link} target="_blank" rel="noopener noreferrer">
+              {/* svg をそのまま出したいので next/image は使わない */}
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img
                 src={`/${snsLink.image}`}
                 alt={snsLink.name}
-                width="40px"
+                className="w-10"
               />
-            </Link>
-          </ListItem>
+            </a>
+          </li>
         ))}
-      </List>
-    </Box>
+      </ul>
+    </div>
   );
 };
 
