@@ -6,7 +6,7 @@
 | -------------- | -------------------------------------- |
 | フレームワーク | Next.js 14 (Pages Router)              |
 | 言語           | TypeScript 5.4 (`strict: true`)        |
-| UI             | Chakra UI v2 + Emotion                 |
+| UI             | Tailwind CSS v4                        |
 | アニメーション | Framer Motion, react-animated-cursor   |
 | Lint/Format    | ESLint (eslint-config-next) + Prettier |
 | CI             | GitHub Actions                         |
@@ -19,7 +19,7 @@ App Router ではなく **Pages Router** を使っている。`src/pages/` に�
 ```
 src/
 ├── pages/                      # ルーティング（Pages Router）
-│   ├── _app.jsx                # 全ページ共通のProvider。※ここだけ .jsx
+│   ├── _app.jsx                # 全ページ共通の入口。※ここだけ .jsx
 │   ├── index.tsx               # トップ（/）
 │   ├── 404.tsx                 # 404ページ
 │   ├── profile/index.tsx       # /profile
@@ -32,11 +32,9 @@ src/
 │   └── pages/                  # 特定ページ専用のコンポーネント
 │       ├── top/Fv/             # トップのファーストビュー
 │       └── profile/            # ProfileHead, TextListArea
-├── lib/
-│   ├── colors.ts               # 配色定数 COLORS
-│   └── chakraTheme.ts          # Chakra のテーマ（フォント指定のみ）
-└── styles/global.css           # グローバルCSS（::selection のみ）
+└── styles/global.css           # Tailwind の読み込み + @theme（配色・フォント）+ ::selection
 
+postcss.config.mjs              # Tailwind の PostCSS プラグイン
 public/                         # 画像・favicon・Search Console 認証ファイル
 .github/
 ├── workflows/ci.yml            # CI
