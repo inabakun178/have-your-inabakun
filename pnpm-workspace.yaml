@@ -1,0 +1,5 @@
+# next の画像最適化に使う sharp と、eslint-import-resolver-typescript が使う
+# unrs-resolver はネイティブバイナリのビルドが必要なので明示的に許可する
+allowBuilds:
+  sharp: true
+  unrs-resolver: true
