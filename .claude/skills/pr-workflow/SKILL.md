@@ -105,15 +105,8 @@ Co-Authored-By: Claude <noreply@anthropic.com>
 
 粒度は「レビューする人が1つずつ読めるか」で決める。無関係な変更を1コミットに混ぜない。
 
-### push する前にローカルで CI と同じチェックを回す
-
-CI で落ちてから直すより速い。`.github/workflows/ci.yml` と同じ内容:
-
-```bash
-npm run tsc && npm run lint:check && npm run format:check && npm run build
-```
-
-format で落ちたら `npm run format`、lint で落ちたら `npm run lint` で自動修正できる。
+ローカルで CI 相当のチェック（tsc / lint / format / build）を実行する必要はない。
+PR を作れば CI が自動で走るので、そちらの結果を見る（4 参照）。
 
 ---
 
