@@ -2,7 +2,7 @@
 import { ReactNode } from "react";
 import HeaderNavigation from "../HeaderNavigation/HeaderNavigation";
 import SnsList from "../SnsList/SnsList";
-import ParticleBackdrop from "../ParticleBackdrop/ParticleBackdrop";
+import ParticleBackdrop from "@/components/effects/ParticleBackdrop/ParticleBackdrop";
 import { motion } from "framer-motion";
 
 type PageTemplateProps = {
