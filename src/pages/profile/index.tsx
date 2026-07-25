@@ -7,7 +7,11 @@ import SkillTerminal from "../../components/pages/profile/SkillTerminal/SkillTer
 
 const Profile: NextPage = () => {
   return (
-    <PageTemplate pageTitle="Profile">
+    <PageTemplate
+      pageTitle="PROFILE"
+      description="フロントエンドエンジニア・デザイナー稲葉勇人（イナバくん）のプロフィール紹介ページ。経歴、スキル、得意分野を掲載しています。"
+      canonicalPath="/profile"
+    >
       <Head>
         {/* ターミナルUI用の等幅フォント。PageTemplate の Head とマージされる */}
         <link
