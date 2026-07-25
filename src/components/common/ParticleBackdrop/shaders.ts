@@ -81,3 +81,17 @@ export const fragment = /* glsl */ `
     gl_FragColor = vec4(color, alpha);
   }
 `;
+
+// 被写体の輪郭粒子どうしを結ぶ線(細胞膜・DNA鎖のような網目を表現する)
+export const lineFragment = /* glsl */ `
+  precision highp float;
+
+  varying float vBrightness;
+  varying float vAlpha;
+
+  void main() {
+    vec3 accent = vec3(0.949, 0.451, 0.078); // #f27314
+    float alpha = (0.1 + vBrightness * 0.22) * vAlpha;
+    gl_FragColor = vec4(accent, alpha);
+  }
+`;
