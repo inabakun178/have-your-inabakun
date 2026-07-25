@@ -1,6 +1,7 @@
 "use client";
 
 import NextLink from "next/link";
+import { usePathname } from "next/navigation";
 import { useCallback, useEffect, useRef, useState } from "react";
 import SnsList from "../SnsList/SnsList";
 
@@ -15,6 +16,9 @@ const HeaderNavigation = () => {
   const [isOpen, setIsOpen] = useState(false);
   const openButtonRef = useRef<HTMLButtonElement>(null);
   const closeButtonRef = useRef<HTMLButtonElement>(null);
+  // 各ページの h1 が重複しないよう、ロゴを見出しにするのは TOP ページのみにする
+  const isHome = usePathname() === "/";
+  const LogoTag = isHome ? "h1" : "p";
 
   const onOpen = () => setIsOpen(true);
 
@@ -59,14 +63,14 @@ const HeaderNavigation = () => {
         <div className="flex h-full items-center justify-between text-white">
           {/* TODO: ロゴを置く */}
           {/* Chakra の Heading が持っていた太字は Tailwind の preflight で消えるので明示する */}
-          <h1 className="leading-none font-bold">
+          <LogoTag className="leading-none font-bold">
             <NextLink
               href="/"
               className="block text-[20px] tracking-[0.15em] transition-opacity duration-[400ms] hover:opacity-60 md:text-[40px]"
             >
               H.Inaba
             </NextLink>
-          </h1>
+          </LogoTag>
 
           {/* 右側グループ: PC ではナビ + ステータス、SP では [ MENU ] だけを出し分ける */}
           <div className="flex items-center gap-x-[40px] md:gap-x-[60px]">
