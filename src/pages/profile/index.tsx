@@ -15,8 +15,8 @@ const Profile: NextPage = () => {
           rel="stylesheet"
         ></link>
       </Head>
-      {/* pr は右下固定の SnsList (幅40px + right-15px) とターミナルの枠線が被らないための余白 */}
-      <div className="mt-[50px] flex flex-col gap-[30px] pr-[70px] md:mt-[100px] md:gap-[50px] md:pr-[90px]">
+      {/* md:pr は PC のみ右下固定表示される SnsList (幅40px + right-15px) とターミナルの枠線が被らないための余白。SP は SnsList をメニュー内に出すので不要 */}
+      <div className="mt-[50px] flex flex-col gap-[30px] md:mt-[100px] md:gap-[50px] md:pr-[90px]">
         <ProfileTerminal />
         <CareerTerminal />
         <SkillTerminal />
