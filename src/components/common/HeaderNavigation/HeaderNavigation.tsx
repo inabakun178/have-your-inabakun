@@ -132,7 +132,8 @@ const HeaderNavigation = () => {
             </svg>
           </button>
 
-          <div className="flex flex-1 items-center justify-center p-6">
+          {/* px-6 py-2 は Chakra の DrawerBody の既定 padding (8px 24px) に合わせたもの */}
+          <div className="flex flex-1 items-center justify-center px-6 py-2">
             <ul>
               {pageList.map((page, index) => (
                 <li
