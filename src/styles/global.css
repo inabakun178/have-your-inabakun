@@ -16,6 +16,16 @@
   /* 旧 COLORS.text.accent。現状どこからも使っていないが値は引き継いでおく */
   --color-text-accent: #e35800;
 
+  /* profile ページのターミナル風UI (TerminalWindow) 用。配色はサイト本来のトンマナ
+   * (黒・グレー・オレンジ) に合わせ、text-accent (#e35800) をアクセントとして使う */
+  --font-mono:
+    "JetBrains Mono", "Fira Code", ui-monospace, "SFMono-Regular", Menlo,
+    Consolas, monospace;
+  --color-cyber-bg: rgba(1, 1, 1, 0.6);
+
+  /* ターミナルのキャレット点滅 */
+  --animate-blink: blink 1.1s step-end infinite;
+
   /* 背景画像 (site_bg.svg) を1倍から100倍まで15分かけてゆっくりズームさせるアニメーション。
    * ぼかし解除・不透明度アップはズームより短い60秒で完了させ、画像が先にくっきり見える
    * ようにする(ズームと同じ秒数だと変化が遅すぎて体感できないため)。
@@ -43,6 +53,12 @@
   to {
     filter: blur(0px) grayscale(0.6);
     opacity: 1;
+  }
+}
+
+@keyframes blink {
+  50% {
+    opacity: 0;
   }
 }
 
