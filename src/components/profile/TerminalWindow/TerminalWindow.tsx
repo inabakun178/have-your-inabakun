@@ -22,7 +22,7 @@ const TerminalWindow = (props: TerminalWindowProps) => {
       animate={{ opacity: 1, scaleY: 1, y: 0 }}
       transition={{ duration: 1, delay: bootDelay, ease: "easeOut" }}
       style={{ transformOrigin: "top" }}
-      className="border-text-accent/40 bg-cyber-bg relative overflow-hidden rounded-md border font-mono"
+      className="border-text-accent/40 relative overflow-hidden rounded-md border bg-[rgba(1,1,1,0.7)] font-mono md:bg-cyber-bg"
     >
       <div className="border-text-accent/30 bg-text-accent/5 flex items-center gap-2 border-b px-4 py-2 md:px-6">
         <span className="text-text-accent text-[12px] md:text-[14px]">
