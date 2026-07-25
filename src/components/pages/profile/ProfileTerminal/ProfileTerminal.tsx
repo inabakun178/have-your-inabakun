@@ -1,3 +1,5 @@
+"use client";
+
 import { useState } from "react";
 import TerminalWindow from "../TerminalWindow/TerminalWindow";
 import TypedLines from "../TerminalWindow/TypedLines";

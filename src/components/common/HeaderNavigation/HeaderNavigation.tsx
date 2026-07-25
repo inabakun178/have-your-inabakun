@@ -1,3 +1,5 @@
+"use client";
+
 import NextLink from "next/link";
 import { useCallback, useEffect, useRef, useState } from "react";
 import SnsList from "../SnsList/SnsList";

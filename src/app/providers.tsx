@@ -1,22 +1,29 @@
-import "../styles/global.css";
-// import type { AppProps } from "next/app";
+"use client";
+import { ReactNode } from "react";
 import dynamic from "next/dynamic";
 import { AnimatePresence } from "framer-motion";
+import { usePathname } from "next/navigation";
 
 const AnimatedCursor = dynamic(
   () => import("../components/common/AnimatedCursor/AnimatedCursor"),
   { ssr: false },
 );
 
-function MyApp({ Component, pageProps }) {
+type ProvidersProps = {
+  children: ReactNode;
+};
+
+const Providers = ({ children }: ProvidersProps) => {
+  const pathname = usePathname();
+
   return (
     <>
       <AnimatePresence mode="wait">
-        <Component {...pageProps} />
+        <div key={pathname}>{children}</div>
       </AnimatePresence>
       <AnimatedCursor />
     </>
   );
-}
+};
 
-export default MyApp;
+export default Providers;
