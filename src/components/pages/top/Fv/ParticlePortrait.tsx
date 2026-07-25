@@ -95,10 +95,7 @@ const ParticlePortrait = () => {
       const binHeight = logoSample.height / BIN_COUNT;
       const histogram = new Array(BIN_COUNT).fill(0);
       logoSample.points.forEach((point) => {
-        const bin = Math.min(
-          BIN_COUNT - 1,
-          Math.floor(point.y / binHeight),
-        );
+        const bin = Math.min(BIN_COUNT - 1, Math.floor(point.y / binHeight));
         histogram[bin] += 1;
       });
       const searchStart = Math.floor(BIN_COUNT * 0.25);
