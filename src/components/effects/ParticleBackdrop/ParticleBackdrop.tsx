@@ -261,8 +261,6 @@ const ParticleBackdrop = () => {
           uParallax: { value: [0, 0] },
           uPointSize: { value: 2.7 },
           uDpr: { value: renderer.dpr },
-          // スマホでは背景画像がより透けて見えるよう、粒子を0.2薄くする
-          uMobileDim: { value: isCoarsePointer ? 0.2 : 0 },
         },
       });
 

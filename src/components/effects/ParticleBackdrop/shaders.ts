@@ -62,8 +62,6 @@ export const vertex = /* glsl */ `
 export const fragment = /* glsl */ `
   precision highp float;
 
-  uniform float uMobileDim;
-
   varying float vBrightness;
   varying float vAlpha;
   varying float vShape;
@@ -75,13 +73,9 @@ export const fragment = /* glsl */ `
 
     // 人型の輪郭(vShape=1)を周囲の散らばり粒子(vShape=0)よりはっきり
     // 見せることで、粒子+線で人の形が読み取れるようにする
-    // (輪郭粒子の濃さは維持しつつ、背景に散らばる粒子(vShape=0)は薄くする)
     float alphaBase =
       mix(0.11, 0.425, vShape) + vBrightness * mix(0.09, 0.5, vShape);
-    // スマホでは背景画像がより見えるよう、背景に散らばる粒子(vShape=0)を
-    // 追加で薄くする(輪郭粒子は視認性のため対象外)
-    alphaBase -= uMobileDim * (1.0 - vShape);
-    float alpha = smoothstep(0.5, 0.0, d) * max(alphaBase, 0.0) * vAlpha;
+    float alpha = smoothstep(0.5, 0.0, d) * alphaBase * vAlpha;
     // 輪郭粒子(vShape=1)がほぼ不透明に見えていたため、PC/スマホ問わず
     // 0.6倍に抑えて透過させる(周辺の散らばり粒子(vShape=0)は変更しない)
     alpha *= mix(1.0, 0.6, vShape);
@@ -103,7 +97,8 @@ export const lineFragment = /* glsl */ `
 
   void main() {
     vec3 gray = vec3(0.78, 0.78, 0.78);
-    float alpha = (0.6 + vBrightness * 0.4) * vAlpha;
+    // 線が濃く見えすぎていたため、輪郭粒子と同じく0.6倍に抑えて透過させる
+    float alpha = (0.6 + vBrightness * 0.4) * vAlpha * 0.6;
     gl_FragColor = vec4(gray, alpha);
   }
 `;
