@@ -8,7 +8,7 @@ import { motion } from "framer-motion";
 const SITE_URL = "https://www.inabakun.com";
 const SITE_NAME = "Have Your Inabakun";
 const DEFAULT_DESCRIPTION =
-  "フロントエンドエンジニア・デザイナー稲葉勇人(Hayato Inaba)のポートフォリオサイト「Have Your Inabakun」。伊豆出身、東京在住。経歴やスキルを紹介しています。";
+  "フロントエンドエンジニア・デザイナー稲葉勇人（イナバくん）のポートフォリオサイト「Have Your Inabakun」。伊豆出身、東京在住。経歴やスキルを紹介しています。";
 
 type PageTemplateProps = {
   // サブページのタイトル。指定すると "${pageTitle} | Have Your Inabakun" になる
@@ -71,8 +71,8 @@ const PageTemplate = ({
             __html: JSON.stringify({
               "@context": "https://schema.org",
               "@type": "Person",
-              name: "Hayato Inaba",
-              alternateName: "稲葉勇人",
+              name: "稲葉勇人",
+              alternateName: "イナバくん",
               jobTitle: "Front-end Engineer / Designer",
               url: SITE_URL,
               image: ogImageUrl,
