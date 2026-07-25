@@ -325,6 +325,34 @@ worktree で作業していた場合は、ブランチを消す前に worktree �
 git worktree remove <path>
 ```
 
+### 取り込み済み stash の掃除
+
+複数セッション運用（上記「⚠️ 複数セッションが同時にこのリポジトリで動く場合の注意」）では、
+他セッションの変更を退避するために `git stash push -m "other-session-wip" -- <file>...`
+を使う場面がある。マージ後にそのブランチの stash が残ったままだと `git stash list` が
+どんどん膨らみ、どれが有効でどれが不要か分からなくなる。ブランチを片付けるタイミングで
+併せて確認する。
+
+```bash
+git stash list
+```
+
+`On <branch-name>: ...` の形式で、いま片付けたブランチ名が含まれる stash があれば対象。
+中身が「マージ済みの変更と同じかどうか」を機械的に確認してから消す（見た目だけで判断しない）:
+
+```bash
+git stash show -p "stash@{N}" > /tmp/stash_N.patch
+git apply --check --reverse /tmp/stash_N.patch
+```
+
+- **エラーなし（exit 0）** → その stash の変更は既に現在のツリーに存在する＝取り込み済み。
+  `git stash drop "stash@{N}"` で消してよい
+- **エラーあり** → 一部でも未取り込みの差分が残っている。安易に消すと他セッションの
+  未完了作業を失うので、**消さずにユーザーに確認する**（何の作業か分からなければ
+  なおさら聞く）
+
+index が大きい stash から順に drop する（小さい番号から消すと後続の番号がずれる）。
+
 ---
 
 ## うっかり main で作業を始めてしまったとき
