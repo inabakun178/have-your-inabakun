@@ -58,15 +58,16 @@ const HeaderNavigation = () => {
       <header className="sticky top-0 z-[1100] h-[50px] w-full border-b border-white/10 md:h-[100px]">
         <div className="flex h-full items-center justify-between text-white">
           {/* TODO: ロゴを置く */}
-          {/* Chakra の Heading が持っていた太字は Tailwind の preflight で消えるので明示する */}
-          <h1 className="leading-none font-bold">
+          {/* サイト共通のブランド表示なのでページの見出し(h1)にはしない。
+              Chakra の Heading が持っていた太字は Tailwind の preflight で消えるので明示する */}
+          <p className="leading-none font-bold">
             <NextLink
               href="/"
               className="block text-[20px] tracking-[0.15em] transition-opacity duration-[400ms] hover:opacity-60 md:text-[40px]"
             >
               H.Inaba
             </NextLink>
-          </h1>
+          </p>
 
           {/* 右側グループ: PC ではナビ + ステータス、SP では [ MENU ] だけを出し分ける */}
           <div className="flex items-center gap-x-[40px] md:gap-x-[60px]">
