@@ -3,7 +3,7 @@ import ParticlePortrait from "./ParticlePortrait";
 
 const Fv = () => {
   return (
-    <div className="flex min-h-[calc(100vh_-_50px)] items-center justify-center mix-blend-difference md:min-h-[calc(100vh_-_100px)]">
+    <div className="flex min-h-[calc(100vh_-_50px)] items-center justify-center md:min-h-[calc(100vh_-_100px)]">
       <ParticlePortrait />
     </div>
   );

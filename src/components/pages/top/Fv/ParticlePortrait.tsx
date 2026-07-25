@@ -71,8 +71,8 @@ const ParticlePortrait = () => {
       if (destroyed) return;
 
       const logoSample = sampleImageParticles(logoImage, {
-        targetWidth: 760,
-        maxPoints: 6500,
+        targetWidth: 1100,
+        maxPoints: 13000,
         mode: "alpha",
         threshold: 20,
       });
@@ -124,7 +124,7 @@ const ParticlePortrait = () => {
           uTime: { value: 0 },
           uProgress: { value: 0 },
           uMouse: { value: [-9999, -9999] },
-          uPointSize: { value: 4.6 },
+          uPointSize: { value: 3.1 },
           uDpr: { value: renderer.dpr },
         },
       });
@@ -146,7 +146,7 @@ const ParticlePortrait = () => {
       // ロゴはできるだけ原寸に近いサイズで、コンテナいっぱいに収める
       const scale =
         Math.min(gl.canvas.width / LOGO_WIDTH, gl.canvas.height / LOGO_HEIGHT) *
-        0.92;
+        1.12;
 
       program.uniforms.uTime.value = elapsed;
       program.uniforms.uProgress.value = progress;

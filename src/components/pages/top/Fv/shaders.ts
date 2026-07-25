@@ -28,9 +28,20 @@ export const vertex = /* glsl */ `
     vec2 pos = mix(start, target, eased);
 
     // 常時のゆらぎ
-    float wobble = sin(uTime * 0.6 + aRandom.y * 6.2831853) * (1.4 + aRandom.x * 1.6);
-    float wobbleY = cos(uTime * 0.5 + aRandom.x * 6.2831853) * 1.2;
+    float wobble = sin(uTime * 0.3 + aRandom.y * 6.2831853) * (1.4 + aRandom.x * 1.6);
+    float wobbleY = cos(uTime * 0.25 + aRandom.x * 6.2831853) * 1.2;
     pos += vec2(wobble, wobbleY) * eased;
+
+    // 粒子ごとに軌道半径・速度をずらした螺旋運動
+    float spiralSpeed = 0.2 + aRandom.x * 0.25;
+    float spiralAngle = uTime * spiralSpeed + aRandom.y * 6.2831853;
+    float spiralRadius = (5.0 + aRandom.y * 9.0) *
+      (0.55 + 0.45 * sin(uTime * 0.15 + aRandom.x * 6.2831853));
+    pos += vec2(cos(spiralAngle), sin(spiralAngle)) * spiralRadius * eased;
+
+    // 形状全体がゆっくり収縮・拡大する呼吸運動
+    float breathe = 1.0 + sin(uTime * 0.3) * 0.08 + sin(uTime * 0.75) * 0.03;
+    pos *= mix(1.0, breathe, eased);
 
     vec2 screenPos = pos + uResolution * 0.5;
 
@@ -45,8 +56,13 @@ export const vertex = /* glsl */ `
     vec2 clip = (screenPos / uResolution) * 2.0 - 1.0;
     clip.y = -clip.y;
 
+    // ロゴの実際の描画スケールに応じて粒のサイズも比例させる。
+    // 画面が狭くロゴが小さく描かれるほど粒だけが相対的に大きくなり
+    // 文字が潰れて見えるため、スケールが小さいほど粒も小さくする
+    float sizeScale = clamp(uScale / 1.55, 0.55, 1.0);
+
     gl_Position = vec4(clip, 0.0, 1.0);
-    gl_PointSize = uPointSize * uDpr * (0.6 + aBrightness * 0.9) * mix(0.35, 1.0, eased);
+    gl_PointSize = uPointSize * uDpr * sizeScale * (0.6 + aBrightness * 0.9) * mix(0.35, 1.0, eased);
 
     vBrightness = aBrightness;
     vGradient = aGradient;
@@ -66,7 +82,7 @@ export const fragment = /* glsl */ `
     float d = length(uv);
     if (d > 0.5) discard;
 
-    float alpha = smoothstep(0.5, 0.0, d) * (0.3 + vBrightness * 0.7) * vEased;
+    float alpha = smoothstep(0.5, 0.0, d) * (0.55 + vBrightness * 0.45) * vEased;
 
     // 上から下にオレンジ→レッドのグラデーション
     vec3 orange = vec3(0.949, 0.451, 0.078); // #f27314

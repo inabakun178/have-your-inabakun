@@ -18,15 +18,23 @@ export const vertex = /* glsl */ `
   varying float vShape;
 
   void main() {
-    vec2 base = aPosition * uScale;
+    // 被写体の輪郭粒子(aShape=1)は画像座標系、画面全体の粒子(aShape=0)は
+    // 画面解像度基準の座標系(-0.5〜0.5の割合)を使い、画像アスペクト比に
+    // 依存せず常に画面全体へ均等に散らばるようにする
+    vec2 imageSpace = aPosition * uScale;
+    vec2 screenSpace = aPosition * uResolution;
+    vec2 base = mix(screenSpace, imageSpace, aShape);
 
     // 奥行きに応じて視差の強さを変える(近いほど大きく動く)
-    float parallaxStrength = mix(10.0, 60.0, aDepth) * uDpr;
+    float parallaxStrength = mix(20.0, 110.0, aDepth) * uDpr;
     vec2 offset = uParallax * parallaxStrength;
 
-    // 常時ゆっくり漂う
-    float driftX = sin(uTime * 0.22 + aRandom.x * 6.2831853) * mix(4.0, 14.0, aDepth);
-    float driftY = cos(uTime * 0.18 + aRandom.y * 6.2831853) * mix(4.0, 14.0, aDepth);
+    // 大きく漂う(円軌道寄りの動きで派手さを出す)
+    float driftSpeed = mix(0.35, 0.75, aRandom.x);
+    float driftRadius = mix(18.0, 70.0, aDepth) * (0.6 + 0.4 * aRandom.y);
+    float driftAngle = uTime * driftSpeed + aRandom.y * 6.2831853;
+    float driftX = cos(driftAngle) * driftRadius;
+    float driftY = sin(driftAngle * 1.3) * driftRadius;
 
     vec2 screenPos = base + uResolution * 0.5 + offset + vec2(driftX, driftY);
 
@@ -34,7 +42,7 @@ export const vertex = /* glsl */ `
     clip.y = -clip.y;
 
     // 明滅(twinkle)
-    float twinkle = 0.65 + 0.35 * sin(uTime * (0.8 + aRandom.x * 1.4) + aRandom.y * 6.2831853);
+    float twinkle = 0.5 + 0.5 * sin(uTime * (1.3 + aRandom.x * 2.2) + aRandom.y * 6.2831853);
 
     // 被写体の輪郭に沿う粒子は、周辺に散らす粒子より大きく・くっきり見せる
     float sizeBoost = mix(1.0, 2.2, aShape);
@@ -63,13 +71,31 @@ export const fragment = /* glsl */ `
     float d = length(uv);
     if (d > 0.5) discard;
 
-    float alphaBase = mix(0.14, 0.32, vShape) + vBrightness * mix(0.32, 0.55, vShape);
+    // 人型の輪郭(vShape=1)を周囲の散らばり粒子(vShape=0)よりはっきり
+    // 見せることで、粒子+線で人の形が読み取れるようにする
+    // (全体の不透明度はおよそ0.5前後になるよう半分にスケール)
+    float alphaBase =
+      (mix(0.4, 0.85, vShape) + vBrightness * mix(0.5, 1.0, vShape)) * 0.5;
     float alpha = smoothstep(0.5, 0.0, d) * alphaBase * vAlpha;
 
-    vec3 dust = vec3(1.0, 1.0, 1.0);
-    vec3 accent = vec3(0.949, 0.451, 0.078); // #f27314 (FVのグラデーションと揃える)
-    vec3 color = mix(dust, accent, vShape * 0.8);
+    // FVロゴ(オレンジ〜レッド)と色が競合して視認性が下がらないよう、
+    // 背景粒子はグレーに統一する
+    vec3 color = vec3(0.72, 0.72, 0.72);
 
     gl_FragColor = vec4(color, alpha);
+  }
+`;
+
+// 被写体の輪郭粒子どうしを結ぶ線(細胞膜・DNA鎖のような網目を表現する)
+export const lineFragment = /* glsl */ `
+  precision highp float;
+
+  varying float vBrightness;
+  varying float vAlpha;
+
+  void main() {
+    vec3 gray = vec3(0.78, 0.78, 0.78);
+    float alpha = (0.6 + vBrightness * 0.4) * vAlpha;
+    gl_FragColor = vec4(gray, alpha);
   }
 `;

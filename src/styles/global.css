@@ -15,6 +15,18 @@
   --color-background-sub: rgba(1, 1, 1, 0.5);
   /* 旧 COLORS.text.accent。現状どこからも使っていないが値は引き継いでおく */
   --color-text-accent: #e35800;
+
+  /* 背景画像 (site_bg.svg) を1倍から100倍まで7分かけてゆっくりズームさせるアニメーション */
+  --animate-bg-zoom: bg-zoom 420s linear infinite;
+}
+
+@keyframes bg-zoom {
+  from {
+    transform: scale(1);
+  }
+  to {
+    transform: scale(100);
+  }
 }
 
 @layer base {
