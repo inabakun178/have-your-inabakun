@@ -63,7 +63,7 @@ export const fragment = /* glsl */ `
     float d = length(uv);
     if (d > 0.5) discard;
 
-    float alphaBase = mix(0.25, 0.55, vShape) + vBrightness * mix(0.55, 0.9, vShape);
+    float alphaBase = mix(0.14, 0.32, vShape) + vBrightness * mix(0.32, 0.55, vShape);
     float alpha = smoothstep(0.5, 0.0, d) * alphaBase * vAlpha;
 
     vec3 dust = vec3(1.0, 1.0, 1.0);
