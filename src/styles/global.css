@@ -16,8 +16,8 @@
   /* 旧 COLORS.text.accent。現状どこからも使っていないが値は引き継いでおく */
   --color-text-accent: #e35800;
 
-  /* 背景画像 (site_bg.svg) をゆっくり拡大縮小させるアニメーション */
-  --animate-bg-zoom: bg-zoom 30s ease-in-out infinite alternate;
+  /* 背景画像 (site_bg.svg) を1倍から100倍まで7分かけてゆっくりズームさせるアニメーション */
+  --animate-bg-zoom: bg-zoom 420s linear infinite;
 }
 
 @keyframes bg-zoom {
@@ -25,7 +25,7 @@
     transform: scale(1);
   }
   to {
-    transform: scale(1.15);
+    transform: scale(100);
   }
 }
 
