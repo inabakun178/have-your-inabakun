@@ -38,8 +38,8 @@ const restLines: TerminalLine[] = [
   },
   {
     segments: [
-      { text: "Tokyo, Japan" },
-      { text: " // 東京", className: jaClass },
+      { text: "Izu → Tokyo, Japan" },
+      { text: " // 伊豆出身、東京在住", className: jaClass },
     ],
   },
   {
@@ -61,11 +61,39 @@ const restLines: TerminalLine[] = [
   },
   {
     segments: [
+      { text: "Loves AI and solving problems." },
+      { text: " // AIと課題解決が好き", className: jaClass },
+    ],
+  },
+  {
+    segments: [
+      { text: "$ ", className: promptClass },
+      { text: "cat motto.md", className: commandClass },
+      { text: " // 座右の銘", className: jaClass },
+    ],
+    wrapperClassName: "mt-6",
+  },
+  {
+    segments: [
+      { text: "Don't push yourself too hard." },
+      { text: " // 無理しない", className: jaClass },
+    ],
+  },
+  {
+    segments: [
+      { text: "$ ", className: promptClass },
+      { text: "cat hobbies.md", className: commandClass },
+      { text: " // 趣味", className: jaClass },
+    ],
+    wrapperClassName: "mt-6",
+  },
+  {
+    segments: [
       {
-        text: "Believes AI should redesign not only the product, but how the team builds it.",
+        text: "Sauna, live shows, camping, photography, weight training, cooking.",
       },
       {
-        text: " // AIはプロダクトだけでなく、チームの働き方も作り変えるものだと思っている",
+        text: " // サウナ・ライブ観戦・キャンプ・カメラ・筋トレ・料理",
         className: jaClass,
       },
     ],
