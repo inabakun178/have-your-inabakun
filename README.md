@@ -6,36 +6,36 @@
 
 ## 技術スタック
 
-- [Next.js 14](https://nextjs.org/) (Pages Router)
-- [TypeScript](https://www.typescriptlang.org/)
-- [Chakra UI](https://chakra-ui.com/) v2 / [Emotion](https://emotion.sh/)
+- [Next.js 16](https://nextjs.org/) (Pages Router)
+- [React 19](https://react.dev/) / [TypeScript](https://www.typescriptlang.org/)
+- [Tailwind CSS](https://tailwindcss.com/) v4
 - [Framer Motion](https://www.framer.com/motion/) — ページ遷移アニメーション
 - [react-animated-cursor](https://github.com/stephenscaff/react-animated-cursor) — カスタムカーソル
-- ESLint / Prettier / GitHub Actions
+- pnpm / ESLint / Prettier / GitHub Actions
 
 ## セットアップ
 
 ```bash
-npm install
-npm run dev
+pnpm install
+pnpm run dev
 ```
 
 [http://localhost:3000](http://localhost:3000) で開きます。
 
-> Node.js は CI と揃えて 21 以上を推奨。
+> Node.js は CI と揃えて 20.9 以上を推奨。
 
 ## コマンド
 
-| コマンド               | 内容                            |
-| ---------------------- | ------------------------------- |
-| `npm run dev`          | 開発サーバーを起動              |
-| `npm run build`        | プロダクションビルド            |
-| `npm run start`        | ビルド結果を起動                |
-| `npm run tsc`          | 型チェック                      |
-| `npm run lint:check`   | Lint（修正なし）                |
-| `npm run lint`         | Lint + 自動修正                 |
-| `npm run format:check` | Prettier のフォーマットチェック |
-| `npm run format`       | Prettier で整形                 |
+| コマンド                | 内容                             |
+| ----------------------- | -------------------------------- |
+| `pnpm run dev`          | 開発サーバーを起動               |
+| `pnpm run build`        | プロダクションビルド             |
+| `pnpm run start`        | ビルド結果を起動                 |
+| `pnpm run tsc`          | 型チェック                       |
+| `pnpm run lint:check`   | Lint（修正なし）                 |
+| `pnpm run lint`         | Lint + 自動修正                  |
+| `pnpm run format:check` | Prettier のフォーマットチェック  |
+| `pnpm run format`       | Prettier で整形                  |
 
 ## ページ構成
 
@@ -53,7 +53,7 @@ src/
 ├── components/
 │   ├── common/   # 全ページ共通のコンポーネント
 │   └── pages/    # 各ページ専用のコンポーネント
-├── lib/          # 配色定数、Chakra のテーマ
+├── lib/          # 配色定数、Tailwind のテーマ設定
 └── styles/       # グローバルCSS
 public/           # 画像・favicon など静的ファイル
 ```
@@ -65,5 +65,5 @@ public/           # 画像・favicon など静的ファイル
 main への push / PR で GitHub Actions が走ります（型チェック・Lint・フォーマットチェックが通ったらビルド）。ローカルでは以下で同じ内容を確認できます。
 
 ```bash
-npm run tsc && npm run lint:check && npm run format:check && npm run build
+pnpm run tsc && pnpm run lint:check && pnpm run format:check && pnpm run build
 ```
