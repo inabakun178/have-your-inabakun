@@ -4,7 +4,7 @@ export type ParticlePoint = {
   brightness: number;
 };
 
-type SampleMode = "luminance" | "alpha";
+type SampleMode = "luminance" | "luminance-bright" | "alpha";
 
 type SampleOptions = {
   /** サンプリング用に画像を描画するオフスクリーンcanvasの幅(px) */
@@ -13,7 +13,8 @@ type SampleOptions = {
   maxPoints: number;
   mode: SampleMode;
   /**
-   * luminance モード: これより暗い(背景でない)ピクセルを採用する閾値(0-255)
+   * luminance モード: これより暗い(背景でない)ピクセルを採用する閾値(0-255)。白背景の写真向け。
+   * luminance-bright モード: これより明るいピクセルを採用する閾値(0-255)。黒背景の写真向け。
    * alpha モード: これより不透明なピクセルを採用する閾値(0-255)
    */
   threshold: number;
@@ -71,6 +72,15 @@ export const sampleImageParticles = (
       }
 
       const luminance = r * 0.299 + g * 0.587 + b * 0.114;
+
+      if (mode === "luminance-bright") {
+        if (a > 128 && luminance > threshold) {
+          const brightness = Math.min(1, Math.max(0.25, luminance / 255));
+          candidates.push({ x, y, brightness });
+        }
+        continue;
+      }
+
       if (a > 128 && luminance < threshold) {
         // 暗いピクセルほど黒背景の上で目立つよう明るさを反転させる
         const brightness = Math.min(1, Math.max(0.25, 1 - luminance / 255));

@@ -2,6 +2,7 @@ import { ReactNode } from "react";
 import Head from "next/head";
 import HeaderNavigation from "../HeaderNavigation/HeaderNavigation";
 import SnsList from "../SnsList/SnsList";
+import ParticleBackdrop from "../ParticleBackdrop/ParticleBackdrop";
 import { motion } from "framer-motion";
 
 type PageTemplateProps = {
@@ -33,9 +34,10 @@ const PageTemplate = (props: PageTemplateProps) => {
       </Head>
       {/*
        * before: は背景（public/site_bg.svg）をグレースケールで画面に固定するもの。
-       * 中身より先に描かれるので、後ろに続く要素がその上に乗る。
+       * その上に同じ写真からサンプリングしたパーティクルを ParticleBackdrop で重ねる。
        */}
-      <div className="bg-background-main relative mx-auto min-h-screen w-full max-w-full px-[15px] before:fixed before:top-0 before:left-0 before:h-screen before:w-screen before:bg-[url('/site_bg.svg')] before:bg-cover before:bg-center before:bg-no-repeat before:grayscale before:content-[''] md:px-[50px]">
+      <div className="bg-background-main relative mx-auto min-h-screen w-full max-w-full px-[15px] before:fixed before:top-0 before:left-0 before:h-screen before:w-screen before:bg-[url('/site_bg.svg')] before:bg-cover before:bg-center before:bg-no-repeat before:opacity-60 before:grayscale before:content-[''] md:px-[50px]">
+        <ParticleBackdrop />
         <HeaderNavigation />
         <SnsList />
 

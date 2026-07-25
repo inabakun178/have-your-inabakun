@@ -3,7 +3,7 @@ export const vertex = /* glsl */ `
   attribute vec2 aStart;
   attribute vec2 aRandom;
   attribute float aBrightness;
-  attribute float aTint;
+  attribute float aGradient;
 
   uniform vec2 uResolution;
   uniform float uScale;
@@ -14,7 +14,7 @@ export const vertex = /* glsl */ `
   uniform float uDpr;
 
   varying float vBrightness;
-  varying float vTint;
+  varying float vGradient;
   varying float vEased;
 
   void main() {
@@ -49,7 +49,7 @@ export const vertex = /* glsl */ `
     gl_PointSize = uPointSize * uDpr * (0.6 + aBrightness * 0.9) * mix(0.35, 1.0, eased);
 
     vBrightness = aBrightness;
-    vTint = aTint;
+    vGradient = aGradient;
     vEased = eased;
   }
 `;
@@ -58,7 +58,7 @@ export const fragment = /* glsl */ `
   precision highp float;
 
   varying float vBrightness;
-  varying float vTint;
+  varying float vGradient;
   varying float vEased;
 
   void main() {
@@ -68,9 +68,10 @@ export const fragment = /* glsl */ `
 
     float alpha = smoothstep(0.5, 0.0, d) * (0.3 + vBrightness * 0.7) * vEased;
 
-    vec3 white = vec3(1.0, 1.0, 1.0);
-    vec3 orange = vec3(0.8902, 0.3451, 0.0); // #e35800
-    vec3 color = mix(white, orange, vTint);
+    // 上から下にオレンジ→レッドのグラデーション
+    vec3 orange = vec3(0.949, 0.451, 0.078); // #f27314
+    vec3 red = vec3(0.784, 0.098, 0.078); // #c81914
+    vec3 color = mix(orange, red, vGradient);
 
     gl_FragColor = vec4(color, alpha);
   }
