@@ -97,8 +97,8 @@ export const lineFragment = /* glsl */ `
 
   void main() {
     vec3 gray = vec3(0.78, 0.78, 0.78);
-    // 線が濃く見えすぎていたため、輪郭粒子と同じく0.6倍に抑えて透過させる
-    float alpha = (0.6 + vBrightness * 0.4) * vAlpha * 0.6;
+    // 線が濃く見えすぎていたため、0.3倍に抑えて透過させる
+    float alpha = (0.6 + vBrightness * 0.4) * vAlpha * 0.3;
     gl_FragColor = vec4(gray, alpha);
   }
 `;
