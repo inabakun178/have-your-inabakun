@@ -7,8 +7,8 @@
  */
 @theme {
   --font-serif:
-    "Playfair Display", "Times New Roman", "YuMincho", "Hiragino Mincho ProN",
-    "Yu Mincho", "MS PMincho", serif;
+    var(--font-playfair-display), "Times New Roman", "YuMincho",
+    "Hiragino Mincho ProN", "Yu Mincho", "MS PMincho", serif;
 
   --color-background-main: #111;
   /* rgb(1, 1, 1) の半透明。#000 や #111 の半透明ではないので black/50 で代用しない */
@@ -19,8 +19,8 @@
   /* profile ページのターミナル風UI (TerminalWindow) 用。配色はサイト本来のトンマナ
    * (黒・グレー・オレンジ) に合わせ、text-accent (#e35800) をアクセントとして使う */
   --font-mono:
-    "JetBrains Mono", "Fira Code", ui-monospace, "SFMono-Regular", Menlo,
-    Consolas, monospace;
+    var(--font-jetbrains-mono), "Fira Code", ui-monospace, "SFMono-Regular",
+    Menlo, Consolas, monospace;
   --color-cyber-bg: rgba(1, 1, 1, 0.6);
 
   /* ターミナルのキャレット点滅 */

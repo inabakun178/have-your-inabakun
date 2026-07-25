@@ -1,6 +1,8 @@
+"use client";
+
 import { useEffect, useRef } from "react";
 import { Geometry, Mesh, Program, Renderer } from "ogl";
-import { loadImage, sampleImageParticles } from "../../../lib/particleSampler";
+import { loadImage, sampleImageParticles } from "@/lib/particleSampler";
 import { fragment, lineFragment, vertex } from "./shaders";
 
 const FADE_IN_DURATION = 2.2; // 秒
