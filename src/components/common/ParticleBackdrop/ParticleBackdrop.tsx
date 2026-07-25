@@ -4,7 +4,7 @@ import { loadImage, sampleImageParticles } from "../../../lib/particleSampler";
 import { fragment, vertex } from "./shaders";
 
 const FADE_IN_DURATION = 2.2; // 秒
-const AMBIENT_COUNT = 4200; // 画面全体に散らす粒子数
+const AMBIENT_COUNT = 6500; // 画面全体に散らす粒子数
 
 /**
  * 背景画像(site_bg.svg)をパーティクルの浮遊メッシュとして描画する

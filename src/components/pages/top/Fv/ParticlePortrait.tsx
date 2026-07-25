@@ -71,10 +71,10 @@ const ParticlePortrait = () => {
       if (destroyed) return;
 
       const logoSample = sampleImageParticles(logoImage, {
-        targetWidth: 640,
-        maxPoints: 4200,
+        targetWidth: 760,
+        maxPoints: 6500,
         mode: "alpha",
-        threshold: 40,
+        threshold: 20,
       });
 
       const total = logoSample.points.length;
@@ -124,7 +124,7 @@ const ParticlePortrait = () => {
           uTime: { value: 0 },
           uProgress: { value: 0 },
           uMouse: { value: [-9999, -9999] },
-          uPointSize: { value: 3.2 },
+          uPointSize: { value: 4.6 },
           uDpr: { value: renderer.dpr },
         },
       });

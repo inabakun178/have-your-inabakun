@@ -38,9 +38,12 @@ export const vertex = /* glsl */ `
 
     // 被写体の輪郭に沿う粒子は、周辺に散らす粒子より大きく・くっきり見せる
     float sizeBoost = mix(1.0, 2.2, aShape);
+    // 粒子ごとの大小のばらつき(小さい粒が多く、たまに大きい粒が混ざる)
+    float sizeVariance = pow(fract(aRandom.x * 37.13 + aRandom.y * 91.7), 2.0);
+    float sizeRange = mix(0.35, 3.2, sizeVariance);
 
     gl_Position = vec4(clip, 0.0, 1.0);
-    gl_PointSize = uPointSize * uDpr * mix(0.6, 1.6, aDepth) * uProgress * twinkle * sizeBoost;
+    gl_PointSize = uPointSize * uDpr * mix(0.5, 1.4, aDepth) * sizeRange * uProgress * twinkle * sizeBoost;
 
     vBrightness = aBrightness * twinkle;
     vAlpha = uProgress;
