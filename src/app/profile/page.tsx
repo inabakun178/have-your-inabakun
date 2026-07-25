@@ -21,10 +21,7 @@ export default function Profile() {
           {"> "}
         </span>
         PROFILE
-        <span
-          className="animate-blink text-text-accent"
-          aria-hidden="true"
-        >
+        <span className="animate-blink text-text-accent" aria-hidden="true">
           ▌
         </span>
       </h1>
