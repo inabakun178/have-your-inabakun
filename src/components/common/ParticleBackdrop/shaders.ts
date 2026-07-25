@@ -91,7 +91,7 @@ export const lineFragment = /* glsl */ `
 
   void main() {
     vec3 accent = vec3(0.949, 0.451, 0.078); // #f27314
-    float alpha = (0.1 + vBrightness * 0.22) * vAlpha;
+    float alpha = (0.32 + vBrightness * 0.22) * vAlpha;
     gl_FragColor = vec4(accent, alpha);
   }
 `;
