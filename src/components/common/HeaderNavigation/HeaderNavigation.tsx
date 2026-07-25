@@ -6,10 +6,6 @@ const pageList = [
     name: "Profile",
     link: "/profile",
   },
-  {
-    name: "Contact",
-    link: "/contact",
-  },
 ];
 
 const HeaderNavigation = () => {

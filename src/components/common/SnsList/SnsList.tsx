@@ -10,11 +10,6 @@ const snsLinkList = [
     name: "Twitter",
   },
   {
-    link: "https://ja-jp.facebook.com/hayato.inaba.77",
-    image: "icon-facebook.svg",
-    name: "Facebook",
-  },
-  {
     link: "https://github.com/inabakun178",
     image: "icon-github.svg",
     name: "GitHub",
