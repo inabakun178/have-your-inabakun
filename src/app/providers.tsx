@@ -5,7 +5,7 @@ import { AnimatePresence } from "framer-motion";
 import { usePathname } from "next/navigation";
 
 const AnimatedCursor = dynamic(
-  () => import("../components/common/AnimatedCursor/AnimatedCursor"),
+  () => import("@/components/effects/AnimatedCursor/AnimatedCursor"),
   { ssr: false },
 );
 

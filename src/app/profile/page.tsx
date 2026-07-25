@@ -1,9 +1,9 @@
 import type { Metadata } from "next";
-import PageTemplate from "../../components/common/PageTemplate/PageTemplate";
-import ProfileTerminal from "../../components/pages/profile/ProfileTerminal/ProfileTerminal";
-import CareerTerminal from "../../components/pages/profile/CareerTerminal/CareerTerminal";
-import SkillTerminal from "../../components/pages/profile/SkillTerminal/SkillTerminal";
-import { buildMetadata } from "../../lib/seo";
+import PageTemplate from "@/components/layout/PageTemplate/PageTemplate";
+import ProfileTerminal from "@/components/profile/ProfileTerminal/ProfileTerminal";
+import CareerTerminal from "@/components/profile/CareerTerminal/CareerTerminal";
+import SkillTerminal from "@/components/profile/SkillTerminal/SkillTerminal";
+import { buildMetadata } from "@/lib/seo";
 
 export const metadata: Metadata = buildMetadata({
   title: "PROFILE",

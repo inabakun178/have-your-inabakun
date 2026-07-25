@@ -1,9 +1,9 @@
 import type { Metadata } from "next";
 import type { ReactNode } from "react";
 import { Playfair_Display, JetBrains_Mono } from "next/font/google";
-import "../styles/global.css";
+import "@/styles/global.css";
 import Providers from "./providers";
-import { SITE_URL, SITE_NAME, DEFAULT_DESCRIPTION } from "../lib/seo";
+import { SITE_URL, SITE_NAME, DEFAULT_DESCRIPTION } from "@/lib/seo";
 
 const playfairDisplay = Playfair_Display({
   subsets: ["latin"],

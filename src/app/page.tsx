@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
-import PageTemplate from "../components/common/PageTemplate/PageTemplate";
-import Fv from "../components/pages/top/Fv/Fv";
-import { buildMetadata } from "../lib/seo";
+import PageTemplate from "@/components/layout/PageTemplate/PageTemplate";
+import Fv from "@/components/top/Fv/Fv";
+import { buildMetadata } from "@/lib/seo";
 
 // TODO: パッケージのアプデ
 export const metadata: Metadata = buildMetadata({

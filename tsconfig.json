@@ -20,7 +20,7 @@
     "incremental": true,
     "paths": {
       "@/*": [
-        "./*"
+        "./src/*"
       ]
     },
     "plugins": [
@@ -33,7 +33,6 @@
     "next-env.d.ts",
     "**/*.ts",
     "**/*.tsx",
-    "src/pages/_app.jsx",
     ".next/types/**/*.ts",
     ".next/dev/types/**/*.ts"
   ],

@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
-import PageTemplate from "../components/common/PageTemplate/PageTemplate";
-import { buildMetadata } from "../lib/seo";
+import PageTemplate from "@/components/layout/PageTemplate/PageTemplate";
+import { buildMetadata } from "@/lib/seo";
 
 export const metadata: Metadata = buildMetadata({
   title: "404 Not Found",
