@@ -52,7 +52,7 @@ const HeaderNavigation = () => {
 
   return (
     <>
-      <header className="sticky top-0 z-[1100] h-[50px] w-full md:h-[100px]">
+      <header className="sticky top-0 z-[1100] h-[50px] w-full border-b border-white/10 md:h-[100px]">
         <div className="flex h-full items-center justify-between text-white">
           {/* TODO: ロゴを置く */}
           {/* Chakra の Heading が持っていた太字は Tailwind の preflight で消えるので明示する */}
@@ -65,34 +65,51 @@ const HeaderNavigation = () => {
             </NextLink>
           </h1>
 
-          <ul className="hidden md:flex">
-            {pageList.map((page, index) => (
-              <li
-                key={page.name}
-                className={index === 0 ? undefined : "ml-[60px]"}
-              >
-                <NextLink
-                  href={page.link}
-                  className="text-[18px] tracking-[0.1em] transition-opacity duration-[400ms] hover:opacity-60"
+          {/* 右側グループ: PC ではナビ + ステータス、SP では [ MENU ] だけを出し分ける */}
+          <div className="flex items-center gap-x-[40px] md:gap-x-[60px]">
+            <ul className="hidden md:flex">
+              {pageList.map((page, index) => (
+                <li
+                  key={page.name}
+                  className={index === 0 ? undefined : "ml-[60px]"}
                 >
-                  {page.name}
-                </NextLink>
-              </li>
-            ))}
-          </ul>
+                  {/* クリックを誘いたいので角括弧のコマンド表記 + グロウ点滅にする */}
+                  <NextLink
+                    href={page.link}
+                    className="group animate-profile-pulse font-mono text-[17px] tracking-[0.15em] text-text-accent transition-colors duration-300 hover:text-white"
+                  >
+                    <span className="mr-1 inline-block transition-transform duration-300 group-hover:-translate-x-0.5">
+                      [
+                    </span>
+                    {page.name.toLowerCase()}
+                    <span className="ml-1 inline-block transition-transform duration-300 group-hover:translate-x-0.5">
+                      ]
+                    </span>
+                  </NextLink>
+                </li>
+              ))}
+            </ul>
 
-          {/* h-10 w-10 は Chakra の Button (size md) の既定サイズを引き継いだもの */}
-          <button
-            type="button"
-            ref={openButtonRef}
-            onClick={onOpen}
-            aria-label="メニューを開く"
-            aria-expanded={isOpen}
-            className="relative block h-10 w-10 md:hidden"
-          >
-            <span className="absolute top-[10px] left-0 h-0.5 w-full bg-white" />
-            <span className="absolute bottom-[10px] left-0 h-0.5 w-full bg-white" />
-          </button>
+            {/* 端末のステータスバー風の演出。SP では場所が狭いので出さない */}
+            <div className="hidden items-center gap-x-2 font-mono text-[11px] tracking-[0.2em] text-white/50 md:flex">
+              <span
+                className="bg-text-accent h-[6px] w-[6px] animate-status-blink rounded-full"
+                aria-hidden="true"
+              />
+              ONLINE
+            </div>
+
+            <button
+              type="button"
+              ref={openButtonRef}
+              onClick={onOpen}
+              aria-label="メニューを開く"
+              aria-expanded={isOpen}
+              className="text-text-accent font-mono text-[13px] tracking-[0.15em] transition-colors duration-300 hover:text-white md:hidden"
+            >
+              [ MENU ]
+            </button>
+          </div>
         </div>
       </header>
 
@@ -141,9 +158,15 @@ const HeaderNavigation = () => {
                   <NextLink
                     href={page.link}
                     onClick={onClose}
-                    className="block p-5 text-[25px] tracking-[0.1em] hover:opacity-60"
+                    className="group text-text-accent block p-5 font-mono text-[25px] tracking-[0.1em] transition-colors duration-300 hover:text-white"
                   >
-                    {page.name}
+                    <span className="mr-1 inline-block transition-transform duration-300 group-hover:-translate-x-0.5">
+                      [
+                    </span>
+                    {page.name.toLowerCase()}
+                    <span className="ml-1 inline-block transition-transform duration-300 group-hover:translate-x-0.5">
+                      ]
+                    </span>
                   </NextLink>
                 </li>
               ))}
