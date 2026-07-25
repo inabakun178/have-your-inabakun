@@ -10,7 +10,8 @@ import { fragment, vertex } from "./shaders";
 const LOGO_WIDTH = 943;
 const LOGO_HEIGHT = 471;
 
-const CONVERGE_DURATION = 1.6; // 秒
+const CONVERGE_DURATION = 2.0; // 秒(一筆書きの描画時間)
+const START_DELAY = 1.0; // 秒(背景画像を先に見せてから一筆書きを始めるまでの待ち時間)
 
 const ParticlePortrait = () => {
   const containerRef = useRef<HTMLDivElement>(null);
@@ -83,6 +84,45 @@ const ParticlePortrait = () => {
       const randoms = new Float32Array(total * 2);
       const brightness = new Float32Array(total);
       const gradient = new Float32Array(total);
+      const order = new Float32Array(total);
+
+      // 「have your inabakun」の読み順(1行目を左→右に書き切ってから
+      // 2行目を左→右)で一筆書きさせるため、y方向の密度が最も薄い箇所
+      // (2行の間の谷)を境界として2行に分け、行ごとにx順で並べる。
+      // 筆記体で行間に完全な空白行は無いため、隙間検出ではなく
+      // ヒストグラムの谷で分離する。
+      const BIN_COUNT = 60;
+      const binHeight = logoSample.height / BIN_COUNT;
+      const histogram = new Array(BIN_COUNT).fill(0);
+      logoSample.points.forEach((point) => {
+        const bin = Math.min(
+          BIN_COUNT - 1,
+          Math.floor(point.y / binHeight),
+        );
+        histogram[bin] += 1;
+      });
+      const searchStart = Math.floor(BIN_COUNT * 0.25);
+      const searchEnd = Math.floor(BIN_COUNT * 0.75);
+      let minCount = Infinity;
+      let minBin = Math.floor(BIN_COUNT / 2);
+      for (let b = searchStart; b <= searchEnd; b++) {
+        if (histogram[b] < minCount) {
+          minCount = histogram[b];
+          minBin = b;
+        }
+      }
+      const rowBoundary = (minBin + 0.5) * binHeight;
+      const rowCount = 2;
+      const rowOf = (y: number) => (y < rowBoundary ? 0 : 1);
+      const rowXRange = Array.from({ length: rowCount }, () => ({
+        min: Infinity,
+        max: -Infinity,
+      }));
+      logoSample.points.forEach((point) => {
+        const range = rowXRange[rowOf(point.y)];
+        if (point.x < range.min) range.min = point.x;
+        if (point.x > range.max) range.max = point.x;
+      });
 
       logoSample.points.forEach((point, index) => {
         const vx = (point.x / logoSample.width) * LOGO_WIDTH - LOGO_WIDTH / 2;
@@ -93,16 +133,27 @@ const ParticlePortrait = () => {
         targets[i2] = vx;
         targets[i2 + 1] = vy;
 
-        const angle = Math.random() * Math.PI * 2;
-        const radius = 260 + Math.random() * 480;
-        starts[i2] = Math.cos(angle) * radius;
-        starts[i2 + 1] = Math.sin(angle) * radius - 40;
+        // 一筆書きのように左から右へ順番にペン先が通ったところへ
+        // インクが乗るイメージで、目標位置のすぐ近く・やや左後方から出現させる
+        const jitterAngle = Math.random() * Math.PI * 2;
+        const jitterRadius = 14 + Math.random() * 34;
+        starts[i2] = vx + Math.cos(jitterAngle) * jitterRadius - 26;
+        starts[i2 + 1] = vy + Math.sin(jitterAngle) * jitterRadius;
 
         randoms[i2] = Math.random();
         randoms[i2 + 1] = Math.random();
         brightness[index] = point.brightness;
         // 上端(オレンジ)から下端(レッド)へのグラデーション位置
         gradient[index] = vy / LOGO_HEIGHT + 0.5;
+        // ペン先が通過する順番。「have your」を書き切ってから「inabakun」
+        // に進むよう、行番号 + 行内でのx位置で決める
+        const row = rowOf(point.y);
+        const range = rowXRange[row];
+        const xInRow =
+          range.max > range.min
+            ? (point.x - range.min) / (range.max - range.min)
+            : 0;
+        order[index] = (row + xInRow) / rowCount;
       });
 
       const geometry = new Geometry(gl, {
@@ -111,6 +162,7 @@ const ParticlePortrait = () => {
         aRandom: { size: 2, data: randoms },
         aBrightness: { size: 1, data: brightness },
         aGradient: { size: 1, data: gradient },
+        aOrder: { size: 1, data: order },
       });
 
       program = new Program(gl, {
@@ -131,7 +183,7 @@ const ParticlePortrait = () => {
 
       mesh = new Mesh(gl, { mode: gl.POINTS, geometry, program });
       resize();
-      startTime = performance.now();
+      startTime = performance.now() + START_DELAY * 1000;
     };
 
     const tick = (now: number) => {
@@ -141,7 +193,7 @@ const ParticlePortrait = () => {
       mouse.x += (targetMouse.x - mouse.x) * 0.18;
       mouse.y += (targetMouse.y - mouse.y) * 0.18;
 
-      const elapsed = (now - startTime) / 1000;
+      const elapsed = Math.max(0, (now - startTime) / 1000);
       const progress = Math.min(1, elapsed / CONVERGE_DURATION);
       // ロゴはできるだけ原寸に近いサイズで、コンテナいっぱいに収める
       const scale =

@@ -4,6 +4,7 @@ import { loadImage, sampleImageParticles } from "../../../lib/particleSampler";
 import { fragment, lineFragment, vertex } from "./shaders";
 
 const FADE_IN_DURATION = 2.2; // 秒
+const START_DELAY = 1.0; // 秒(出現タイミングを遅らせる待ち時間)
 const AMBIENT_COUNT = 9000; // 画面全体に散らす粒子数
 const CONNECT_RADIUS = 20; // 輪郭粒子どうしを線で結ぶ距離(画像座標系, px)
 const MAX_NEIGHBORS_PER_POINT = 2; // 1点あたりの最大接続数(多すぎると網目が潰れる)
@@ -328,7 +329,7 @@ const ParticleBackdrop = () => {
       }
 
       resize();
-      startTime = performance.now();
+      startTime = performance.now() + START_DELAY * 1000;
     };
 
     const tick = (now: number) => {
@@ -338,7 +339,7 @@ const ParticleBackdrop = () => {
       parallax.x += (targetParallax.x - parallax.x) * 0.05;
       parallax.y += (targetParallax.y - parallax.y) * 0.05;
 
-      const elapsed = (now - startTime) / 1000;
+      const elapsed = Math.max(0, (now - startTime) / 1000);
       const progress = Math.min(1, elapsed / FADE_IN_DURATION);
       // 画面全体を覆うcover相当のスケール
       const scale = Math.max(
