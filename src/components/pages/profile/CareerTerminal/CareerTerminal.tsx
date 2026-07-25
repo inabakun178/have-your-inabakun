@@ -35,6 +35,7 @@ const lines: TerminalLine[] = [
     segments: [
       { text: "$ ", className: promptClass },
       { text: "history --career", className: commandClass },
+      { text: " // 職務経歴", className: jaClass },
     ],
   },
   ...careerList.flatMap((career, index): TerminalLine[] => [

@@ -37,6 +37,7 @@ const lines: TerminalLine[] = [
     segments: [
       { text: "$ ", className: promptClass },
       { text: "stack --core", className: commandClass },
+      { text: " // 得意分野", className: jaClass },
     ],
   },
   ...coreSkills.map((skill, index) =>
@@ -46,6 +47,7 @@ const lines: TerminalLine[] = [
     segments: [
       { text: "$ ", className: promptClass },
       { text: "stack --frontend", className: commandClass },
+      { text: " // フロントエンド技術", className: jaClass },
     ],
     wrapperClassName: "mt-6",
   },
@@ -56,6 +58,7 @@ const lines: TerminalLine[] = [
     segments: [
       { text: "$ ", className: promptClass },
       { text: "stack --ai", className: commandClass },
+      { text: " // AI活用", className: jaClass },
     ],
     wrapperClassName: "mt-6",
   },
@@ -76,11 +79,15 @@ const lines: TerminalLine[] = [
     segments: [
       { text: "$ ", className: promptClass },
       { text: "stack --legacy", className: commandClass },
+      { text: " // 現役レガシー技術", className: jaClass },
     ],
     wrapperClassName: "mt-6",
   },
   {
-    segments: [{ text: "- WordPress (still kicking)", className: legacyClass }],
+    segments: [
+      { text: "- WordPress (still kicking)", className: legacyClass },
+      { text: " // 古いけどまだ現役", className: jaClass },
+    ],
     wrapperClassName: "mt-2",
   },
 ];

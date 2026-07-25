@@ -14,6 +14,7 @@ const introLines: TerminalLine[] = [
     segments: [
       { text: "$ ", className: promptClass },
       { text: "whoami", className: commandClass },
+      { text: " // 自己紹介", className: jaClass },
     ],
   },
   {
@@ -45,6 +46,7 @@ const restLines: TerminalLine[] = [
     segments: [
       { text: "$ ", className: promptClass },
       { text: "cat about.md", className: commandClass },
+      { text: " // 自己紹介文", className: jaClass },
     ],
     wrapperClassName: "mt-6",
   },
