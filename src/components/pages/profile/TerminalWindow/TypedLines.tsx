@@ -1,3 +1,4 @@
+import { useEffect } from "react";
 import {
   useTypewriter,
   type TerminalLine,
@@ -8,6 +9,11 @@ type TypedLinesProps = {
   lines: TerminalLine[];
   speed?: number;
   startDelay?: number;
+  // 全行の入力が完了した瞬間に1度だけ呼ばれる
+  onFinished?: () => void;
+  // true のとき、入力完了後の「次のコマンド待ち」プロンプトを表示しない
+  // (呼び出し側で入力完了後に追加のコンテンツを差し込みたい場合に使う)
+  hideTrailingPrompt?: boolean;
 };
 
 // 表示済み文字数 (charLimit) の分だけ、セグメントを前から切り出す
@@ -34,6 +40,12 @@ const TypedLines = (props: TypedLinesProps) => {
     startDelay: props.startDelay,
   });
 
+  useEffect(() => {
+    if (progress.finished) props.onFinished?.();
+    // onFinished は毎レンダー新しい関数が渡される可能性があるため依存配列に含めない
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [progress.finished]);
+
   return (
     <>
       {props.lines.map((line, index) => {
@@ -58,7 +70,7 @@ const TypedLines = (props: TypedLinesProps) => {
         );
       })}
       {/* 全行の入力が終わったら、次のコマンドを待つプロンプトを表示する */}
-      {progress.finished && (
+      {progress.finished && !props.hideTrailingPrompt && (
         <p className="mt-6">
           <span className="text-text-accent">$</span>{" "}
           <span className="text-text-accent animate-blink">▌</span>

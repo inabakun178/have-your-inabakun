@@ -3,6 +3,8 @@ import { motion } from "framer-motion";
 
 type TerminalWindowProps = {
   title: string;
+  // タイトル横に添える日本語コメント (例: "プロフィール")
+  titleJa?: string;
   children: ReactNode;
   // 複数のターミナルを起動時に少しずつずらして立ち上げるための遅延 (秒)
   bootDelay?: number;
@@ -26,6 +28,11 @@ const TerminalWindow = (props: TerminalWindowProps) => {
         </span>
         <p className="text-[11px] tracking-[0.15em] text-white/50 md:text-[13px]">
           {props.title}
+          {props.titleJa && (
+            <span className="text-[10px] text-white/30 md:text-[11px]">
+              {` // ${props.titleJa}`}
+            </span>
+          )}
         </p>
       </div>
       <div className="px-5 py-6 text-[13px] leading-[1.9] break-words text-white/80 md:px-8 md:py-8 md:text-[15px]">

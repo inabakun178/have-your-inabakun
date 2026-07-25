@@ -87,7 +87,11 @@ const lines: TerminalLine[] = [
 
 const SkillTerminal = () => {
   return (
-    <TerminalWindow title="~/skillset — stack" bootDelay={0.8}>
+    <TerminalWindow
+      title="~/skillset — stack"
+      titleJa="スキルセット"
+      bootDelay={0.8}
+    >
       <TypedLines lines={lines} startDelay={1800} />
     </TerminalWindow>
   );

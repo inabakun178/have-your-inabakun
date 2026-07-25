@@ -54,7 +54,7 @@ const lines: TerminalLine[] = [
 
 const CareerTerminal = () => {
   return (
-    <TerminalWindow title="~/career — history" bootDelay={0.4}>
+    <TerminalWindow title="~/career — history" titleJa="経歴" bootDelay={0.4}>
       <TypedLines lines={lines} startDelay={1400} />
     </TerminalWindow>
   );
