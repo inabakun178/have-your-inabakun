@@ -18,15 +18,23 @@ export const vertex = /* glsl */ `
   varying float vShape;
 
   void main() {
-    vec2 base = aPosition * uScale;
+    // 被写体の輪郭粒子(aShape=1)は画像座標系、画面全体の粒子(aShape=0)は
+    // 画面解像度基準の座標系(-0.5〜0.5の割合)を使い、画像アスペクト比に
+    // 依存せず常に画面全体へ均等に散らばるようにする
+    vec2 imageSpace = aPosition * uScale;
+    vec2 screenSpace = aPosition * uResolution;
+    vec2 base = mix(screenSpace, imageSpace, aShape);
 
     // 奥行きに応じて視差の強さを変える(近いほど大きく動く)
-    float parallaxStrength = mix(10.0, 60.0, aDepth) * uDpr;
+    float parallaxStrength = mix(20.0, 110.0, aDepth) * uDpr;
     vec2 offset = uParallax * parallaxStrength;
 
-    // 常時ゆっくり漂う
-    float driftX = sin(uTime * 0.22 + aRandom.x * 6.2831853) * mix(4.0, 14.0, aDepth);
-    float driftY = cos(uTime * 0.18 + aRandom.y * 6.2831853) * mix(4.0, 14.0, aDepth);
+    // 大きく漂う(円軌道寄りの動きで派手さを出す)
+    float driftSpeed = mix(0.35, 0.75, aRandom.x);
+    float driftRadius = mix(18.0, 70.0, aDepth) * (0.6 + 0.4 * aRandom.y);
+    float driftAngle = uTime * driftSpeed + aRandom.y * 6.2831853;
+    float driftX = cos(driftAngle) * driftRadius;
+    float driftY = sin(driftAngle * 1.3) * driftRadius;
 
     vec2 screenPos = base + uResolution * 0.5 + offset + vec2(driftX, driftY);
 
@@ -34,7 +42,7 @@ export const vertex = /* glsl */ `
     clip.y = -clip.y;
 
     // 明滅(twinkle)
-    float twinkle = 0.65 + 0.35 * sin(uTime * (0.8 + aRandom.x * 1.4) + aRandom.y * 6.2831853);
+    float twinkle = 0.5 + 0.5 * sin(uTime * (1.3 + aRandom.x * 2.2) + aRandom.y * 6.2831853);
 
     // 被写体の輪郭に沿う粒子は、周辺に散らす粒子より大きく・くっきり見せる
     float sizeBoost = mix(1.0, 2.2, aShape);
@@ -63,7 +71,7 @@ export const fragment = /* glsl */ `
     float d = length(uv);
     if (d > 0.5) discard;
 
-    float alphaBase = mix(0.25, 0.55, vShape) + vBrightness * mix(0.55, 0.9, vShape);
+    float alphaBase = mix(0.55, 0.7, vShape) + vBrightness * mix(0.6, 0.9, vShape);
     float alpha = smoothstep(0.5, 0.0, d) * alphaBase * vAlpha;
 
     vec3 dust = vec3(1.0, 1.0, 1.0);

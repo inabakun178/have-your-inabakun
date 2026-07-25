@@ -4,7 +4,7 @@ import { loadImage, sampleImageParticles } from "../../../lib/particleSampler";
 import { fragment, vertex } from "./shaders";
 
 const FADE_IN_DURATION = 2.2; // 秒
-const AMBIENT_COUNT = 6500; // 画面全体に散らす粒子数
+const AMBIENT_COUNT = 9000; // 画面全体に散らす粒子数
 
 /**
  * 背景画像(site_bg.svg)をパーティクルの浮遊メッシュとして描画する
@@ -54,11 +54,65 @@ const ParticleBackdrop = () => {
     const parallax = { x: 0, y: 0 };
     const targetParallax = { x: 0, y: 0 };
 
+    // スマホ(タッチ主体の端末)ではマウス座標の代わりに端末の傾き(ジャイロ)で
+    // パララックスを動かす
+    const isCoarsePointer = window.matchMedia?.("(pointer: coarse)").matches;
+
     const handlePointerMove = (event: PointerEvent) => {
+      if (isCoarsePointer) return;
       targetParallax.x = (event.clientX / window.innerWidth) * 2 - 1;
       targetParallax.y = (event.clientY / window.innerHeight) * 2 - 1;
     };
     window.addEventListener("pointermove", handlePointerMove);
+
+    const GYRO_TILT_RANGE = 24; // deg
+    // 手持ちの自然な傾き(縦持ちでやや手前に傾く)を中央として補正
+    const GYRO_BETA_CENTER = 40; // deg
+
+    const handleOrientation = (event: DeviceOrientationEvent) => {
+      if (event.gamma === null || event.beta === null) return;
+      targetParallax.x = Math.max(
+        -1,
+        Math.min(1, event.gamma / GYRO_TILT_RANGE),
+      );
+      targetParallax.y = Math.max(
+        -1,
+        Math.min(1, (event.beta - GYRO_BETA_CENTER) / GYRO_TILT_RANGE),
+      );
+    };
+
+    const enableGyro = () => {
+      window.addEventListener("deviceorientation", handleOrientation);
+    };
+
+    type DeviceOrientationEventIOS = typeof DeviceOrientationEvent & {
+      requestPermission?: () => Promise<"granted" | "denied">;
+    };
+
+    const requestGyroPermission = () => {
+      const DOE = DeviceOrientationEvent as DeviceOrientationEventIOS;
+      if (typeof DOE.requestPermission === "function") {
+        DOE.requestPermission()
+          .then((state) => {
+            if (state === "granted") enableGyro();
+          })
+          .catch(() => {});
+      } else {
+        enableGyro();
+      }
+    };
+
+    if (isCoarsePointer && typeof DeviceOrientationEvent !== "undefined") {
+      const DOE = DeviceOrientationEvent as DeviceOrientationEventIOS;
+      if (typeof DOE.requestPermission === "function") {
+        // iOSはユーザー操作(タップ)を起点にしないと許可ダイアログを出せない
+        window.addEventListener("touchend", requestGyroPermission, {
+          once: true,
+        });
+      } else {
+        enableGyro();
+      }
+    }
 
     const init = async () => {
       const image = await loadImage("/site_bg.svg");
@@ -97,17 +151,19 @@ const ParticleBackdrop = () => {
         shape[index] = 1;
       });
 
-      // 画面全体(cover領域より少し広め)にランダムに散らばる粒子
+      // 画面全体(端まで少し広め)にランダムに散らばる粒子
+      // 画面解像度に対する割合(-0.5〜0.5)で配置するため、画像のアスペクト比に
+      // 依存せず常に画面いっぱいに均等に散らばる
       for (let i = 0; i < AMBIENT_COUNT; i++) {
         const index = sample.points.length + i;
         const i2 = index * 2;
-        positions[i2] = (Math.random() - 0.5) * imageWidth * 1.2;
-        positions[i2 + 1] = (Math.random() - 0.5) * imageHeight * 1.2;
+        positions[i2] = (Math.random() - 0.5) * 1.15;
+        positions[i2 + 1] = (Math.random() - 0.5) * 1.15;
 
         randoms[i2] = Math.random();
         randoms[i2 + 1] = Math.random();
         depths[index] = Math.random();
-        brightness[index] = 0.15 + Math.random() * 0.35;
+        brightness[index] = 0.4 + Math.random() * 0.5;
         shape[index] = 0;
       }
 
@@ -130,7 +186,7 @@ const ParticleBackdrop = () => {
           uTime: { value: 0 },
           uProgress: { value: 0 },
           uParallax: { value: [0, 0] },
-          uPointSize: { value: 2.2 },
+          uPointSize: { value: 2.7 },
           uDpr: { value: renderer.dpr },
         },
       });
@@ -170,6 +226,8 @@ const ParticleBackdrop = () => {
       cancelAnimationFrame(raf);
       window.removeEventListener("resize", resize);
       window.removeEventListener("pointermove", handlePointerMove);
+      window.removeEventListener("touchend", requestGyroPermission);
+      window.removeEventListener("deviceorientation", handleOrientation);
       if (gl.canvas.parentElement === container) {
         container.removeChild(gl.canvas);
       }
