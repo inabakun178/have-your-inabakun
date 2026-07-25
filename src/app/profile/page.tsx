@@ -16,10 +16,19 @@ export default function Profile() {
   return (
     <PageTemplate>
       {/* ターミナルのプロンプト風見出し。他ページに h1 が無いのでここで補う */}
-      <h1 className="mt-[50px] flex items-center gap-2 font-mono text-[28px] tracking-[0.2em] text-white md:mt-[100px] md:text-[40px]">
+      <h1 className="mt-[50px] flex items-center gap-3 font-mono text-[28px] tracking-[0.2em] text-white md:mt-[100px] md:gap-4 md:text-[40px]">
         <span className="text-text-accent" aria-hidden="true">
           {"> "}
         </span>
+        {/* favicon と同じイナバくんの顔写真をターミナルのアバター風に添える */}
+        {/* png をそのまま出したいので next/image は使わない */}
+        {/* eslint-disable-next-line @next/next/no-img-element */}
+        <img
+          src="/inabakun-face.png"
+          alt=""
+          aria-hidden="true"
+          className="border-text-accent/50 bg-cyber-bg h-8 w-8 rounded-full border object-cover grayscale md:h-11 md:w-11"
+        />
         PROFILE
         <span className="animate-blink text-text-accent" aria-hidden="true">
           ▌
