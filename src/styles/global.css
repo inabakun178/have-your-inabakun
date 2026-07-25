@@ -16,14 +16,14 @@
   /* 旧 COLORS.text.accent。現状どこからも使っていないが値は引き継いでおく */
   --color-text-accent: #e35800;
 
-  /* 背景画像 (site_bg.svg) を1倍から1.15倍まで7分かけてゆっくりズームさせるアニメーション。
+  /* 背景画像 (site_bg.svg) を1倍から1.15倍まで5分かけてゆっくりズームさせるアニメーション。
    * (以前は100倍まで拡大していたが、7分かけても序盤の変化量が大きく速く感じられたため
    * 控えめな倍率に変更)
    * ぼかし解除・不透明度アップはズームより短い60秒で完了させ、画像が先にくっきり見える
    * ようにする(ズームと同じ秒数だと変化が遅すぎて体感できないため)。
    * どちらも1回再生したらループさせず最終状態のまま止める */
   --animate-bg-zoom:
-    bg-zoom-scale 420s linear forwards, bg-zoom-clarity 60s linear forwards;
+    bg-zoom-scale 300s linear forwards, bg-zoom-clarity 60s linear forwards;
 }
 
 @keyframes bg-zoom-scale {
