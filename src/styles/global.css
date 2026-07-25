@@ -47,7 +47,6 @@
 }
 
 @layer base {
-
   /*
    * Chakra の CSSReset が body に当てていた font-family / color / background の代替。
    * ChakraProvider を外すと消えるので明示する。
