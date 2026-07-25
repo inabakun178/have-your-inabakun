@@ -16,26 +16,38 @@
   /* 旧 COLORS.text.accent。現状どこからも使っていないが値は引き継いでおく */
   --color-text-accent: #e35800;
 
-  /* 背景画像 (site_bg.svg) を1倍から100倍まで70分かけてゆっくりズームさせるアニメーション。
-   * ズームに合わせてぼかしを弱め不透明度を上げ、画像がじわじわくっきり見えるようにする。
-   * 1回再生したらループさせず最終状態(scale(100)・くっきり)のまま止める */
-  --animate-bg-zoom: bg-zoom 4200s linear forwards;
+  /* 背景画像 (site_bg.svg) を1倍から100倍まで15分かけてゆっくりズームさせるアニメーション。
+   * ぼかし解除・不透明度アップはズームより短い60秒で完了させ、画像が先にくっきり見える
+   * ようにする(ズームと同じ秒数だと変化が遅すぎて体感できないため)。
+   * どちらも1回再生したらループさせず最終状態のまま止める */
+  --animate-bg-zoom:
+    bg-zoom-scale 1800s linear forwards, bg-zoom-clarity 30s linear forwards;
 }
 
-@keyframes bg-zoom {
+@keyframes bg-zoom-scale {
   from {
     transform: scale(1);
+  }
+
+  to {
+    transform: scale(100);
+  }
+}
+
+@keyframes bg-zoom-clarity {
+  from {
     filter: blur(6px) grayscale(1);
     opacity: 0.25;
   }
+
   to {
-    transform: scale(100);
-    filter: blur(0px) grayscale(1);
-    opacity: 0.75;
+    filter: blur(0px) grayscale(0.6);
+    opacity: 1;
   }
 }
 
 @layer base {
+
   /*
    * Chakra の CSSReset が body に当てていた font-family / color / background の代替。
    * ChakraProvider を外すと消えるので明示する。
