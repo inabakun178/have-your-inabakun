@@ -77,8 +77,8 @@ export const fragment = /* glsl */ `
     float alpha = smoothstep(0.5, 0.0, d) * alphaBase * vAlpha;
 
     // FVロゴ(オレンジ〜レッド)と色が競合して視認性が下がらないよう、
-    // 背景粒子はすべて白に統一する
-    vec3 color = vec3(1.0, 1.0, 1.0);
+    // 背景粒子はグレーに統一する
+    vec3 color = vec3(0.72, 0.72, 0.72);
 
     gl_FragColor = vec4(color, alpha);
   }
@@ -92,8 +92,8 @@ export const lineFragment = /* glsl */ `
   varying float vAlpha;
 
   void main() {
-    vec3 white = vec3(1.0, 1.0, 1.0);
-    float alpha = (0.55 + vBrightness * 0.4) * vAlpha;
-    gl_FragColor = vec4(white, alpha);
+    vec3 gray = vec3(0.78, 0.78, 0.78);
+    float alpha = (0.6 + vBrightness * 0.4) * vAlpha;
+    gl_FragColor = vec4(gray, alpha);
   }
 `;

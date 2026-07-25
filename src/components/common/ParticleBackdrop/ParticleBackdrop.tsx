@@ -5,7 +5,7 @@ import { fragment, lineFragment, vertex } from "./shaders";
 
 const FADE_IN_DURATION = 2.2; // 秒
 const AMBIENT_COUNT = 9000; // 画面全体に散らす粒子数
-const CONNECT_RADIUS = 16; // 輪郭粒子どうしを線で結ぶ距離(画像座標系, px)
+const CONNECT_RADIUS = 20; // 輪郭粒子どうしを線で結ぶ距離(画像座標系, px)
 const MAX_NEIGHBORS_PER_POINT = 2; // 1点あたりの最大接続数(多すぎると網目が潰れる)
 const MAX_LINES = 6000; // 描画する線分の上限(パフォーマンス対策)
 
@@ -192,8 +192,8 @@ const ParticleBackdrop = () => {
       imageHeight = image.height;
 
       const sample = sampleImageParticles(image, {
-        targetWidth: 260,
-        maxPoints: 11000,
+        targetWidth: 200,
+        maxPoints: 7000,
         mode: "luminance-bright",
         threshold: 26,
       });
@@ -359,7 +359,9 @@ const ParticleBackdrop = () => {
       }
 
       // 線を先に描いてから粒子を重ねることで、粒子が網目の上に乗って見える
+      // (lineWidthは環境によっては1pxに制限されるが、対応環境では少し太く見せる)
       if (lineMesh) {
+        gl.lineWidth(2);
         renderer.render({ scene: lineMesh });
       }
       renderer.render({ scene: mesh, clear: false });
