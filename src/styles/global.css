@@ -16,16 +16,22 @@
   /* 旧 COLORS.text.accent。現状どこからも使っていないが値は引き継いでおく */
   --color-text-accent: #e35800;
 
-  /* 背景画像 (site_bg.svg) を1倍から100倍まで7分かけてゆっくりズームさせるアニメーション */
-  --animate-bg-zoom: bg-zoom 420s linear infinite;
+  /* 背景画像 (site_bg.svg) を1倍から100倍まで70分かけてゆっくりズームさせるアニメーション。
+   * ズームに合わせてぼかしを弱め不透明度を上げ、画像がじわじわくっきり見えるようにする。
+   * 1回再生したらループさせず最終状態(scale(100)・くっきり)のまま止める */
+  --animate-bg-zoom: bg-zoom 4200s linear forwards;
 }
 
 @keyframes bg-zoom {
   from {
     transform: scale(1);
+    filter: blur(6px) grayscale(1);
+    opacity: 0.25;
   }
   to {
     transform: scale(100);
+    filter: blur(0px) grayscale(1);
+    opacity: 0.75;
   }
 }
 
