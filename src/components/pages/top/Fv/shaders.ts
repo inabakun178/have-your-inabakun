@@ -4,6 +4,7 @@ export const vertex = /* glsl */ `
   attribute vec2 aRandom;
   attribute float aBrightness;
   attribute float aGradient;
+  attribute float aOrder;
 
   uniform vec2 uResolution;
   uniform float uScale;
@@ -16,16 +17,23 @@ export const vertex = /* glsl */ `
   varying float vBrightness;
   varying float vGradient;
   varying float vEased;
+  varying float vSpark;
 
   void main() {
     vec2 target = aTarget * uScale;
     vec2 start = aStart * uScale;
 
-    // 粒子ごとにランダムな遅延を付けて収束させる
-    float local = clamp((uProgress - aRandom.x * 0.5) / (1.0 - aRandom.x * 0.5), 0.0, 1.0);
+    // 一筆書きのように、左から右へ順番(aOrder)にペン先が通過してから
+    // その粒子自身の収束モーションが始まる
+    float window = 0.14;
+    float delay = aOrder * (1.0 - window);
+    float local = clamp((uProgress - delay) / window, 0.0, 1.0);
     float eased = local * local * (3.0 - 2.0 * local);
 
     vec2 pos = mix(start, target, eased);
+
+    // ペン先が今まさに通過している粒子だけを一瞬強く光らせる
+    float spark = smoothstep(0.0, 1.0, sin(local * 3.14159265));
 
     // 常時のゆらぎ
     float wobble = sin(uTime * 0.3 + aRandom.y * 6.2831853) * (1.4 + aRandom.x * 1.6);
@@ -62,11 +70,13 @@ export const vertex = /* glsl */ `
     float sizeScale = clamp(uScale / 1.55, 0.55, 1.0);
 
     gl_Position = vec4(clip, 0.0, 1.0);
-    gl_PointSize = uPointSize * uDpr * sizeScale * (0.6 + aBrightness * 0.9) * mix(0.35, 1.0, eased);
+    gl_PointSize = uPointSize * uDpr * sizeScale * (0.6 + aBrightness * 0.9) *
+      mix(0.35, 1.0, eased) * (1.0 + spark * 0.9);
 
     vBrightness = aBrightness;
     vGradient = aGradient;
     vEased = eased;
+    vSpark = spark;
   }
 `;
 
@@ -76,18 +86,22 @@ export const fragment = /* glsl */ `
   varying float vBrightness;
   varying float vGradient;
   varying float vEased;
+  varying float vSpark;
 
   void main() {
     vec2 uv = gl_PointCoord - 0.5;
     float d = length(uv);
     if (d > 0.5) discard;
 
-    float alpha = smoothstep(0.5, 0.0, d) * (0.55 + vBrightness * 0.45) * vEased;
+    float shape = smoothstep(0.5, 0.0, d);
+    float alpha = shape * (0.55 + vBrightness * 0.45) * max(vEased, vSpark);
 
     // 上から下にオレンジ→レッドのグラデーション
     vec3 orange = vec3(0.949, 0.451, 0.078); // #f27314
     vec3 red = vec3(0.784, 0.098, 0.078); // #c81914
     vec3 color = mix(orange, red, vGradient);
+    // ペン先が通過する瞬間だけ白く煌めかせる
+    color = mix(color, vec3(1.0), vSpark * 0.7);
 
     gl_FragColor = vec4(color, alpha);
   }
