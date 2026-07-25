@@ -6,7 +6,11 @@ import Fv from "../components/pages/top/Fv/Fv";
 // TODO: import のパスをエイリアスにしたい
 const Home: NextPage = () => {
   return (
-    <PageTemplate>
+    <PageTemplate
+      title="Have Your Inabakun | 稲葉勇人(Hayato Inaba)のポートフォリオサイト"
+      description="フロントエンドエンジニア・デザイナー稲葉勇人(Hayato Inaba)のポートフォリオサイト。伊豆出身、東京在住。UI/UXデザインとフロントエンド開発の実績、経歴、スキルを紹介しています。"
+      canonicalPath="/"
+    >
       <Fv />
       {/* TODO: scroll button置く */}
       {/* TODO: 実績リスト置く */}
