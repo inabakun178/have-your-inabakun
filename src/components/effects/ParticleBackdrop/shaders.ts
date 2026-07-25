@@ -82,6 +82,9 @@ export const fragment = /* glsl */ `
     // 追加で薄くする(輪郭粒子は視認性のため対象外)
     alphaBase -= uMobileDim * (1.0 - vShape);
     float alpha = smoothstep(0.5, 0.0, d) * max(alphaBase, 0.0) * vAlpha;
+    // 輪郭粒子(vShape=1)がほぼ不透明に見えていたため、PC/スマホ問わず
+    // 0.6倍に抑えて透過させる(周辺の散らばり粒子(vShape=0)は変更しない)
+    alpha *= mix(1.0, 0.6, vShape);
 
     // FVロゴ(オレンジ〜レッド)と色が競合して視認性が下がらないよう、
     // 背景粒子はグレーに統一する
