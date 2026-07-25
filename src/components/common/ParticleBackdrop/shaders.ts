@@ -71,7 +71,9 @@ export const fragment = /* glsl */ `
     float d = length(uv);
     if (d > 0.5) discard;
 
-    float alphaBase = mix(0.55, 0.7, vShape) + vBrightness * mix(0.6, 0.9, vShape);
+    // 人型の輪郭(vShape=1)を周囲の散らばり粒子(vShape=0)よりはっきり
+    // 見せることで、粒子+線で人の形が読み取れるようにする
+    float alphaBase = mix(0.4, 0.85, vShape) + vBrightness * mix(0.5, 1.0, vShape);
     float alpha = smoothstep(0.5, 0.0, d) * alphaBase * vAlpha;
 
     // FVロゴ(オレンジ〜レッド)と色が競合して視認性が下がらないよう、
@@ -91,7 +93,7 @@ export const lineFragment = /* glsl */ `
 
   void main() {
     vec3 white = vec3(1.0, 1.0, 1.0);
-    float alpha = (0.32 + vBrightness * 0.22) * vAlpha;
+    float alpha = (0.55 + vBrightness * 0.4) * vAlpha;
     gl_FragColor = vec4(white, alpha);
   }
 `;
