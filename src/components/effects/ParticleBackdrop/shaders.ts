@@ -62,6 +62,8 @@ export const vertex = /* glsl */ `
 export const fragment = /* glsl */ `
   precision highp float;
 
+  uniform float uMobileDim;
+
   varying float vBrightness;
   varying float vAlpha;
   varying float vShape;
@@ -76,7 +78,10 @@ export const fragment = /* glsl */ `
     // (輪郭粒子の濃さは維持しつつ、背景に散らばる粒子(vShape=0)は薄くする)
     float alphaBase =
       mix(0.11, 0.425, vShape) + vBrightness * mix(0.09, 0.5, vShape);
-    float alpha = smoothstep(0.5, 0.0, d) * alphaBase * vAlpha;
+    // スマホでは背景画像がより見えるよう、背景に散らばる粒子(vShape=0)を
+    // 追加で薄くする(輪郭粒子は視認性のため対象外)
+    alphaBase -= uMobileDim * (1.0 - vShape);
+    float alpha = smoothstep(0.5, 0.0, d) * max(alphaBase, 0.0) * vAlpha;
 
     // FVロゴ(オレンジ〜レッド)と色が競合して視認性が下がらないよう、
     // 背景粒子はグレーに統一する
