@@ -73,7 +73,9 @@ export const fragment = /* glsl */ `
 
     // 人型の輪郭(vShape=1)を周囲の散らばり粒子(vShape=0)よりはっきり
     // 見せることで、粒子+線で人の形が読み取れるようにする
-    float alphaBase = mix(0.4, 0.85, vShape) + vBrightness * mix(0.5, 1.0, vShape);
+    // (全体の不透明度はおよそ0.5前後になるよう半分にスケール)
+    float alphaBase =
+      (mix(0.4, 0.85, vShape) + vBrightness * mix(0.5, 1.0, vShape)) * 0.5;
     float alpha = smoothstep(0.5, 0.0, d) * alphaBase * vAlpha;
 
     // FVロゴ(オレンジ〜レッド)と色が競合して視認性が下がらないよう、
