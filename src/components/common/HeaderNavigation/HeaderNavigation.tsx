@@ -1,5 +1,6 @@
 import NextLink from "next/link";
 import { useCallback, useEffect, useRef, useState } from "react";
+import SnsList from "../SnsList/SnsList";
 
 const pageList = [
   {
@@ -105,9 +106,23 @@ const HeaderNavigation = () => {
               onClick={onOpen}
               aria-label="メニューを開く"
               aria-expanded={isOpen}
-              className="text-text-accent font-mono text-[13px] tracking-[0.15em] transition-colors duration-300 hover:text-white md:hidden"
+              className="group text-text-accent animate-profile-pulse font-mono text-[13px] tracking-[0.15em] transition-colors duration-300 hover:text-white md:hidden"
             >
-              [ MENU ]
+              {/* コマンドプロンプト風に "$ " を添える */}
+              <span className="text-white/40" aria-hidden="true">
+                ${" "}
+              </span>
+              <span className="mr-1 inline-block transition-transform duration-300 group-hover:-translate-x-0.5">
+                [
+              </span>
+              MENU
+              <span className="ml-1 inline-block transition-transform duration-300 group-hover:translate-x-0.5">
+                ]
+              </span>
+              {/* ターミナルのキャレット点滅 */}
+              <span className="animate-blink ml-1" aria-hidden="true">
+                ▌
+              </span>
             </button>
           </div>
         </div>
@@ -158,7 +173,7 @@ const HeaderNavigation = () => {
                   <NextLink
                     href={page.link}
                     onClick={onClose}
-                    className="group text-text-accent block p-5 font-mono text-[25px] tracking-[0.1em] transition-colors duration-300 hover:text-white"
+                    className="group animate-profile-pulse text-text-accent block p-5 font-mono text-[25px] tracking-[0.1em] transition-colors duration-300 hover:text-white"
                   >
                     <span className="mr-1 inline-block transition-transform duration-300 group-hover:-translate-x-0.5">
                       [
@@ -171,6 +186,11 @@ const HeaderNavigation = () => {
                 </li>
               ))}
             </ul>
+          </div>
+
+          {/* SNS リンク: PC では右下固定 (SnsList variant="fixed") だが、SP はスペースが狭いのでメニュー内にまとめる */}
+          <div className="pb-8">
+            <SnsList variant="inline" />
           </div>
         </div>
       )}
