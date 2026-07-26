@@ -2,6 +2,10 @@
 
 import { useEffect, useRef } from "react";
 import { Geometry, Mesh, Program, Renderer } from "ogl";
+import {
+  GYRO_PERMISSION_GRANTED_EVENT,
+  isGyroPermissionRequired,
+} from "@/lib/gyroPermission";
 import { loadImage, sampleImageParticles } from "@/lib/particleSampler";
 import { fragment, lineFragment, vertex } from "./shaders";
 
@@ -158,31 +162,12 @@ const ParticleBackdrop = () => {
       window.addEventListener("deviceorientation", handleOrientation);
     };
 
-    type DeviceOrientationEventIOS = typeof DeviceOrientationEvent & {
-      requestPermission?: () => Promise<"granted" | "denied">;
-    };
-
-    const requestGyroPermission = () => {
-      const DOE = DeviceOrientationEvent as DeviceOrientationEventIOS;
-      if (typeof DOE.requestPermission === "function") {
-        DOE.requestPermission()
-          .then((state) => {
-            if (state === "granted") enableGyro();
-          })
-          .catch(() => {});
-      } else {
-        enableGyro();
-      }
-    };
-
-    if (isCoarsePointer && typeof DeviceOrientationEvent !== "undefined") {
-      const DOE = DeviceOrientationEvent as DeviceOrientationEventIOS;
-      if (typeof DOE.requestPermission === "function") {
-        // iOSはユーザー操作(タップ)を起点にしないと許可ダイアログを出せない
-        window.addEventListener("touchend", requestGyroPermission, {
-          once: true,
-        });
-      } else {
+    if (isCoarsePointer) {
+      if (isGyroPermissionRequired()) {
+        // iOSは許可が必要。実際のリクエストはGyroPermissionDialogが行い、
+        // 許可が下りたらこのイベントで知らされる
+        window.addEventListener(GYRO_PERMISSION_GRANTED_EVENT, enableGyro);
+      } else if (typeof DeviceOrientationEvent !== "undefined") {
         enableGyro();
       }
     }
@@ -377,7 +362,7 @@ const ParticleBackdrop = () => {
       cancelAnimationFrame(raf);
       window.removeEventListener("resize", resize);
       window.removeEventListener("pointermove", handlePointerMove);
-      window.removeEventListener("touchend", requestGyroPermission);
+      window.removeEventListener(GYRO_PERMISSION_GRANTED_EVENT, enableGyro);
       window.removeEventListener("deviceorientation", handleOrientation);
       if (gl.canvas.parentElement === container) {
         container.removeChild(gl.canvas);
