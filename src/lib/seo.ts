@@ -17,6 +17,52 @@ type BuildMetadataOptions = {
   noIndex?: boolean;
 };
 
+// サイト内の主要ページ。ヘッダーナビと SiteNavigationElement JSON-LD で共有する
+export const SITE_NAV_ITEMS = [
+  { name: "Top", path: "/" },
+  { name: "Profile", path: "/profile" },
+];
+
+// 検索エンジンにサイト構造を伝える JSON-LD（サイトリンク表示の助けになる）
+export const siteNavigationJsonLd = {
+  "@context": "https://schema.org",
+  "@type": "SiteNavigationElement",
+  name: SITE_NAV_ITEMS.map((item) => item.name),
+  url: SITE_NAV_ITEMS.map((item) => `${SITE_URL}${item.path}`),
+};
+
+// Person の knowsAbout に載せるスキル一覧（SkillTerminal の内容と揃える）
+export const PERSON_SKILLS = [
+  "UI/UX Design",
+  "Scrum Development",
+  "Data Analysis",
+  "Team Management",
+  "React",
+  "Next.js",
+  "TypeScript",
+  "Design System",
+  "Vue.js",
+  "Nuxt.js",
+  "GraphQL",
+];
+
+// サイト全体で使い回す Person 構造化データ(JSON-LD)
+export const personJsonLd = {
+  "@context": "https://schema.org",
+  "@type": "Person",
+  name: "稲葉勇人",
+  alternateName: "イナバくん",
+  jobTitle: "Front-end Engineer / Designer",
+  url: SITE_URL,
+  image: `${SITE_URL}/ogp.jpg`,
+  knowsAbout: PERSON_SKILLS,
+  sameAs: [
+    "https://twitter.com/dev_inabakun",
+    "https://github.com/inabakun178",
+    "https://www.instagram.com/purupuruboy2",
+  ],
+};
+
 export function buildMetadata({
   title,
   absoluteTitle,

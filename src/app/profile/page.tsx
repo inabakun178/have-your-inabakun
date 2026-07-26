@@ -3,7 +3,7 @@ import PageTemplate from "@/components/layout/PageTemplate/PageTemplate";
 import ProfileTerminal from "@/components/profile/ProfileTerminal/ProfileTerminal";
 import CareerTerminal from "@/components/profile/CareerTerminal/CareerTerminal";
 import SkillTerminal from "@/components/profile/SkillTerminal/SkillTerminal";
-import { buildMetadata } from "@/lib/seo";
+import { buildMetadata, SITE_URL, SITE_NAME, personJsonLd } from "@/lib/seo";
 
 export const metadata: Metadata = buildMetadata({
   title: "PROFILE",
@@ -12,9 +12,42 @@ export const metadata: Metadata = buildMetadata({
   path: "/profile",
 });
 
+// パンくずリスト（Home > Profile）の JSON-LD
+const breadcrumbJsonLd = {
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  itemListElement: [
+    { "@type": "ListItem", position: 1, name: SITE_NAME, item: SITE_URL },
+    {
+      "@type": "ListItem",
+      position: 2,
+      name: "Profile",
+      item: `${SITE_URL}/profile`,
+    },
+  ],
+};
+
+// ページ全体を ProfilePage として Person に紐付ける JSON-LD
+const profilePageJsonLd = {
+  "@context": "https://schema.org",
+  "@type": "ProfilePage",
+  url: `${SITE_URL}/profile`,
+  mainEntity: personJsonLd,
+};
+
 export default function Profile() {
   return (
     <PageTemplate>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbJsonLd) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify(profilePageJsonLd),
+        }}
+      />
       {/* ターミナルのプロンプト風見出し。他ページに h1 が無いのでここで補う */}
       <h1 className="mt-[50px] flex items-center gap-3 font-mono text-[28px] tracking-[0.2em] text-white md:mt-[100px] md:gap-4 md:text-[40px]">
         <span className="text-text-accent" aria-hidden="true">

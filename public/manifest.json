@@ -1,0 +1,15 @@
+{
+  "name": "Have Your Inabakun",
+  "short_name": "Inabakun",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#000000",
+  "theme_color": "#000000",
+  "icons": [
+    {
+      "src": "/inabakun-face.png",
+      "sizes": "235x235",
+      "type": "image/png"
+    }
+  ]
+}

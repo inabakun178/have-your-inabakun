@@ -3,7 +3,13 @@ import type { ReactNode } from "react";
 import { Playfair_Display, JetBrains_Mono } from "next/font/google";
 import "@/styles/global.css";
 import Providers from "./providers";
-import { SITE_URL, SITE_NAME, DEFAULT_DESCRIPTION } from "@/lib/seo";
+import {
+  SITE_URL,
+  SITE_NAME,
+  DEFAULT_DESCRIPTION,
+  personJsonLd,
+  siteNavigationJsonLd,
+} from "@/lib/seo";
 
 const playfairDisplay = Playfair_Display({
   subsets: ["latin"],
@@ -34,22 +40,14 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     site: "@dev_inabakun",
   },
-};
-
-// サイト全体で使い回す Person 構造化データ(JSON-LD)
-const personJsonLd = {
-  "@context": "https://schema.org",
-  "@type": "Person",
-  name: "稲葉勇人",
-  alternateName: "イナバくん",
-  jobTitle: "Front-end Engineer / Designer",
-  url: SITE_URL,
-  image: `${SITE_URL}/ogp.jpg`,
-  sameAs: [
-    "https://twitter.com/dev_inabakun",
-    "https://github.com/inabakun178",
-    "https://www.instagram.com/purupuruboy2",
-  ],
+  manifest: "/manifest.json",
+  icons: {
+    icon: [
+      { url: "/favicon.ico" },
+      { url: "/inabakun-face.png", type: "image/png" },
+    ],
+    apple: "/inabakun-face.png",
+  },
 };
 
 export default function RootLayout({ children }: { children: ReactNode }) {
@@ -62,6 +60,12 @@ export default function RootLayout({ children }: { children: ReactNode }) {
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(personJsonLd) }}
+        />
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify(siteNavigationJsonLd),
+          }}
         />
         <Providers>{children}</Providers>
       </body>
