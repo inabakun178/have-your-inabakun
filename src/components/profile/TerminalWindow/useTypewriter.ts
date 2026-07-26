@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { onIntroGateReady } from "@/lib/introGate";
 
 export type TerminalSegment = {
   text: string;
@@ -64,11 +65,16 @@ export const useTypewriter = (
       setProgress((prev) => ({ ...prev, finished: true }));
     };
 
-    timeoutId = setTimeout(() => tick(0, 0), startDelay);
+    // ジャイロ許可ダイアログが閉じる(出ない端末では最初から)まで、
+    // タイプライターの開始を待たせる
+    const offIntroGateReady = onIntroGateReady(() => {
+      timeoutId = setTimeout(() => tick(0, 0), startDelay);
+    });
 
     return () => {
       cancelled = true;
       clearTimeout(timeoutId);
+      offIntroGateReady();
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [speed, startDelay]);
