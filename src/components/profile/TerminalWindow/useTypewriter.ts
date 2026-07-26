@@ -27,7 +27,7 @@ export const useTypewriter = (
   lines: TerminalLine[],
   options?: { speed?: number; startDelay?: number },
 ) => {
-  const speed = options?.speed ?? 10 / 2;
+  const speed = options?.speed ?? 10 / 4;
   const startDelay = options?.startDelay ?? 0;
 
   const [progress, setProgress] = useState<TypingProgress>({
