@@ -11,6 +11,9 @@ draft PR を作ってから始める。コミットメッセージは日本語�
 手順の詳細は `.claude/skills/pr-workflow/SKILL.md` に置いてある。変更作業に入る前に
 `pr-workflow` スキルを読むこと。
 
+実装が完了して push したら、**必ず Vercel のプレビュー URL をユーザーに伝える**こと
+(PR コメントに Vercel bot が貼る URL、または push 後に `gh pr checks`/PR 画面から確認できる)。
+
 ## ドキュメント
 
 | ドキュメント                            | 内容                                                                                         |

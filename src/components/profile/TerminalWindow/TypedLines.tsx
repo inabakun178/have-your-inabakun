@@ -11,6 +11,8 @@ type TypedLinesProps = {
   lines: TerminalLine[];
   speed?: number;
   startDelay?: number;
+  // false の間はタイピングを開始しない (スクロールで画面内に入るまで待たせる用途)
+  active?: boolean;
   // 全行の入力が完了した瞬間に1度だけ呼ばれる
   onFinished?: () => void;
   // true のとき、入力完了後の「次のコマンド待ち」プロンプトを表示しない
@@ -40,6 +42,7 @@ const TypedLines = (props: TypedLinesProps) => {
   const progress = useTypewriter(props.lines, {
     speed: props.speed,
     startDelay: props.startDelay,
+    active: props.active,
   });
 
   useEffect(() => {

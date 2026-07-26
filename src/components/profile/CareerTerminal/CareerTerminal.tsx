@@ -1,3 +1,7 @@
+"use client";
+
+import { useRef } from "react";
+import { useInView } from "framer-motion";
 import TerminalWindow from "../TerminalWindow/TerminalWindow";
 import TypedLines from "../TerminalWindow/TypedLines";
 import type { TerminalLine } from "../TerminalWindow/useTypewriter";
@@ -54,10 +58,16 @@ const lines: TerminalLine[] = [
 ];
 
 const CareerTerminal = () => {
+  const ref = useRef<HTMLDivElement>(null);
+  // 画面内に入るまでタイプライターの開始を待たせる (一度入ったら戻しても再開しない)
+  const isInView = useInView(ref, { once: true, amount: 0.3 });
+
   return (
-    <TerminalWindow title="~/career — history" titleJa="経歴" bootDelay={0.4}>
-      <TypedLines lines={lines} startDelay={1400} />
-    </TerminalWindow>
+    <div ref={ref}>
+      <TerminalWindow title="~/career — history" titleJa="経歴" bootDelay={0.4}>
+        <TypedLines lines={lines} startDelay={1400} active={isInView} />
+      </TerminalWindow>
+    </div>
   );
 };
 

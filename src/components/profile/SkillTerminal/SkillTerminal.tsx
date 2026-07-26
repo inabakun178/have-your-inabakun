@@ -1,3 +1,7 @@
+"use client";
+
+import { useRef } from "react";
+import { useInView } from "framer-motion";
 import TerminalWindow from "../TerminalWindow/TerminalWindow";
 import TypedLines from "../TerminalWindow/TypedLines";
 import type { TerminalLine } from "../TerminalWindow/useTypewriter";
@@ -96,14 +100,20 @@ const lines: TerminalLine[] = [
 ];
 
 const SkillTerminal = () => {
+  const ref = useRef<HTMLDivElement>(null);
+  // 画面内に入るまでタイプライターの開始を待たせる (一度入ったら戻しても再開しない)
+  const isInView = useInView(ref, { once: true, amount: 0.3 });
+
   return (
-    <TerminalWindow
-      title="~/skillset — stack"
-      titleJa="スキルセット"
-      bootDelay={0.8}
-    >
-      <TypedLines lines={lines} startDelay={1800} />
-    </TerminalWindow>
+    <div ref={ref}>
+      <TerminalWindow
+        title="~/skillset — stack"
+        titleJa="スキルセット"
+        bootDelay={0.8}
+      >
+        <TypedLines lines={lines} startDelay={1800} active={isInView} />
+      </TerminalWindow>
+    </div>
   );
 };
 
