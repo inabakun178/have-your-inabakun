@@ -67,7 +67,7 @@ const GyroPermissionDialog = () => {
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
           transition={{ duration: 0.3 }}
-          className="fixed inset-0 z-[2000] flex items-center justify-center bg-black/40 px-6"
+          className="fixed inset-0 z-[2000] flex items-center justify-center bg-black/20 px-6"
         >
           <motion.div
             initial={{ opacity: 0, scaleY: 0.85, y: 12 }}
