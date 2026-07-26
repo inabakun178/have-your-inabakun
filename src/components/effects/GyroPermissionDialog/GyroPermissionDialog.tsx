@@ -90,37 +90,47 @@ const GyroPermissionDialog = () => {
             <div className="px-5 py-6 text-[13px] leading-[1.9] text-white/80">
               <p className="text-text-accent">$ request --device-orientation</p>
               <p className="mt-3 text-white/70">
-                端末の傾きをパララックス演出に使用します。
+                端末の傾きを画面演出に使用します。
                 <br />
                 センサーへのアクセスを許可しますか?
               </p>
 
-              <div className="mt-6 flex items-center justify-end gap-x-6">
-                <button
-                  type="button"
-                  onClick={handleSkip}
-                  className="text-[12px] tracking-[0.1em] text-white/40 transition-colors duration-300 hover:text-white/70"
-                >
-                  [ skip ]
-                </button>
-                <button
-                  type="button"
-                  ref={allowButtonRef}
-                  onClick={handleAllow}
-                  disabled={isRequesting}
-                  className="group animate-profile-pulse text-text-accent text-[13px] tracking-[0.1em] transition-colors duration-300 hover:text-white disabled:opacity-50"
-                >
-                  <span className="mr-1 inline-block transition-transform duration-300 group-hover:-translate-x-0.5">
-                    [
+              <div className="mt-6 flex items-start justify-end gap-x-6">
+                <div className="flex flex-col items-center gap-y-1">
+                  <button
+                    type="button"
+                    onClick={handleSkip}
+                    className="text-[12px] tracking-[0.1em] text-white/40 transition-colors duration-300 hover:text-white/70"
+                  >
+                    [ skip ]
+                  </button>
+                  <span className="text-[10px] tracking-[0.1em] text-white/30">
+                    (スキップ)
                   </span>
-                  {isRequesting ? "requesting..." : "allow"}
-                  <span className="ml-1 inline-block transition-transform duration-300 group-hover:translate-x-0.5">
-                    ]
+                </div>
+                <div className="flex flex-col items-center gap-y-1">
+                  <button
+                    type="button"
+                    ref={allowButtonRef}
+                    onClick={handleAllow}
+                    disabled={isRequesting}
+                    className="group animate-profile-pulse text-text-accent text-[13px] tracking-[0.1em] transition-colors duration-300 hover:text-white disabled:opacity-50"
+                  >
+                    <span className="mr-1 inline-block transition-transform duration-300 group-hover:-translate-x-0.5">
+                      [
+                    </span>
+                    {isRequesting ? "requesting..." : "allow"}
+                    <span className="ml-1 inline-block transition-transform duration-300 group-hover:translate-x-0.5">
+                      ]
+                    </span>
+                    <span className="animate-blink ml-1" aria-hidden="true">
+                      ▌
+                    </span>
+                  </button>
+                  <span className="text-[10px] tracking-[0.1em] text-white/30">
+                    (許可する)
                   </span>
-                  <span className="animate-blink ml-1" aria-hidden="true">
-                    ▌
-                  </span>
-                </button>
+                </div>
               </div>
             </div>
 
