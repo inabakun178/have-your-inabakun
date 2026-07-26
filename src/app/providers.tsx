@@ -9,6 +9,12 @@ const AnimatedCursor = dynamic(
   { ssr: false },
 );
 
+const GyroPermissionDialog = dynamic(
+  () =>
+    import("@/components/effects/GyroPermissionDialog/GyroPermissionDialog"),
+  { ssr: false },
+);
+
 type ProvidersProps = {
   children: ReactNode;
 };
@@ -22,6 +28,7 @@ const Providers = ({ children }: ProvidersProps) => {
         <div key={pathname}>{children}</div>
       </AnimatePresence>
       <AnimatedCursor />
+      <GyroPermissionDialog />
     </>
   );
 };
