@@ -64,11 +64,7 @@ const CareerTerminal = () => {
 
   return (
     <div ref={ref}>
-      <TerminalWindow
-        title="~/career — history"
-        titleJa="経歴"
-        bootDelay={0.4}
-      >
+      <TerminalWindow title="~/career — history" titleJa="経歴" bootDelay={0.4}>
         <TypedLines lines={lines} startDelay={1400} active={isInView} />
       </TerminalWindow>
     </div>
