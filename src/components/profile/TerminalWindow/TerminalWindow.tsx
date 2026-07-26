@@ -2,6 +2,7 @@
 
 import type { ReactNode } from "react";
 import { motion } from "framer-motion";
+import { useIntroGateReady } from "@/lib/introGate";
 
 type TerminalWindowProps = {
   title: string;
@@ -15,11 +16,17 @@ type TerminalWindowProps = {
 // profile ページ専用のターミナル風ウィンドウ。配色は global.css の --color-cyber-* トークンから取る
 const TerminalWindow = (props: TerminalWindowProps) => {
   const bootDelay = props.bootDelay ?? 0;
+  // ジャイロ許可ダイアログが閉じる(出ない端末では最初から)まで、起動アニメーションを待たせる
+  const isIntroReady = useIntroGateReady();
 
   return (
     <motion.div
       initial={{ opacity: 0, scaleY: 0.85, y: 12 }}
-      animate={{ opacity: 1, scaleY: 1, y: 0 }}
+      animate={
+        isIntroReady
+          ? { opacity: 1, scaleY: 1, y: 0 }
+          : { opacity: 0, scaleY: 0.85, y: 12 }
+      }
       transition={{ duration: 1, delay: bootDelay, ease: "easeOut" }}
       style={{ transformOrigin: "top" }}
       className="border-text-accent/40 relative overflow-hidden rounded-md border bg-[rgba(1,1,1,0.8)] font-mono md:bg-cyber-bg"

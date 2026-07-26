@@ -2,6 +2,8 @@
 // 待たせるためのゲート。ダイアログの裏で粒子アニメーションや背景ズームが
 // 先走って始まってしまうのを防ぐ。
 
+import { useEffect, useState } from "react";
+
 export const INTRO_GATE_READY_EVENT = "intro-gate-ready";
 
 declare global {
@@ -27,4 +29,11 @@ export const onIntroGateReady = (callback: () => void): (() => void) => {
   }
   window.addEventListener(INTRO_GATE_READY_EVENT, callback);
   return () => window.removeEventListener(INTRO_GATE_READY_EVENT, callback);
+};
+
+/** DOM/CSSアニメーション向け。ゲートが開くまでfalseを返し、開いたらtrueに切り替わる。 */
+export const useIntroGateReady = () => {
+  const [isReady, setIsReady] = useState(isIntroGateReady);
+  useEffect(() => onIntroGateReady(() => setIsReady(true)), []);
+  return isReady;
 };
