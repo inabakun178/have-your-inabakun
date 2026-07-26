@@ -6,6 +6,7 @@ import {
   isGyroPermissionRequired,
   requestGyroPermission,
 } from "@/lib/gyroPermission";
+import { markIntroGateReady } from "@/lib/introGate";
 
 /**
  * サイト訪問時に最初に出す、端末の傾き(ジャイロ)センサーへのアクセス許可を求めるダイアログ。
@@ -26,6 +27,11 @@ const GyroPermissionDialog = () => {
   const allowButtonRef = useRef<HTMLButtonElement>(null);
 
   useEffect(() => {
+    // ダイアログを最初から出さない端末(PCなど)では、背景演出をその場で開放する
+    if (!isOpen) markIntroGateReady();
+  }, [isOpen]);
+
+  useEffect(() => {
     if (!isOpen) return;
 
     const previousOverflow = document.body.style.overflow;
@@ -42,9 +48,13 @@ const GyroPermissionDialog = () => {
     await requestGyroPermission();
     setIsRequesting(false);
     setIsOpen(false);
+    markIntroGateReady();
   };
 
-  const handleSkip = () => setIsOpen(false);
+  const handleSkip = () => {
+    setIsOpen(false);
+    markIntroGateReady();
+  };
 
   return (
     <AnimatePresence>
@@ -57,7 +67,7 @@ const GyroPermissionDialog = () => {
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
           transition={{ duration: 0.3 }}
-          className="fixed inset-0 z-[2000] flex items-center justify-center bg-black/80 px-6 backdrop-blur-sm"
+          className="fixed inset-0 z-[2000] flex items-center justify-center bg-black/20 px-6"
         >
           <motion.div
             initial={{ opacity: 0, scaleY: 0.85, y: 12 }}

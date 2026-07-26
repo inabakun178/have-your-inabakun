@@ -6,6 +6,7 @@ import {
   GYRO_PERMISSION_GRANTED_EVENT,
   isGyroPermissionRequired,
 } from "@/lib/gyroPermission";
+import { onIntroGateReady } from "@/lib/introGate";
 import { loadImage, sampleImageParticles } from "@/lib/particleSampler";
 import { fragment, lineFragment, vertex } from "./shaders";
 
@@ -95,6 +96,19 @@ const ParticleBackdrop = () => {
     let startTime = 0;
     let imageWidth = 1;
     let imageHeight = 1;
+    let isInitDone = false;
+    let isIntroReady = false;
+
+    // 画像サンプリングが終わっていて、かつジャイロ許可ダイアログが閉じている
+    // (出ない端末では最初から)場合にのみフェードインを開始する
+    const tryStart = () => {
+      if (!isInitDone || !isIntroReady || startTime) return;
+      startTime = performance.now() + START_DELAY * 1000;
+    };
+    const offIntroGateReady = onIntroGateReady(() => {
+      isIntroReady = true;
+      tryStart();
+    });
 
     const renderer = new Renderer({
       alpha: true,
@@ -316,7 +330,8 @@ const ParticleBackdrop = () => {
       }
 
       resize();
-      startTime = performance.now() + START_DELAY * 1000;
+      isInitDone = true;
+      tryStart();
     };
 
     const tick = (now: number) => {
@@ -364,6 +379,7 @@ const ParticleBackdrop = () => {
       window.removeEventListener("pointermove", handlePointerMove);
       window.removeEventListener(GYRO_PERMISSION_GRANTED_EVENT, enableGyro);
       window.removeEventListener("deviceorientation", handleOrientation);
+      offIntroGateReady();
       if (gl.canvas.parentElement === container) {
         container.removeChild(gl.canvas);
       }

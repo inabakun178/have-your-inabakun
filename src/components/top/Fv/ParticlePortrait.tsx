@@ -2,6 +2,7 @@
 
 import { useEffect, useRef } from "react";
 import { Geometry, Mesh, Program, Renderer } from "ogl";
+import { onIntroGateReady } from "@/lib/introGate";
 import { loadImage, sampleImageParticles } from "@/lib/particleSampler";
 import { fragment, vertex } from "./shaders";
 
@@ -24,6 +25,19 @@ const ParticlePortrait = () => {
     let program: Program | null = null;
     let mesh: Mesh | null = null;
     let startTime = 0;
+    let isInitDone = false;
+    let isIntroReady = false;
+
+    // 一筆書きの描画開始を、パーティクル生成完了 かつ ジャイロ許可ダイアログが
+    // 閉じている(出ない端末では最初から)状態になるまで待つ
+    const tryStart = () => {
+      if (!isInitDone || !isIntroReady || startTime) return;
+      startTime = performance.now() + START_DELAY * 1000;
+    };
+    const offIntroGateReady = onIntroGateReady(() => {
+      isIntroReady = true;
+      tryStart();
+    });
 
     const renderer = new Renderer({
       alpha: true,
@@ -179,7 +193,8 @@ const ParticlePortrait = () => {
 
       mesh = new Mesh(gl, { mode: gl.POINTS, geometry, program });
       resize();
-      startTime = performance.now() + START_DELAY * 1000;
+      isInitDone = true;
+      tryStart();
     };
 
     const tick = (now: number) => {
@@ -212,6 +227,7 @@ const ParticlePortrait = () => {
       window.removeEventListener("resize", resize);
       container.removeEventListener("pointermove", handlePointerMove);
       container.removeEventListener("pointerleave", handlePointerLeave);
+      offIntroGateReady();
       if (gl.canvas.parentElement === container) {
         container.removeChild(gl.canvas);
       }
