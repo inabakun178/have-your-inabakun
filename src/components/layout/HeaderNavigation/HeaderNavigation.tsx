@@ -12,25 +12,57 @@ const pageList = [
   },
 ];
 
+// メニューの背景を組み立てる黒い帯の本数と、1本ごとのアニメーション設定。
+// 帯は奇数番目/偶数番目で左右どちらから出てくるかを切り替え、開くときは
+// 端から中央へ向かって順番に、閉じるときは逆順で退場させて「集まって消える」
+// 動きにする。
+const BAR_COUNT = 9;
+const BAR_TRANSITION_MS = 450;
+const BAR_STAGGER_MS = 45;
+const OPEN_DURATION_MS = BAR_TRANSITION_MS + BAR_STAGGER_MS * (BAR_COUNT - 1);
+const CLOSE_DURATION_MS = OPEN_DURATION_MS;
+const CONTENT_DELAY_MS = 350;
+const CONTENT_IN_MS = 350;
+const CONTENT_OUT_MS = 150;
+
+type MenuState = "closed" | "open" | "closing";
+
 const HeaderNavigation = () => {
-  const [isOpen, setIsOpen] = useState(false);
+  const [menuState, setMenuState] = useState<MenuState>("closed");
   const openButtonRef = useRef<HTMLButtonElement>(null);
   const closeButtonRef = useRef<HTMLButtonElement>(null);
   // 各ページの h1 が重複しないよう、ロゴを見出しにするのは TOP ページのみにする
   const isHome = usePathname() === "/";
   const LogoTag = isHome ? "h1" : "p";
 
-  const onOpen = () => setIsOpen(true);
+  // ダイアログは常に DOM に置いたままにし、状態を CSS トランジションで
+  // 出し引きする。閉じた状態からの再マウントを挟まないことで、開閉どちらの
+  // 向きでも同じトランジションが安定して発火する。
+  const isOpen = menuState !== "closed";
+
+  const onOpen = () => setMenuState("open");
 
   // Chakra の Drawer は finalFocusRef で閉じたあとのフォーカスを戻していたので合わせる
   const onClose = useCallback(() => {
-    setIsOpen(false);
-    openButtonRef.current?.focus();
+    setMenuState((current) => (current === "open" ? "closing" : current));
   }, []);
+
+  // 閉じるアニメーションが終わったタイミングで完全に閉じた状態にし、
+  // 開くボタンへフォーカスを戻す。
+  useEffect(() => {
+    if (menuState !== "closing") return;
+
+    const timer = setTimeout(() => {
+      setMenuState("closed");
+      openButtonRef.current?.focus();
+    }, CLOSE_DURATION_MS);
+
+    return () => clearTimeout(timer);
+  }, [menuState]);
 
   // Chakra の Drawer の closeOnEsc 相当
   useEffect(() => {
-    if (!isOpen) return;
+    if (menuState !== "open") return;
 
     const onKeyDown = (event: KeyboardEvent) => {
       if (event.key === "Escape") onClose();
@@ -38,9 +70,10 @@ const HeaderNavigation = () => {
     document.addEventListener("keydown", onKeyDown);
 
     return () => document.removeEventListener("keydown", onKeyDown);
-  }, [isOpen, onClose]);
+  }, [menuState, onClose]);
 
-  // Chakra の Drawer の blockScrollOnMount 相当
+  // Chakra の Drawer の blockScrollOnMount 相当。閉じるアニメーション中も
+  // 画面はまだ覆われているのでスクロールはロックし続ける。
   useEffect(() => {
     if (!isOpen) return;
 
@@ -54,8 +87,8 @@ const HeaderNavigation = () => {
 
   // Chakra の Drawer が開いた直後に閉じるボタンへフォーカスしていたのに合わせる
   useEffect(() => {
-    if (isOpen) closeButtonRef.current?.focus();
-  }, [isOpen]);
+    if (menuState === "open") closeButtonRef.current?.focus();
+  }, [menuState]);
 
   return (
     <>
@@ -138,13 +171,64 @@ const HeaderNavigation = () => {
        * ドロワーを <header> の外に出しているのは、sticky + z-index を持つ <header> が
        * 重ね合わせコンテキストを作ってしまい、中に置くと z-[1400] が効かず
        * SnsList (z-[1100]) の下に潜ってしまうため。Chakra は Portal で回避していた。
+       *
+       * 開閉トランジションを両方向で発火させたいので closed でも DOM からは
+       * 外さず、inert + invisible で見た目と操作だけを無効化する。
        */}
-      {isOpen && (
+      <div
+        role="dialog"
+        aria-modal="true"
+        aria-label="メニュー"
+        aria-hidden={!isOpen}
+        inert={!isOpen}
+        className={`fixed inset-0 z-[1400] flex flex-col ${
+          isOpen ? "visible" : "invisible"
+        }`}
+      >
+        {/* 黒い帯が左右から交互に出てきて集まり、メニューの背景になる演出。
+         * 閉じるときは同じ帯が来た側へ逆順で退場し、隙間から元の画面が見える。 */}
+        <div className="absolute inset-0 flex" aria-hidden="true">
+          {Array.from({ length: BAR_COUNT }).map((_, index) => {
+            const fromLeft = index % 2 === 0;
+            const barIn = menuState === "open";
+            const delay = barIn
+              ? index * BAR_STAGGER_MS
+              : (BAR_COUNT - 1 - index) * BAR_STAGGER_MS;
+
+            return (
+              <div
+                key={index}
+                className={`h-full flex-1 ${
+                  index % 2 === 0 ? "bg-black" : "bg-[#0a0a0a]"
+                } ${index === 0 ? "" : "border-l border-white/5"}`}
+                style={{
+                  transform: barIn
+                    ? "translateX(0)"
+                    : `translateX(${fromLeft ? "-110%" : "110%"})`,
+                  transition: `transform ${BAR_TRANSITION_MS}ms cubic-bezier(0.22, 1, 0.36, 1) ${delay}ms`,
+                }}
+              />
+            );
+          })}
+        </div>
+
+        {/* 帯が完全に揃ってから少し遅れて中身をフェードイン、閉じるときは
+         * 先に素早くフェードアウトさせてから帯を退場させる。 */}
         <div
-          role="dialog"
-          aria-modal="true"
-          aria-label="メニュー"
-          className="bg-background-main fixed inset-0 z-[1400] flex flex-col"
+          className="relative z-10 flex flex-1 flex-col"
+          style={
+            menuState === "open"
+              ? {
+                  opacity: 1,
+                  transform: "translateY(0)",
+                  transition: `opacity ${CONTENT_IN_MS}ms ease-out ${CONTENT_DELAY_MS}ms, transform ${CONTENT_IN_MS}ms ease-out ${CONTENT_DELAY_MS}ms`,
+                }
+              : {
+                  opacity: 0,
+                  transform: "translateY(12px)",
+                  transition: `opacity ${CONTENT_OUT_MS}ms ease-in, transform ${CONTENT_OUT_MS}ms ease-in`,
+                }
+          }
         >
           <button
             type="button"
@@ -199,7 +283,7 @@ const HeaderNavigation = () => {
             <SnsList variant="inline" />
           </div>
         </div>
-      )}
+      </div>
     </>
   );
 };
