@@ -201,8 +201,10 @@ Co-Authored-By: Claude <noreply@anthropic.com>
 
 粒度は「レビューする人が1つずつ読めるか」で決める。無関係な変更を1コミットに混ぜない。
 
-ローカルで CI 相当のチェック（tsc / lint / format / build）を実行する必要はない。
-PR を作れば CI が自動で走るので、そちらの結果を見る（4 参照）。
+**ローカルで CI 相当のチェック（`pnpm tsc` / `pnpm lint:check` / `pnpm format:check` /
+`pnpm build` 等）を実行しない。** PR を作れば同じチェックが CI で自動的に走るため、
+ローカルで重複して実行するのは時間の無駄になる。コミット前に「念のため」実行する
+のもやめる。結果は CI 側で確認する（4 参照）。
 
 ---
 
