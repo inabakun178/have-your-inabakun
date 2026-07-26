@@ -390,7 +390,7 @@ const ParticleBackdrop = () => {
     <div
       ref={containerRef}
       aria-hidden
-      className="pointer-events-none fixed top-0 left-0 h-screen w-screen"
+      className="pointer-events-none fixed top-0 left-0 h-dvh w-screen"
     />
   );
 };
