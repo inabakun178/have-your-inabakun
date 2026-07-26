@@ -25,10 +25,12 @@ const lineLength = (line: TerminalLine) =>
 // (呼び出し側で毎回同じ内容を生成する) 依存配列には含めない
 export const useTypewriter = (
   lines: TerminalLine[],
-  options?: { speed?: number; startDelay?: number },
+  options?: { speed?: number; startDelay?: number; active?: boolean },
 ) => {
   const speed = options?.speed ?? 10 / 4;
   const startDelay = options?.startDelay ?? 0;
+  // スクロールで画面内に入るまで開始を待たせたいときに false で渡す
+  const active = options?.active ?? true;
 
   const [progress, setProgress] = useState<TypingProgress>({
     lineIndex: 0,
@@ -37,7 +39,7 @@ export const useTypewriter = (
   });
 
   useEffect(() => {
-    if (lines.length === 0) return;
+    if (lines.length === 0 || !active) return;
 
     let cancelled = false;
     let timeoutId: ReturnType<typeof setTimeout>;
@@ -77,7 +79,7 @@ export const useTypewriter = (
       offIntroGateReady();
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [speed, startDelay]);
+  }, [speed, startDelay, active]);
 
   return progress;
 };
