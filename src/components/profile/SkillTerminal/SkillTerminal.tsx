@@ -11,7 +11,10 @@ const legacyClass = "text-white/40";
 const coreSkills = [
   { en: "UI/UX Design & Proposal", ja: "UI/UX設計・提案" },
   { en: "Scrum Development", ja: "スクラム開発" },
-  { en: "Data Analysis (KPI / A-B Test / Research)", ja: "データ分析" },
+  {
+    en: "Data Analysis (KPI / A-B Test / Research)",
+    ja: "データ分析（A/Bテスト・ユーザーインタビュー）",
+  },
   { en: "Team Management", ja: "チームマネジメント" },
 ];
 
@@ -86,7 +89,7 @@ const lines: TerminalLine[] = [
   {
     segments: [
       { text: "- WordPress (still kicking)", className: legacyClass },
-      { text: " // 古いけどまだ現役", className: jaClass },
+      { text: " // WordPress懐かしいね、まだ現役", className: jaClass },
     ],
     wrapperClassName: "mt-2",
   },

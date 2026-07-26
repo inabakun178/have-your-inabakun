@@ -14,19 +14,19 @@ const careerList = [
     tag: "[03]",
     name: "SIMPLEX / Alceo",
     detail: "Gov-tech UX improvement — Scrum, AI-DLC, Design Harness",
-    ja: "行政系プロダクトのUX改善（AI-DLC・デザインハーネス導入）",
+    ja: "行政系プロダクトのUX改善（スクラム開発・スクラムイベント運営・AI-DLC・デザインハーネス導入）",
   },
   {
     tag: "[02]",
     name: "NIJIBOX",
     detail: "Embedded at apparel client, product 0→1",
-    ja: "アパレル系企業に常駐・新規プロダクト開発",
+    ja: "アパレル系企業に常駐・新規プロダクト開発（スクラム開発）",
   },
   {
     tag: "[01]",
     name: "COMMU:DE",
     detail: "Frontend dev → tech manager (1yr in Philippines)",
-    ja: "フィリピン駐在含むマネージャー経験",
+    ja: "フィリピン駐在含むマネージャー経験（チームビルディング・採用・広報）",
   },
 ];
 
