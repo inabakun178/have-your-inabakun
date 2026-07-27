@@ -230,37 +230,42 @@ const HeaderNavigation = () => {
                 }
           }
         >
-          {/* メニュー内左上のロゴ。ヘッダーのロゴと同じ役割だが、ここでは常に p タグ扱い */}
-          <NextLink
-            href="/"
-            onClick={onClose}
-            className="absolute top-2 left-3 block text-[16px] leading-none font-bold tracking-[0.15em] text-white transition-opacity duration-[400ms] hover:opacity-60"
-          >
-            H.Inaba
-          </NextLink>
+          {/* ロゴ・閉じるボタンの行を、ヘッダーと同じ高さ・左右余白の flex バーで再現する。
+           * top-2/left-3 のような決め打ちオフセットだとヘッダー側の px-[15px]/md:px-[50px]
+           * とズレて位置が合わなかったため、同じ寸法を再利用して厳密に揃える。 */}
+          <div className="absolute inset-x-0 top-0 flex h-[50px] items-center justify-between px-[15px] md:h-[100px] md:px-[50px]">
+            {/* メニュー内左上のロゴ。ヘッダーのロゴと同じ役割だが、ここでは常に p タグ扱い */}
+            <NextLink
+              href="/"
+              onClick={onClose}
+              className="block text-[16px] leading-none font-bold tracking-[0.15em] text-white transition-opacity duration-[400ms] hover:opacity-60"
+            >
+              H.Inaba
+            </NextLink>
 
-          <button
-            type="button"
-            ref={closeButtonRef}
-            onClick={onClose}
-            aria-label="メニューを閉じる"
-            className="group text-text-accent animate-profile-pulse absolute top-2 right-3 font-mono text-[13px] tracking-[0.15em] transition-colors duration-300 hover:text-white"
-          >
-            {/* 開くボタン ($ [ MENU ]) とトンマナを揃えたコマンドプロンプト風の閉じるボタン */}
-            <span className="text-white/40" aria-hidden="true">
-              ${" "}
-            </span>
-            <span className="mr-1 inline-block transition-transform duration-300 group-hover:-translate-x-0.5">
-              [
-            </span>
-            close
-            <span className="ml-1 inline-block transition-transform duration-300 group-hover:translate-x-0.5">
-              ]
-            </span>
-            <span className="animate-blink ml-1" aria-hidden="true">
-              ▌
-            </span>
-          </button>
+            <button
+              type="button"
+              ref={closeButtonRef}
+              onClick={onClose}
+              aria-label="メニューを閉じる"
+              className="group text-text-accent animate-profile-pulse font-mono text-[13px] tracking-[0.15em] transition-colors duration-300 hover:text-white"
+            >
+              {/* 開くボタン ($ [ MENU ]) とトンマナを揃えたコマンドプロンプト風の閉じるボタン */}
+              <span className="text-white/40" aria-hidden="true">
+                ${" "}
+              </span>
+              <span className="mr-1 inline-block transition-transform duration-300 group-hover:-translate-x-0.5">
+                [
+              </span>
+              close
+              <span className="ml-1 inline-block transition-transform duration-300 group-hover:translate-x-0.5">
+                ]
+              </span>
+              <span className="animate-blink ml-1" aria-hidden="true">
+                ▌
+              </span>
+            </button>
+          </div>
 
           {/* px-6 py-2 は Chakra の DrawerBody の既定 padding (8px 24px) に合わせたもの */}
           <div className="flex flex-1 items-center justify-center px-6 py-2">
