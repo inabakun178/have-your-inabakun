@@ -230,24 +230,36 @@ const HeaderNavigation = () => {
                 }
           }
         >
+          {/* メニュー内左上のロゴ。ヘッダーのロゴと同じ役割だが、ここでは常に p タグ扱い */}
+          <NextLink
+            href="/"
+            onClick={onClose}
+            className="absolute top-2 left-3 block text-[16px] leading-none font-bold tracking-[0.15em] text-white transition-opacity duration-[400ms] hover:opacity-60"
+          >
+            H.Inaba
+          </NextLink>
+
           <button
             type="button"
             ref={closeButtonRef}
             onClick={onClose}
             aria-label="メニューを閉じる"
-            className="absolute top-2 right-3 flex h-10 w-10 items-center justify-center text-white"
+            className="group text-text-accent animate-profile-pulse absolute top-2 right-3 font-mono text-[13px] tracking-[0.15em] transition-colors duration-300 hover:text-white"
           >
-            <svg
-              width="16"
-              height="16"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              strokeWidth="2"
-              aria-hidden="true"
-            >
-              <path d="M6 6 18 18M18 6 6 18" />
-            </svg>
+            {/* 開くボタン ($ [ MENU ]) とトンマナを揃えたコマンドプロンプト風の閉じるボタン */}
+            <span className="text-white/40" aria-hidden="true">
+              ${" "}
+            </span>
+            <span className="mr-1 inline-block transition-transform duration-300 group-hover:-translate-x-0.5">
+              [
+            </span>
+            close
+            <span className="ml-1 inline-block transition-transform duration-300 group-hover:translate-x-0.5">
+              ]
+            </span>
+            <span className="animate-blink ml-1" aria-hidden="true">
+              ▌
+            </span>
           </button>
 
           {/* px-6 py-2 は Chakra の DrawerBody の既定 padding (8px 24px) に合わせたもの */}
@@ -263,14 +275,21 @@ const HeaderNavigation = () => {
                   <NextLink
                     href={page.link}
                     onClick={onClose}
-                    className="group animate-profile-pulse text-text-accent block p-5 font-mono text-[25px] tracking-[0.1em] transition-colors duration-300 hover:text-white"
+                    className="group animate-profile-pulse text-text-accent flex flex-col items-center gap-2 p-5 font-mono transition-colors duration-300 hover:text-white"
                   >
-                    <span className="mr-1 inline-block transition-transform duration-300 group-hover:-translate-x-0.5">
-                      [
+                    {/* 点線下線でリンクだと伝えつつ、hover で実線 + 白に変えてターミナルらしさを残す */}
+                    <span className="text-[25px] tracking-[0.1em] underline decoration-white/30 decoration-dashed underline-offset-8 transition-colors duration-300 group-hover:decoration-solid group-hover:decoration-white">
+                      <span className="mr-1 inline-block transition-transform duration-300 group-hover:-translate-x-0.5">
+                        [
+                      </span>
+                      {page.name.toLowerCase()}
+                      <span className="ml-1 inline-block transition-transform duration-300 group-hover:translate-x-0.5">
+                        ]
+                      </span>
                     </span>
-                    {page.name.toLowerCase()}
-                    <span className="ml-1 inline-block transition-transform duration-300 group-hover:translate-x-0.5">
-                      ]
+                    {/* リンク先パスを URL 風に添えて、押した先がわかるようにする */}
+                    <span className="text-[11px] tracking-[0.25em] text-white/30 normal-case transition-colors duration-300 group-hover:text-white/60">
+                      ~{page.link}
                     </span>
                   </NextLink>
                 </li>
