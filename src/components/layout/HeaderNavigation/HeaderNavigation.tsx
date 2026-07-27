@@ -107,7 +107,7 @@ const HeaderNavigation = () => {
 
           {/* 右側グループ: PC ではナビ + ステータス、SP では [ MENU ] だけを出し分ける */}
           <div className="flex items-center gap-x-[40px] md:gap-x-[60px]">
-            <ul className="hidden md:flex">
+            <ul className="hidden sm:flex">
               {pageList.map((page, index) => (
                 <li
                   key={page.name}
@@ -131,7 +131,7 @@ const HeaderNavigation = () => {
             </ul>
 
             {/* 端末のステータスバー風の演出。SP では場所が狭いので出さない */}
-            <div className="hidden items-center gap-x-2 font-mono text-[11px] tracking-[0.2em] text-white/50 md:flex">
+            <div className="hidden items-center gap-x-2 font-mono text-[11px] tracking-[0.2em] text-white/50 sm:flex">
               <span
                 className="bg-text-accent h-[6px] w-[6px] animate-status-blink rounded-full"
                 aria-hidden="true"
@@ -145,7 +145,7 @@ const HeaderNavigation = () => {
               onClick={onOpen}
               aria-label="メニューを開く"
               aria-expanded={isOpen}
-              className="group text-text-accent animate-profile-pulse font-mono text-[13px] tracking-[0.15em] transition-colors duration-300 hover:text-white md:hidden"
+              className="group text-text-accent animate-profile-pulse font-mono text-[13px] tracking-[0.15em] transition-colors duration-300 hover:text-white sm:hidden"
             >
               {/* コマンドプロンプト風に "$ " を添える */}
               <span className="text-white/40" aria-hidden="true">

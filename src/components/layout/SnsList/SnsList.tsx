@@ -29,7 +29,7 @@ const SnsList = ({ variant = "fixed" }: SnsListProps) => {
     <div
       className={
         isFixed
-          ? "fixed right-[15px] bottom-[15px] z-[1100] hidden md:block"
+          ? "fixed right-[15px] bottom-[15px] z-[1100] hidden sm:block"
           : undefined
       }
     >
