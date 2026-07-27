@@ -80,9 +80,7 @@ export const fragment = /* glsl */ `
     // 0.6倍に抑えて透過させる(周辺の散らばり粒子(vShape=0)は変更しない)
     alpha *= mix(1.0, 0.6, vShape);
 
-    // FVロゴ(オレンジ〜レッド)と色が競合して視認性が下がらないよう、
-    // 背景粒子はグレーに統一する
-    vec3 color = vec3(0.35, 0.35, 0.35);
+    vec3 color = vec3(1.0, 1.0, 1.0);
 
     gl_FragColor = vec4(color, alpha);
   }
@@ -96,9 +94,9 @@ export const lineFragment = /* glsl */ `
   varying float vAlpha;
 
   void main() {
-    vec3 gray = vec3(0.4, 0.4, 0.4);
+    vec3 white = vec3(1.0, 1.0, 1.0);
     // 線が濃く見えすぎていたため、0.3倍に抑えて透過させる
     float alpha = (0.6 + vBrightness * 0.4) * vAlpha * 0.3;
-    gl_FragColor = vec4(gray, alpha);
+    gl_FragColor = vec4(white, alpha);
   }
 `;
