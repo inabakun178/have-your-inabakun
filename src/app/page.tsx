@@ -15,6 +15,11 @@ export const metadata: Metadata = buildMetadata({
 export default function Home() {
   return (
     <PageTemplate>
+      {/* ファーストビューはcanvas演出のみで本文テキストが無いため、SEO用にh1を視覚上は隠して補う */}
+      <h1 className="sr-only">
+        稲葉勇人（イナバくん） / Have Your Inabakun -
+        フロントエンドエンジニア・デザイナーのポートフォリオサイト
+      </h1>
       <Fv />
       {/* TODO: scroll button置く */}
       {/* TODO: 実績リスト置く */}
