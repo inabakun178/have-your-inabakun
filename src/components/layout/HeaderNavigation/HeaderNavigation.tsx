@@ -99,10 +99,9 @@ const HeaderNavigation = () => {
           <LogoTag className="leading-none font-bold">
             <NextLink
               href="/"
-              className="block text-[20px] transition-opacity duration-[400ms] hover:opacity-60 md:text-[40px]"
+              className="block transition-opacity duration-[400ms] hover:opacity-60"
             >
-              <span className="sr-only">inabakun</span>
-              <InabakunLogo />
+              <InabakunLogo className="h-5 md:h-10" />
             </NextLink>
           </LogoTag>
 
@@ -239,10 +238,9 @@ const HeaderNavigation = () => {
             <NextLink
               href="/"
               onClick={onClose}
-              className="block text-[16px] leading-none font-bold text-white transition-opacity duration-[400ms] hover:opacity-60"
+              className="block transition-opacity duration-[400ms] hover:opacity-60"
             >
-              <span className="sr-only">inabakun</span>
-              <InabakunLogo />
+              <InabakunLogo className="h-4" />
             </NextLink>
 
             <button

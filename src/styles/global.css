@@ -94,40 +94,53 @@
   }
 }
 
-/* サイトロゴの glitch エフェクト。cyan/magenta の色ズレレイヤーを白文字に重ね、
- * 8秒サイクルの終盤だけノイズが走るバースト構成にしている(常時揺れ続けると
- * うるさいので、一瞬だけ画面が乱れる演出にしたい)。3レイヤーは同じ
- * clip-path/transform キーフレームを共有しつつ delay をずらし、色がバラバラに
- * ズレて見えるようにする。 */
+/* サイトロゴ (public/inabakun-logo.webp) の glitch エフェクト。土台の画像は
+ * mix-blend-mode: screen で黒背景を透過させ、同じ画像を mask-image に使った
+ * cyan/magenta のシルエットを重ねて色ズレを表現する。8秒サイクルの終盤だけ
+ * ノイズが走るバースト構成にしている(常時揺れ続けるとうるさいので、一瞬だけ
+ * 画面が乱れる演出にしたい)。3レイヤーは同じ clip-path/transform キーフレーム
+ * を共有しつつ delay をずらし、色がバラバラにズレて見えるようにする。 */
 .text-logo-glitch {
   isolation: isolate;
 }
 
 .text-logo-glitch__layer {
-  display: block;
+  position: absolute;
+  inset: 0;
+  mix-blend-mode: screen;
 }
 
 .text-logo-glitch__layer--cyan,
 .text-logo-glitch__layer--magenta {
-  position: absolute;
-  inset: 0;
-  mix-blend-mode: screen;
+  /* ロゴ画像はアルファチャンネルを持たない(黒背景が不透明)ので、既定の
+   * mask-mode: match-source (アルファ基準) だと全面不透明マスク扱いになり
+   * 単色の四角に潰れる。輝度基準にして黒背景を切り抜く。 */
+  mask-image: url("/inabakun-logo.webp");
+  -webkit-mask-image: url("/inabakun-logo.webp");
+  mask-mode: luminance;
+  -webkit-mask-mode: luminance;
+  mask-size: contain;
+  -webkit-mask-size: contain;
+  mask-repeat: no-repeat;
+  -webkit-mask-repeat: no-repeat;
+  mask-position: center;
+  -webkit-mask-position: center;
   animation: logo-glitch-shift 8s infinite linear;
 }
 
 .text-logo-glitch__layer--cyan {
-  color: #2ee6e6;
+  background-color: #2ee6e6;
   animation-delay: -0.15s;
 }
 
 .text-logo-glitch__layer--magenta {
-  color: #ff2e88;
+  background-color: #ff2e88;
   animation-delay: 0.15s;
 }
 
 .text-logo-glitch__layer--base {
   position: relative;
-  color: #fff;
+  object-fit: contain;
 }
 
 @keyframes logo-glitch-shift {
