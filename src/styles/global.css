@@ -94,6 +94,93 @@
   }
 }
 
+/* サイトロゴの glitch エフェクト。cyan/magenta の色ズレレイヤーを白文字に重ね、
+ * 8秒サイクルの終盤だけノイズが走るバースト構成にしている(常時揺れ続けると
+ * うるさいので、一瞬だけ画面が乱れる演出にしたい)。3レイヤーは同じ
+ * clip-path/transform キーフレームを共有しつつ delay をずらし、色がバラバラに
+ * ズレて見えるようにする。 */
+.text-logo-glitch {
+  isolation: isolate;
+}
+
+.text-logo-glitch__layer {
+  display: block;
+}
+
+.text-logo-glitch__layer--cyan,
+.text-logo-glitch__layer--magenta {
+  position: absolute;
+  inset: 0;
+  mix-blend-mode: screen;
+  animation: logo-glitch-shift 8s infinite linear;
+}
+
+.text-logo-glitch__layer--cyan {
+  color: #2ee6e6;
+  animation-delay: -0.15s;
+}
+
+.text-logo-glitch__layer--magenta {
+  color: #ff2e88;
+  animation-delay: 0.15s;
+}
+
+.text-logo-glitch__layer--base {
+  position: relative;
+  color: #fff;
+}
+
+@keyframes logo-glitch-shift {
+  0%,
+  92%,
+  100% {
+    clip-path: inset(0 0 0 0);
+    transform: translate3d(0, 0, 0);
+    opacity: 1;
+  }
+
+  92.5% {
+    clip-path: inset(10% 0 65% 0);
+    transform: translate3d(-3px, 1px, 0);
+  }
+
+  93.5% {
+    clip-path: inset(55% 0 5% 0);
+    transform: translate3d(3px, -1px, 0);
+  }
+
+  94.5% {
+    clip-path: inset(20% 0 45% 0);
+    transform: translate3d(-2px, 0, 0);
+    opacity: 0.85;
+  }
+
+  95.5% {
+    clip-path: inset(75% 0 2% 0);
+    transform: translate3d(3px, 1px, 0);
+  }
+
+  96.5% {
+    clip-path: inset(0 0 80% 0);
+    transform: translate3d(-3px, 0, 0);
+    opacity: 0.9;
+  }
+
+  97.5% {
+    clip-path: inset(0 0 0 0);
+    transform: translate3d(0, 0, 0);
+    opacity: 1;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .text-logo-glitch__layer--cyan,
+  .text-logo-glitch__layer--magenta {
+    animation: none;
+    display: none;
+  }
+}
+
 @layer base {
   /*
    * Chakra の CSSReset が body に当てていた font-family / color / background の代替。
