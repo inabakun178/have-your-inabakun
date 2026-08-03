@@ -148,6 +148,8 @@ const ParticleBackdrop = () => {
     // スマホ(タッチ主体の端末)ではマウス座標の代わりに端末の傾き(ジャイロ)で
     // パララックスを動かす
     const isCoarsePointer = window.matchMedia?.("(pointer: coarse)").matches;
+    // PCではスマホより粒子+線が薄く見えるため、PC限定で不透明度を底上げする
+    const opacityBoost = isCoarsePointer ? 0 : 0.2;
 
     const handlePointerMove = (event: PointerEvent) => {
       if (isCoarsePointer) return;
@@ -260,6 +262,7 @@ const ParticleBackdrop = () => {
           uParallax: { value: [0, 0] },
           uPointSize: { value: 2.7 },
           uDpr: { value: renderer.dpr },
+          uOpacityBoost: { value: opacityBoost },
         },
       });
 
@@ -319,6 +322,7 @@ const ParticleBackdrop = () => {
             uParallax: { value: [0, 0] },
             uPointSize: { value: 1 },
             uDpr: { value: renderer.dpr },
+            uOpacityBoost: { value: opacityBoost },
           },
         });
 

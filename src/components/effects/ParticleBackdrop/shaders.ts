@@ -62,6 +62,8 @@ export const vertex = /* glsl */ `
 export const fragment = /* glsl */ `
   precision highp float;
 
+  uniform float uOpacityBoost;
+
   varying float vBrightness;
   varying float vAlpha;
   varying float vShape;
@@ -79,6 +81,8 @@ export const fragment = /* glsl */ `
     // 輪郭粒子(vShape=1)がほぼ不透明に見えていたため、PC/スマホ問わず
     // 0.6倍に抑えて透過させる(周辺の散らばり粒子(vShape=0)は変更しない)
     alpha *= mix(1.0, 0.6, vShape);
+    // PCでは薄く見えづらいため、uOpacityBoost(PC限定で加算)で濃くする
+    alpha = clamp(alpha + uOpacityBoost, 0.0, 1.0);
 
     vec3 color = vec3(1.0, 1.0, 1.0);
 
@@ -90,6 +94,8 @@ export const fragment = /* glsl */ `
 export const lineFragment = /* glsl */ `
   precision highp float;
 
+  uniform float uOpacityBoost;
+
   varying float vBrightness;
   varying float vAlpha;
 
@@ -97,6 +103,8 @@ export const lineFragment = /* glsl */ `
     vec3 white = vec3(1.0, 1.0, 1.0);
     // 線が濃く見えすぎていたため、0.3倍に抑えて透過させる
     float alpha = (0.6 + vBrightness * 0.4) * vAlpha * 0.3;
+    // PCでは薄く見えづらいため、uOpacityBoost(PC限定で加算)で濃くする
+    alpha = clamp(alpha + uOpacityBoost, 0.0, 1.0);
     gl_FragColor = vec4(white, alpha);
   }
 `;
