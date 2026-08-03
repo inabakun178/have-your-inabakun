@@ -3,6 +3,7 @@
 import NextLink from "next/link";
 import { usePathname } from "next/navigation";
 import { useCallback, useEffect, useRef, useState } from "react";
+import InabakunLogo from "../InabakunLogo/InabakunLogo";
 import SnsList from "../SnsList/SnsList";
 
 const pageList = [
@@ -94,14 +95,13 @@ const HeaderNavigation = () => {
     <>
       <header className="sticky top-0 z-[1100] h-[50px] w-full border-b border-white/10 md:h-[100px]">
         <div className="flex h-full items-center justify-between text-white">
-          {/* TODO: ロゴを置く */}
           {/* Chakra の Heading が持っていた太字は Tailwind の preflight で消えるので明示する */}
           <LogoTag className="leading-none font-bold">
             <NextLink
               href="/"
-              className="block text-[20px] tracking-[0.15em] transition-opacity duration-[400ms] hover:opacity-60 md:text-[40px]"
+              className="block transition-opacity duration-[400ms] hover:opacity-60"
             >
-              H.Inaba
+              <InabakunLogo className="h-8 md:h-14" />
             </NextLink>
           </LogoTag>
 
@@ -238,9 +238,9 @@ const HeaderNavigation = () => {
             <NextLink
               href="/"
               onClick={onClose}
-              className="block text-[16px] leading-none font-bold tracking-[0.15em] text-white transition-opacity duration-[400ms] hover:opacity-60"
+              className="block transition-opacity duration-[400ms] hover:opacity-60"
             >
-              H.Inaba
+              <InabakunLogo className="h-8" />
             </NextLink>
 
             <button

@@ -94,6 +94,107 @@
   }
 }
 
+/* サイトロゴ (public/inabakun-logo.webp) の glitch エフェクト。画像自体は
+ * 白文字部分だけを不透明にしたアルファ付き webp (黒背景は透明) にしてあり、
+ * 背景の透過はこのアルファチャンネルだけで成立させている。
+ * ヘッダーが position: sticky + z-index でスタッキングコンテキストを作るため、
+ * mix-blend-mode によるページ背景との合成は期待通りに働かない(合成対象が
+ * ページ側ではなくヘッダー内の透明キャンバスになり、黒背景が不透明な四角
+ * として残ってしまう)。そのため isolation: isolate でこのロゴ内だけの
+ * グループを作り、cyan/magenta のシルエットは「土台の白文字」に対しての
+ * み screen 合成させる。8秒サイクルの終盤だけノイズが走るバースト構成に
+ * している(常時揺れ続けるとうるさいので、一瞬だけ画面が乱れる演出にしたい)。
+ * 3レイヤーは同じ clip-path/transform キーフレームを共有しつつ delay を
+ * ずらし、色がバラバラにズレて見えるようにする。 */
+.text-logo-glitch {
+  isolation: isolate;
+}
+
+.text-logo-glitch__layer {
+  position: absolute;
+  inset: 0;
+}
+
+.text-logo-glitch__layer--cyan,
+.text-logo-glitch__layer--magenta {
+  mix-blend-mode: screen;
+  mask-image: url("/inabakun-logo.webp");
+  -webkit-mask-image: url("/inabakun-logo.webp");
+  mask-size: contain;
+  -webkit-mask-size: contain;
+  mask-repeat: no-repeat;
+  -webkit-mask-repeat: no-repeat;
+  mask-position: center;
+  -webkit-mask-position: center;
+  animation: logo-glitch-shift 8s infinite linear;
+}
+
+.text-logo-glitch__layer--cyan {
+  background-color: #2ee6e6;
+  animation-delay: -0.15s;
+}
+
+.text-logo-glitch__layer--magenta {
+  background-color: #ff2e88;
+  animation-delay: 0.15s;
+}
+
+.text-logo-glitch__layer--base {
+  position: relative;
+  object-fit: contain;
+}
+
+@keyframes logo-glitch-shift {
+  0%,
+  92%,
+  100% {
+    clip-path: inset(0 0 0 0);
+    transform: translate3d(0, 0, 0);
+    opacity: 1;
+  }
+
+  92.5% {
+    clip-path: inset(10% 0 65% 0);
+    transform: translate3d(-3px, 1px, 0);
+  }
+
+  93.5% {
+    clip-path: inset(55% 0 5% 0);
+    transform: translate3d(3px, -1px, 0);
+  }
+
+  94.5% {
+    clip-path: inset(20% 0 45% 0);
+    transform: translate3d(-2px, 0, 0);
+    opacity: 0.85;
+  }
+
+  95.5% {
+    clip-path: inset(75% 0 2% 0);
+    transform: translate3d(3px, 1px, 0);
+  }
+
+  96.5% {
+    clip-path: inset(0 0 80% 0);
+    transform: translate3d(-3px, 0, 0);
+    opacity: 0.9;
+  }
+
+  97.5% {
+    clip-path: inset(0 0 0 0);
+    transform: translate3d(0, 0, 0);
+    opacity: 1;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .text-logo-glitch__layer--cyan,
+  .text-logo-glitch__layer--magenta {
+    animation: none;
+    display: none;
+  }
+}
+
 @layer base {
   /*
    * Chakra の CSSReset が body に当てていた font-family / color / background の代替。
