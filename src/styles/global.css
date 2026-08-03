@@ -94,12 +94,18 @@
   }
 }
 
-/* サイトロゴ (public/inabakun-logo.webp) の glitch エフェクト。土台の画像は
- * mix-blend-mode: screen で黒背景を透過させ、同じ画像を mask-image に使った
- * cyan/magenta のシルエットを重ねて色ズレを表現する。8秒サイクルの終盤だけ
- * ノイズが走るバースト構成にしている(常時揺れ続けるとうるさいので、一瞬だけ
- * 画面が乱れる演出にしたい)。3レイヤーは同じ clip-path/transform キーフレーム
- * を共有しつつ delay をずらし、色がバラバラにズレて見えるようにする。 */
+/* サイトロゴ (public/inabakun-logo.webp) の glitch エフェクト。画像自体は
+ * 白文字部分だけを不透明にしたアルファ付き webp (黒背景は透明) にしてあり、
+ * 背景の透過はこのアルファチャンネルだけで成立させている。
+ * ヘッダーが position: sticky + z-index でスタッキングコンテキストを作るため、
+ * mix-blend-mode によるページ背景との合成は期待通りに働かない(合成対象が
+ * ページ側ではなくヘッダー内の透明キャンバスになり、黒背景が不透明な四角
+ * として残ってしまう)。そのため isolation: isolate でこのロゴ内だけの
+ * グループを作り、cyan/magenta のシルエットは「土台の白文字」に対しての
+ * み screen 合成させる。8秒サイクルの終盤だけノイズが走るバースト構成に
+ * している(常時揺れ続けるとうるさいので、一瞬だけ画面が乱れる演出にしたい)。
+ * 3レイヤーは同じ clip-path/transform キーフレームを共有しつつ delay を
+ * ずらし、色がバラバラにズレて見えるようにする。 */
 .text-logo-glitch {
   isolation: isolate;
 }
@@ -107,18 +113,13 @@
 .text-logo-glitch__layer {
   position: absolute;
   inset: 0;
-  mix-blend-mode: screen;
 }
 
 .text-logo-glitch__layer--cyan,
 .text-logo-glitch__layer--magenta {
-  /* ロゴ画像はアルファチャンネルを持たない(黒背景が不透明)ので、既定の
-   * mask-mode: match-source (アルファ基準) だと全面不透明マスク扱いになり
-   * 単色の四角に潰れる。輝度基準にして黒背景を切り抜く。 */
+  mix-blend-mode: screen;
   mask-image: url("/inabakun-logo.webp");
   -webkit-mask-image: url("/inabakun-logo.webp");
-  mask-mode: luminance;
-  -webkit-mask-mode: luminance;
   mask-size: contain;
   -webkit-mask-size: contain;
   mask-repeat: no-repeat;

@@ -101,7 +101,7 @@ const HeaderNavigation = () => {
               href="/"
               className="block transition-opacity duration-[400ms] hover:opacity-60"
             >
-              <InabakunLogo className="h-5 md:h-10" />
+              <InabakunLogo className="h-8 md:h-14" />
             </NextLink>
           </LogoTag>
 
@@ -240,7 +240,7 @@ const HeaderNavigation = () => {
               onClick={onClose}
               className="block transition-opacity duration-[400ms] hover:opacity-60"
             >
-              <InabakunLogo className="h-4" />
+              <InabakunLogo className="h-8" />
             </NextLink>
 
             <button

@@ -11,7 +11,7 @@ const InabakunLogo = ({ className }: InabakunLogoProps) => {
   return (
     <span
       className={`text-logo-glitch relative inline-block align-middle ${className ?? ""}`}
-      style={{ aspectRatio: "2 / 1" }}
+      style={{ aspectRatio: "40 / 9" }}
     >
       <span
         className="text-logo-glitch__layer text-logo-glitch__layer--cyan"
