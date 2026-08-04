@@ -27,7 +27,7 @@ export const useTypewriter = (
   lines: TerminalLine[],
   options?: { speed?: number; startDelay?: number; active?: boolean },
 ) => {
-  const speed = options?.speed ?? 10 / 2;
+  const speed = options?.speed ?? 10 / 10;
   const startDelay = options?.startDelay ?? 0;
   // スクロールで画面内に入るまで開始を待たせたいときに false で渡す
   const active = options?.active ?? true;
